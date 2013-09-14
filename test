@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+var SparqlParser = require('./lib/SparqlParser'),
+    parser = new SparqlParser();
+
+parser.parse('SELECT ?s ?p ?o WHERE { ?s ?p ?o }').then(console.log, console.log);
+parser.parse('SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 50').then(console.log, console.log);
+parser.parse('CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o }').then(console.log, console.log);
+parser.parse('CONSTRUCT { ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 50').then(console.log, console.log);
+parser.parse('ASK { ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 50').then(console.log, console.log);
