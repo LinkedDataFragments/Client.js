@@ -9,4 +9,5 @@ client.getQueryResults(
     '?p a <http://dbpedia.org/ontology/Person>. ' +
     '?p <http://dbpedia.org/ontology/birthPlace> ?c. ' +
     '?c <http://dbpedia.org/property/name> "Ghent"@en. }')
-  .then(console.log, console.log);
+  .then(function (results) { return JSON.stringify(results, null, '  '); })
+  .then(console.log, function (error) { console.log(error.stack) });
