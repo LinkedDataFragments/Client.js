@@ -6,7 +6,9 @@ client.getQueryResults([
     'SELECT ?p WHERE {',
     '?p a <http://dbpedia.org/ontology/Artist>.',
     '?p <http://dbpedia.org/ontology/birthPlace> ?c. ',
-    '?c <http://dbpedia.org/property/name> "Hasselt"@en.',
+    '?c <http://dbpedia.org/property/name> ?n.',
+    '?c <http://dbpedia.org/ontology/country> ?b.',
+    '?b <http://dbpedia.org/property/commonName> "Belgium"@en.',
     '}'].join('\n\t'))
   .then(function (results) { console.log('\n\n\nRESULTS\n', JSON.stringify(results, null, '  ')); },
         function (error)   { console.log(error.stack) });
