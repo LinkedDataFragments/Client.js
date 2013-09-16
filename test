@@ -4,8 +4,6 @@ var LinkedDataFragmentsClient = require('./lib/LinkedDataFragmentsClient'),
 
 client.getQueryResults([
     'SELECT ?p WHERE {',
-    '?b a <http://dbpedia.org/ontology/Country>. ',
-    '?b <http://dbpedia.org/property/commonName> "Belgium"@en. ',
     '?p a <http://dbpedia.org/ontology/Artist>.',
     '?p <http://dbpedia.org/ontology/birthPlace> ?c. ',
     '?c <http://dbpedia.org/property/name> "Hasselt"@en.',
