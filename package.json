@@ -1,6 +1,6 @@
 {
   "name": "LinkedDataFragmentsClient",
-  "description": "Linked Fragments Client",
+  "description": "Linked Data Fragments Client",
   "version": "0.0.1",
   "scripts": {
     "test": "./test",
