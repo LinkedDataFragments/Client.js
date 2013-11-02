@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+
 var LinkedDataFragmentsClient = require('./lib/LinkedDataFragmentsClient'),
     client = new LinkedDataFragmentsClient('http://data.linkeddatafragments.org/dbpedia');
 
