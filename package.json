@@ -9,7 +9,7 @@
   "dependencies": {
     "jsdom": "0.8.8",
     "request": "2.27.x",
-    "n3": ">=0.1.6",
+    "n3": ">=0.1.7",
     "q": "0.9.x",
     "underscore": "1.5.x"
   },
