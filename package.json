@@ -2,6 +2,9 @@
   "name": "LinkedDataFragmentsClient",
   "description": "Linked Data Fragments Client",
   "version": "0.0.1",
+  "bin": {
+    "ldf-client": "./bin/ldf-client"
+  },
   "scripts": {
     "test": "./test",
     "hint": "./node_modules/jshint/bin/jshint lib"
