@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var LinkedDataFragmentsClient = require('./lib/LinkedDataFragmentsClient'),
+var fs = require('fs'),
+    LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient'),
     client = new LinkedDataFragmentsClient('http://data.linkeddatafragments.org/dbpedia');
 
-client.getQueryResults([
-    'SELECT ?p WHERE {',
-    '?p a <http://dbpedia.org/ontology/Artist>.',
-    '?p <http://dbpedia.org/ontology/birthPlace> ?c. ',
-    '?c <http://dbpedia.org/property/name> ?n.',
-    '?c <http://dbpedia.org/ontology/country> ?b.',
-    '?b <http://dbpedia.org/property/commonName> "Belgium"@en.',
-    '}'].join('\n\t'))
-  .then(function (results) { console.log('\n\n\nRESULTS\n', JSON.stringify(results, null, '  ')); },
-        function (error)   { console.log(error.stack) });
+// Parse arguments
+var args = process.argv.slice(2);
+if (args.length !== 1) {
+  console.log('usage: ldf-client query');
+  return process.exit(1);
+}
+var queryFile = args[0],
+    isQuery = /^\s*(?:select|construct)\s+/i.test(queryFile),
+    query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
+
+client.getQueryResults(query)
+      .then(function (results) { console.log('\n\n\nRESULTS\n', JSON.stringify(results, null, '  ')); },
+            function (error)   { console.log(error.stack) });
