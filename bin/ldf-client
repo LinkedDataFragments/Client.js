@@ -5,6 +5,8 @@ var fs = require('fs'),
     LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient'),
     client = new LinkedDataFragmentsClient('http://data.linkeddatafragments.org/dbpedia');
 
+var queryMatcher = /^\s*(?:prefix|select|construct|ask|describe)\s+/i;
+
 // Parse arguments
 var args = process.argv.slice(2);
 if (args.length !== 1) {
@@ -12,9 +14,10 @@ if (args.length !== 1) {
   return process.exit(1);
 }
 var queryFile = args[0],
-    isQuery = /^\s*(?:select|construct)\s+/i.test(queryFile),
+    isQuery = queryMatcher.test(queryFile),
     query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
 
+// Execute query
 client.getQueryResults(query)
       .then(function (results) { console.log('\n\n\nRESULTS\n', JSON.stringify(results, null, '  ')); },
             function (error)   { console.log(error.stack) });
