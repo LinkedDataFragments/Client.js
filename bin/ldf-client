@@ -5,7 +5,7 @@ var fs = require('fs'),
     path = require('path'),
     LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient');
 
-var queryMatcher = /^\s*(?:prefix|select|construct|ask|describe)\s+/i;
+var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
 
 // Parse arguments
 var args = process.argv.slice(2);
