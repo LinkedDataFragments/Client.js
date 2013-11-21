@@ -1,6 +1,3 @@
-PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
-PREFIX dbpprop: <http://dbpedia.org/property/>
-
 SELECT ?name WHERE {
   ?x a dbpedia-owl:Person;
      dbpprop:name ?name.

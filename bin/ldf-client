@@ -2,22 +2,26 @@
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
 var fs = require('fs'),
-    LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient'),
-    client = new LinkedDataFragmentsClient('http://data.linkeddatafragments.org/dbpedia');
+    path = require('path'),
+    LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient');
 
 var queryMatcher = /^\s*(?:prefix|select|construct|ask|describe)\s+/i;
 
 // Parse arguments
 var args = process.argv.slice(2);
-if (args.length !== 1) {
-  console.log('usage: ldf-client query');
+if (args.length < 1 || args.length > 2) {
+  console.log('usage: ldf-client [config.json] query');
   return process.exit(1);
 }
-var queryFile = args[0],
+var hasConfig = args.length >= 2,
+    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-example.json'),
+    queryFile  = hasConfig ? args[1] : args[0],
+    config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
     isQuery = queryMatcher.test(queryFile),
     query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
 
 // Execute query
+var client = new LinkedDataFragmentsClient(config);
 client.getQueryResults(query)
       .then(function (results) { console.log('\n\n\nRESULTS\n', JSON.stringify(results, null, '  ')); },
             function (error)   { console.log(error.stack) });
