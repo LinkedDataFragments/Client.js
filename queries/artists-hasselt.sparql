@@ -1,8 +1,9 @@
-SELECT ?person WHERE {
-	?person a dbpedia-owl:Artist;
-	        dbpedia-owl:birthPlace ?city.
-	?city dbpprop:name ?name;
+SELECT ?person, ?name WHERE {
+  ?person a dbpedia-owl:Artist;
+          dbpprop:name ?name;
+          dbpedia-owl:birthPlace ?city.
+  ?city dbpprop:name ?cityName;
         dbpprop:name "Hasselt"@en;
-	      dbpedia-owl:country ?country.
-	?country dbpprop:commonName "Belgium"@en.
+        dbpedia-owl:country ?country.
+  ?country dbpprop:commonName "Belgium"@en.
 }
