@@ -1,4 +1,0 @@
-SELECT ?name WHERE {
-  ?x a dbpedia-owl:Person;
-     dbpprop:name ?name.
-} LIMIT 10

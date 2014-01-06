@@ -1,9 +1,9 @@
 SELECT ?person, ?name WHERE {
   ?person a dbpedia-owl:Artist;
-          dbpprop:name ?name;
+          rdfs:label ?name;
           dbpedia-owl:birthPlace ?city.
-  ?city dbpprop:name ?cityName;
-        dbpprop:name "Hasselt"@en;
+  ?city rdfs:label ?cityName;
+        rdfs:label "Ghent"@en;
         dbpedia-owl:country ?country.
-  ?country dbpprop:commonName "Belgium"@en.
+  ?country rdfs:label "Belgium"@en.
 }
