@@ -1,0 +1,4 @@
+SELECT ?person WHERE {
+  ?person foaf:givenName "Reginald Paul Stefan Penxten"@en.
+  ?person foaf:givenName "Angela Maria DiFranco"@en.
+}
