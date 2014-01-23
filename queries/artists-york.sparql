@@ -1,0 +1,5 @@
+SELECT ?p WHERE {
+    ?p a <http://dbpedia.org/ontology/Artist>.
+    ?p <http://dbpedia.org/ontology/birthPlace> ?c.
+    ?c <http://xmlns.com/foaf/0.1/name> "York"@en.
+}
