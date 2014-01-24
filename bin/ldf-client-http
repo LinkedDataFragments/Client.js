@@ -40,6 +40,6 @@ function onRequest(request, response) {
   // Write a response object as JSON
   function writeResponse(statusCode, object) {
     response.writeHead(statusCode, { 'Content-type': 'application/json' });
-    response.end(JSON.stringify(object), 'utf8');
+    response.end(JSON.stringify(object, null, '  '), 'utf8');
   }
 }
