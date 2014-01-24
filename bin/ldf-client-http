@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+/*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+
+var fs = require('fs'),
+    path = require('path'),
+    http = require('http'),
+    url = require('url'),
+    LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient');
+
+// Parse arguments
+var args = process.argv.slice(2);
+if (args.length > 2) {
+  console.log('usage: ldf-client-http [config.json] [port]');
+  return process.exit(1);
+}
+var hasConfig = hasConfig,
+    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-example.json'),
+    port = parseInt(hasConfig ? args[1] : args[0], 10) || 3000,
+    config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }));
+
+// Start server
+var client = new LinkedDataFragmentsClient(config),
+    server = http.createServer(onRequest);
+server.listen(port);
+console.log('Server running on http://localhost:' + port + '/');
+
+// Handle a request
+function onRequest(request, response) {
+  var requestUrl = url.parse(request.url, true),
+      path = requestUrl.pathname,
+      query = requestUrl.query.query;
+  if (path !== '/sparql' || !query)
+    return writeResponse(400, { message: 'Resource not found' });
+
+  // Get the results of the query from the client
+  client.getQueryResults(query)
+    .then(function (bindings) { writeResponse(200, bindings); },
+          function (error)    { writeResponse(500, { error: error.stack }) });
+
+  // Write a response object as JSON
+  function writeResponse(statusCode, object) {
+    response.writeHead(statusCode, { 'Content-type': 'application/json' });
+    response.end(JSON.stringify(object), 'utf8');
+  }
+}
