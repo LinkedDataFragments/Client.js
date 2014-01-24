@@ -19,8 +19,7 @@ var hasConfig = hasConfig,
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
 // Start server
-var client = new LinkedDataFragmentsClient(config),
-    server = http.createServer(onRequest);
+var client = null, server = http.createServer(onRequest);
 server.listen(port);
 console.log('Server running on http://localhost:' + port + '/');
 
@@ -33,6 +32,8 @@ function onRequest(request, response) {
     return writeResponse(400, { message: 'Resource not found' });
 
   // Get the results of the query from the client
+  if (client === null || config.caching === false)
+    client = new LinkedDataFragmentsClient(config);
   client.getQueryResults(query)
     .then(function (bindings) { writeResponse(200, bindings); },
           function (error)    { writeResponse(500, { error: error.stack }) });
