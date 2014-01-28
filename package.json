@@ -14,6 +14,7 @@
     "request": "2.27.x",
     "n3": ">=0.1.7",
     "q": "0.9.x",
+    "uritemplate": "0.3.x",
     "underscore": "1.5.x"
   },
   "devDependencies": {
