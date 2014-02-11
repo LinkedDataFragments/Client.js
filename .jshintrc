@@ -1,5 +1,6 @@
 {
   "boss": true,     // Allow assignments where expressions are expected.
+  "expr": true,     // Allow expressions where statements are expected.
   "undef": true,    // Variables should be defined.
   "loopfunc": true, // Allow function creation in loops.
   "trailing": true, // Do not leave trailing whitespace.
