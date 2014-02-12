@@ -14,7 +14,7 @@ if (args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
   return process.exit(1);
 }
 var hasConfig = args.length >= 1 && !/^\d+$/.test(args[0]),
-    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-example.json'),
+    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-default.json'),
     port = parseInt(hasConfig ? args[1] : args[0], 10) || 3000;
 
 // Start server
