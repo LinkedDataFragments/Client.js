@@ -23,5 +23,5 @@ var hasConfig = args.length >= 2,
 // Execute query
 var client = new LinkedDataFragmentsClient(config);
 client.getQueryResults(query)
-      .then(function (results) { console.log('\n\n\nRESULTS\n', JSON.stringify(results, null, '  ')); },
-            function (error)   { console.log(error.stack) });
+      .then(function (results) { console.log(JSON.stringify(results, null, '  ')); },
+            function (error)   { console.log(JSON.stringify(error.stack)); process.exit(1); });
