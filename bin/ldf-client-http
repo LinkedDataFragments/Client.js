@@ -6,7 +6,7 @@ var fs = require('fs'),
     http = require('http'),
     url = require('url'),
     spawn = require('child_process').spawn;
-var clientPath = path.join(__dirname, './ldf-client');
+var clientPath = path.join(__dirname, 'ldf-client');
 
 // Parse arguments
 var args = process.argv.slice(2);
@@ -34,7 +34,8 @@ function onRequest(request, response) {
 
   // Get the results of the query from the client
   var result = '',
-      client = spawn(clientPath, [query], { stdio: ['ignore', 'pipe', 'ignore'] });
+      client = spawn(process.argv[0], [clientPath, query],
+                     { stdio: ['ignore', 'pipe', 'ignore'] });
   client.stdout.setEncoding('utf8');
   client.stdout.on('data', function (data) { result += data; });
   client.on('exit', function (code) { writeResponse(code ? 500 : 200, result || '{}'); });
