@@ -9,7 +9,7 @@ var clientPath = path.join(__dirname, 'ldf-client');
 
 // Parse arguments
 var args = process.argv.slice(2);
-if (args.length > 2) {
+if (args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
   console.log('usage: ldf-client-http [config.json] [port]');
   return process.exit(1);
 }

@@ -9,7 +9,7 @@ var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
 
 // Parse arguments
 var args = process.argv.slice(2);
-if (args.length < 1 || args.length > 2) {
+if (args.length < 1 || args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
   console.log('usage: ldf-client [config.json] query');
   return process.exit(1);
 }
