@@ -5,7 +5,8 @@ var fs = require('fs'),
     path = require('path'),
     http = require('http'),
     url = require('url'),
-    LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient');
+    spawn = require('child_process').spawn;
+var clientPath = path.join(__dirname, './ldf-client');
 
 // Parse arguments
 var args = process.argv.slice(2);
@@ -29,18 +30,19 @@ function onRequest(request, response) {
       path = requestUrl.pathname,
       query = requestUrl.query.query;
   if (path !== '/sparql' || !query)
-    return writeResponse(400, { message: 'Resource not found' });
+    return writeResponse(400, JSON.stringify({ message: 'Resource not found' }));
 
   // Get the results of the query from the client
-  var client = new LinkedDataFragmentsClient(config);
-  client.getQueryResults(query)
-    .then(function (bindings) { writeResponse(200, bindings); },
-          function (error)    { writeResponse(500, { error: error.stack }) });
-  response.on('close', function () { client.destroy(); });
+  var result = '',
+      client = spawn(clientPath, [query], { stdio: ['ignore', 'pipe', 'ignore'] });
+  client.stdout.setEncoding('utf8');
+  client.stdout.on('data', function (data) { result += data; });
+  client.on('exit', function (code) { writeResponse(code ? 500 : 200, result || '{}'); });
+  response.on('close', function () { client.kill('SIGKILL'); });
 
-  // Write a response object as JSON
-  function writeResponse(statusCode, object) {
+  // Write a JSON response
+  function writeResponse(statusCode, json) {
     response.writeHead(statusCode, { 'Content-type': 'application/json' });
-    response.end(JSON.stringify(object, null, '  '), 'utf8');
+    response.end(json);
   }
 }
