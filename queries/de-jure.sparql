@@ -1,0 +1,6 @@
+SELECT * WHERE {
+  ?1 <http://dbpedia.org/ontology/language> ?2.
+  ?1 <http://dbpedia.org/ontology/language> ?3.
+  ?2 <http://www.w3.org/2000/01/rdf-schema#label> "De jure"@en.
+  ?3 <http://www.w3.org/2000/01/rdf-schema#label> "De jure"@en.
+}
