@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var fs = require('fs'),
-    path = require('path'),
+var path = require('path'),
     http = require('http'),
     url = require('url'),
     spawn = require('child_process').spawn;
@@ -14,10 +13,9 @@ if (args.length > 2) {
   console.log('usage: ldf-client-http [config.json] [port]');
   return process.exit(1);
 }
-var hasConfig = hasConfig,
+var hasConfig = args.length >= 1 && !/^\d+$/.test(args[0]),
     configFile = hasConfig ? args[0] : path.join(__dirname, '../config-example.json'),
-    port = parseInt(hasConfig ? args[1] : args[0], 10) || 3000,
-    config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }));
+    port = parseInt(hasConfig ? args[1] : args[0], 10) || 3000;
 
 // Start server
 var server = http.createServer(onRequest);
@@ -34,7 +32,7 @@ function onRequest(request, response) {
 
   // Get the results of the query from the client
   var result = '',
-      client = spawn(process.argv[0], [clientPath, query],
+      client = spawn(process.argv[0], [clientPath, configFile, query],
                      { stdio: ['ignore', 'pipe', 'ignore'] });
   client.stdout.setEncoding('utf8');
   client.stdout.on('data', function (data) { result += data; });
