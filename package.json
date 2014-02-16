@@ -1,5 +1,5 @@
 {
-  "name": "LinkedDataFragmentsClient",
+  "name": "ldf-client",
   "description": "Linked Data Fragments Client",
   "version": "0.0.1",
   "license": "MIT",
@@ -7,7 +7,6 @@
     "ldf-client": "./bin/ldf-client"
   },
   "scripts": {
-    "test": "./test",
     "hint": "./node_modules/jshint/bin/jshint lib"
   },
   "dependencies": {
