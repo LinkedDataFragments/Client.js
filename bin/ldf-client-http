@@ -7,6 +7,9 @@ var path = require('path'),
     spawn = require('child_process').spawn;
 var clientPath = path.join(__dirname, 'ldf-client');
 
+var MIME_JSON = 'application/json';
+var MIME_TURTLE = 'text/turtle';
+
 // Parse arguments
 var args = process.argv.slice(2);
 if (args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
@@ -31,17 +34,17 @@ function onRequest(request, response) {
     return writeResponse(400, JSON.stringify({ message: 'Resource not found' }));
 
   // Get the results of the query from the client
-  var result = '',
+  var result = '', type = (/^\s*SELECT/i).test(query) ? MIME_JSON : MIME_TURTLE,
       client = spawn(process.argv[0], [clientPath, configFile, query],
                      { stdio: ['ignore', 'pipe', 'ignore'] });
   client.stdout.setEncoding('utf8');
   client.stdout.on('data', function (data) { result += data; });
-  client.on('exit', function (code) { writeResponse(code ? 500 : 200, result || '{}'); });
+  client.on('exit', function (code) { writeResponse(code ? 500 : 200, result || '{}', type); });
   response.on('close', function () { client.kill('SIGKILL'); });
 
   // Write a JSON response
-  function writeResponse(statusCode, json) {
-    response.writeHead(statusCode, { 'Content-type': 'application/json' });
-    response.end(json);
+  function writeResponse(statusCode, body, contentType) {
+    response.writeHead(statusCode, { 'Content-type': contentType || MIME_JSON });
+    response.end(body);
   }
 }
