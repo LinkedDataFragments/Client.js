@@ -1,4 +1,9 @@
-SELECT ?person, ?name WHERE {
+CONSTRUCT {
+  ?person a dbpedia-owl:Artist;
+          rdfs:label ?name;
+          dbpedia-owl:birthPlace ?city.
+}
+WHERE {
   ?person a dbpedia-owl:Artist;
           rdfs:label ?name;
           dbpedia-owl:birthPlace ?city.
