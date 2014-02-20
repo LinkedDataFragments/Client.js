@@ -3,6 +3,7 @@
 
 var fs = require('fs'),
     path = require('path'),
+    SparqlQuerySolver = require('../lib/SparqlQuerySolver');
     LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient');
 
 var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
@@ -21,7 +22,8 @@ var hasConfig = args.length >= 2,
     query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
 
 // Execute query
-var client = new LinkedDataFragmentsClient(config);
-client.getQueryResults(query)
-      .then(function (results) { console.log(JSON.stringify(results, null, '  ')); },
-            function (error)   { console.log(JSON.stringify(error.stack)); process.exit(1); });
+var client = new LinkedDataFragmentsClient(config),
+    querySolver = new SparqlQuerySolver(client, config.prefixes);
+querySolver.getQueryResults(query)
+           .then(function (results) { console.log(JSON.stringify(results, null, '  ')); },
+                 function (error)   { console.log(JSON.stringify(error.stack)); process.exit(1); });
