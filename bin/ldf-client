@@ -3,7 +3,8 @@
 
 var fs = require('fs'),
     path = require('path'),
-    SparqlQuerySolver = require('../lib/SparqlQuerySolver');
+    N3 = require('n3'),
+    SparqlQuerySolver = require('../lib/SparqlQuerySolver'),
     LinkedDataFragmentsClient = require('../lib/LinkedDataFragmentsClient');
 
 var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
@@ -25,5 +26,17 @@ var hasConfig = args.length >= 2,
 var client = new LinkedDataFragmentsClient(config),
     querySolver = new SparqlQuerySolver(client, config.prefixes);
 querySolver.getQueryResults(query)
-           .then(function (results) { console.log(JSON.stringify(results, null, '  ')); },
-                 function (error)   { console.log(JSON.stringify(error.stack)); process.exit(1); });
+.then(function (result) {
+  if (result.rows) {
+    console.log(JSON.stringify(result.rows, null, '  '));
+  }
+  else if (result.triples) {
+    var writer = new N3.Writer(process.stdout, config.prefixes);
+    writer.addTriples(result.triples);
+    writer.end();
+  }
+})
+.fail(function (error) {
+  console.error(JSON.stringify(error.stack));
+  process.exit(1);
+});
