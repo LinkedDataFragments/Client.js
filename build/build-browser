@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+/*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/** Generates a browser-friendly version of the LDF client. */
+
+var fs = require('fs'),
+    Transform = require('stream').Transform,
+    browserify = require('browserify')();
+
+var outputFile = __dirname + '/../browser/scripts/ldf-client.js',
+    browserLibsPath = __dirname + '/../browser/lib/';
+
+// Expose the following modules to the browser
+expose('SparqlQuerySolver');
+expose('LinkedDataFragmentsClient');
+expose('Logger');
+expose('N3', 'n3');
+
+// Replace each library by its browser-specific version (if one exists)
+var browserLibs = {};
+fs.readdirSync(browserLibsPath).forEach(function (l) { browserLibs[l] = browserLibsPath + l });
+transform(function (script, file) {
+  // If the file itself has a browser version, return it
+  var browserLib = browserLibs[file.split('/').pop()];
+  if (browserLib)
+    return fs.readFileSync(browserLib);
+
+  // Otherwise, collect all require statements
+  var requires = [], matchRequire = /require\(['"](?:.\/)?([a-zA-Z]+)['"]\)/g, match;
+  while (match = matchRequire.exec(script))
+    requires.push({ expression: match[0], name: match[1] });
+  // Replace matching requires with a browser version
+  requires.forEach(function (require) {
+    if (browserLib = browserLibs[require.name + '.js'])
+      script = script.replace(require.expression, 'require("' + browserLib + '")');
+  });
+  return script;
+});
+
+// Write the browserified version
+browserify.bundle().pipe(fs.createWriteStream(outputFile));
+
+
+// Includes the given module into the browserified version
+function expose(module, file) {
+  browserify.require(file || __dirname + '/../lib/' + module + '.js', { expose: module });
+}
+
+// Transforms each script with the given function
+function transform(transformScript) {
+  browserify.transform(function (file) {
+    var transformer = new Transform(), script = '';
+    transformer._transform = function (chunk, encoding, done) {
+      script += chunk.toString();
+      done();
+    };
+    transformer._flush = function (done) {
+      transformer.push(transformScript(script, file));
+      transformer.push(null);
+      done();
+    };
+    return transformer;
+  });
+}
