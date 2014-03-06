@@ -2,10 +2,11 @@
 /** Browser interface for the LDF client. */
 
 var LinkedDataFragmentsClientUI = (function ($) {
-  var SparqlQuerySolver = require('SparqlQuerySolver'),
-      LinkedDataFragmentsClient = require('LinkedDataFragmentsClient'),
-      Logger = require('Logger'),
-      N3 = require('N3');
+  var ldf = require('ldf-client'),
+      SparqlQuerySolver = ldf.SparqlQuerySolver,
+      LinkedDataFragmentsClient = ldf.LinkedDataFragmentsClient,
+      Logger = ldf.Logger,
+      N3 = require('n3');
 
   // Redirect the logger to the UI
   Logger.prototype._print = function (items) {

@@ -8,6 +8,7 @@
     "ldf-client": "./bin/ldf-client"
   },
   "scripts": {
+    "browser": "./node_modules/browserify/bin/cmd.js -r ./ldf-client:ldf-client -r n3 > browser/scripts/ldf-client.js",
     "hint": "./node_modules/jshint/bin/jshint lib browser/lib browser/scripts/ldf-client-ui.js"
   },
   "dependencies": {
@@ -21,5 +22,10 @@
   "devDependencies": {
     "jshint": ">=2.1.10",
     "browserify": ">=3.32.0"
+  },
+  "browser": {
+    "./lib/LinkedDataFragmentHtmlParser.js": "./browser/lib/LinkedDataFragmentHtmlParser.js",
+    "request": "./browser/lib/request.js",
+    "zlib": false
   }
 }
