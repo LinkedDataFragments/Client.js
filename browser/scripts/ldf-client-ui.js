@@ -53,7 +53,18 @@ var LinkedDataFragmentsClientUI = (function ($) {
           var writer = new N3.Writer(config.prefixes);
           writer.addTriples(result.triples);
           writer.end(function (error, turtle) {
-            $results.text(error ? error.message : turtle);
+            // Display error or Turtle result
+            if (error) return $results.text(error);
+            $results.text(turtle);
+
+            // Scroll past prefix lines
+            var scrollTop = 0, lines = turtle.split('\n'),
+                lineHeight = $results[0].scrollHeight / lines.length;
+            lines.some(function (l) {
+              if (l.length && l[0] !== '@') return true;
+              scrollTop += lineHeight;
+            });
+            $results.animate({ scrollTop: scrollTop });
           });
         }
       })
