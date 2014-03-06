@@ -3,11 +3,13 @@
 /** Generates a browser-friendly version of the LDF client. */
 
 var fs = require('fs'),
+    path = require('path'),
     Transform = require('stream').Transform,
     browserify = require('browserify')();
 
-var outputFile = __dirname + '/../browser/scripts/ldf-client.js',
-    browserLibsPath = __dirname + '/../browser/lib/';
+var outputFile = path.normalize(__dirname + '/../browser/scripts/ldf-client.js'),
+    browserLibsPath = path.normalize(__dirname + '/../browser/lib/'),
+    modulesPath = path.normalize(__dirname + '/../node_modules/');
 
 // Expose the following modules to the browser
 expose('SparqlQuerySolver');
@@ -17,12 +19,12 @@ expose('N3', 'n3');
 
 // Replace each library by its browser-specific version (if one exists)
 var browserLibs = {};
-fs.readdirSync(browserLibsPath).forEach(function (l) { browserLibs[l] = browserLibsPath + l });
+fs.readdirSync(browserLibsPath).forEach(function (l) { browserLibs[l] = l });
 transform(function (script, file) {
   // If the file itself has a browser version, return it
   var browserLib = browserLibs[file.split('/').pop()];
   if (browserLib)
-    return fs.readFileSync(browserLib);
+    return fs.readFileSync(browserLibsPath + browserLib);
 
   // Otherwise, collect all require statements
   var requires = [], matchRequire = /require\(['"](?:.\/)?([a-zA-Z]+)['"]\)/g, match;
@@ -31,14 +33,21 @@ transform(function (script, file) {
   // Replace matching requires with a browser version
   requires.forEach(function (require) {
     if (browserLib = browserLibs[require.name + '.js'])
-      script = script.replace(require.expression, 'require("' + browserLib + '")');
+      script = script.replace(require.expression, 'require("../browser/lib/' + browserLib + '")');
   });
   return script;
 });
 
 // Write the browserified version
-browserify.bundle().pipe(fs.createWriteStream(outputFile));
-
+var output = fs.createWriteStream(outputFile),
+    bundled = browserify.bundle();
+bundled.on('data', function (data) {
+  // Remove system-specific paths
+  while (data.indexOf(modulesPath) > 0)
+    data = data.replace(modulesPath, '');
+  output.write(data);
+});
+bundled.on('end', function () { output.end(); });
 
 // Includes the given module into the browserified version
 function expose(module, file) {
