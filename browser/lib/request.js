@@ -18,7 +18,7 @@ function request(settings, callback) {
 
   function sendResult(error) {
     var headers = { 'content-type': jqXHR.getResponseHeader('content-type') };
-    callback(null, { statusCode: jqXHR.status, headers: headers }, jqXHR.responseText);
+    callback(null, { statusCode: jqXHR.status, headers: headers }, jqXHR.responseText || '');
   }
 }
 
