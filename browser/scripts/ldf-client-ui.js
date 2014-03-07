@@ -20,13 +20,13 @@ var LinkedDataFragmentsClientUI = (function ($) {
   // Creates a new Linked Data Fragments Client UI
   function LinkedDataFragmentsClientUI(element, config) {
     this._$element = $(element);
-    this._config = config;
+    this.config = config;
   }
 
   // Activates the Linked Data Fragments Client UI
   LinkedDataFragmentsClientUI.prototype.activate = function () {
     // Find the UI elements
-    var config = this._config,
+    var config = this.config,
         $query = this._$element.find('.query'),
         $results = this._$element.find('.results'),
         $execute = this._$element.find('.execute'),
