@@ -45,6 +45,20 @@ but you can specify your own by creating your own `config.json` based on `config
 $ ldf-client config.json query.sparql
 ```
 
+### Browser version
+
+The client also runs in Web browsers
+(via [browserify](https://github.com/substack/node-browserify)).
+[Live demo.](http://client.linkeddatafragments.org/)
+
+To compile the Web version, execute:
+```bash
+$ npm run browser
+```
+This will compile the browser version of the script in the `browser` folder.
+
+An [extended version of the Web client](https://github.com/LinkedDataFragments/WebClient) is available as a separate project.
+
 ## License
 The Linked Data Fragments client is written by [Ruben Verborgh](http://ruben.verborgh.org/).
 
