@@ -8,8 +8,9 @@
     "ldf-client": "./bin/ldf-client"
   },
   "scripts": {
+    "test": "./node_modules/mocha/bin/mocha",
     "browser": "./node_modules/browserify/bin/cmd.js -r ./ldf-client:ldf-client -r n3 > browser/scripts/ldf-client.js",
-    "hint": "./node_modules/jshint/bin/jshint lib browser/lib browser/scripts/ldf-client-ui.js"
+    "hint": "./node_modules/jshint/bin/jshint lib test"
   },
   "dependencies": {
     "jsdom": "0.8.8",
@@ -17,11 +18,15 @@
     "n3": ">=0.1.7",
     "q": "0.9.x",
     "uritemplate": "0.3.x",
-    "underscore": "1.5.x"
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "jshint": ">=2.1.10",
-    "browserify": ">=3.32.0"
+    "browserify": ">=3.32.0",
+    "mocha": ">=1.17.1",
+    "sinon": "~1.9.0",
+    "chai": "~1.9.0",
+    "sinon-chai": "~2.5.0"
   },
   "browser": {
     "./lib/LinkedDataFragmentHtmlParser.js": "./browser/lib/LinkedDataFragmentHtmlParser.js",
