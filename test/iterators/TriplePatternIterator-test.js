@@ -30,6 +30,19 @@ describe('TriplePatternIterator', function () {
     });
   });
 
+  describe('A TriplePatternIterator for dbpedia:York ?p ?o', function () {
+    var pattern = { subject: rdf.DBPEDIA + "York",
+                    predicate: 'urn:var#p',
+                    object: 'urn:var#o' };
+    var iterator = new TriplePatternIterator(pattern, { fragmentsClient: testClient });
+    it('should be a stream of ?p/?o bindings', function (done) {
+      var expectedBindings = testClient.getBindingsByPattern(pattern).map(function (binding) {
+        return { bindings: { 'urn:var#p': binding.predicate, 'urn:var#o': binding.object } };
+      });
+      iterator.should.be.a.streamOf(expectedBindings, done);
+    });
+  });
+
   describe('A TriplePatternIterator for ?x a :Artist', function () {
     var pattern = { subject: 'urn:var#x',
                     predicate: rdf.RDF_TYPE,

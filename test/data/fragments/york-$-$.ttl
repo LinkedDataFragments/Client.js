@@ -1,0 +1,58 @@
+# Basic Linked Data Fragment from DBpedia for { dbpedia:York ?p ?o. }
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dc11: <http://purl.org/dc/elements/1.1/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+@prefix dbpprop: <http://dbpedia.org/property/>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix void: <http://rdfs.org/ns/void#>.
+@prefix : <http://data.linkeddatafragments.org/>.
+
+dbpedia:York <http://dbpedia.org/ontology/PopulatedPlace/areaTotal> "271.94";
+    <http://dbpedia.org/ontology/PopulatedPlace/populationDensity> "687.0";
+    dbpedia-owl:areaCode "01904"@en;
+    dbpedia-owl:areaTotal "2.7194E8"^^xsd:double;
+    dbpedia-owl:governmentType dbpedia:Unitary_authority, dbpedia:City_status_in_the_United_Kingdom;
+    dbpedia-owl:isPartOf dbpedia:Yorkshire_and_the_Humber, dbpedia:North_Yorkshire, dbpedia:England;
+    dbpedia-owl:leaderName <http://dbpedia.org/resource/Labour_Party_(UK)>, dbpedia:Julian_Sturdy, dbpedia:Hugh_Bayley;
+    dbpedia-owl:leaderTitle "Leadership:"@en, "Governing body"@en, "Executive:"@en, "MPs:"@en;
+    dbpedia-owl:motto "'Let the Banner of York Fly High'"@en;
+    dbpedia-owl:populationDensity "687.0"^^xsd:double;
+    dbpedia-owl:postalCode "YO"@en;
+    dbpedia-owl:thumbnail <http://upload.wikimedia.org/wikipedia/commons/thumb/d/db/York_(Aerial_view).jpg/200px-York_(Aerial_view).jpg>;
+    dbpedia-owl:timeZone dbpedia:Greenwich_Mean_Time, dbpedia:British_Summer_Time;
+    dbpedia-owl:utcOffset "+0"@en, "+1"@en;
+    dbpedia-owl:wikiPageExternalLink <http://www.vryork.com/>, <http://www.genuki.org.uk/big/eng/YKS/ARY/York/index.html>, <http://www.yayas.free-online.co.uk/evelyn.html>, <http://www.york.gov.uk/>, <http://www.historyofyork.org.uk/>, <http://www.thisisyork.net/photos.php?l=en>, <http://library.york.gov.uk/uhtbin/cgisirsi/x/YORKIMAGES/0/57/49?user_id=YORKIMAGES>, <http://www.gutenberg.org/etext/17848>;
+    dbpedia-owl:wikiPageID "34361"^^xsd:integer;
+    dbpedia-owl:wikiPageInterLanguageLink <http://sr.dbpedia.org/resource/Јорк>, <http://ms.dbpedia.org/resource/York>, <http://ko.dbpedia.org/resource/요크>, <http://scn.dbpedia.org/resource/York>, <http://pt.dbpedia.org/resource/York>, <http://pnb.dbpedia.org/resource/یارک>, <http://lv.dbpedia.org/resource/Jorka>, <http://el.dbpedia.org/resource/Γιόρκ>, <http://vec.dbpedia.org/resource/York>, <http://ro.dbpedia.org/resource/York>, <http://cy.dbpedia.org/resource/Efrog>, <http://it.dbpedia.org/resource/York>, <http://eo.dbpedia.org/resource/York>, <http://zh-min-nan.dbpedia.org/resource/York>, <http://kw.dbpedia.org/resource/Evrek>, <http://lt.dbpedia.org/resource/Jorkas>, <http://lb.dbpedia.org/resource/York>, <http://br.dbpedia.org/resource/York>, <http://sh.dbpedia.org/resource/York>, <http://az.dbpedia.org/resource/York>, <http://fr.dbpedia.org/resource/York>, <http://ca.dbpedia.org/resource/York_(Anglaterra)>, <http://es.dbpedia.org/resource/York>, <http://pl.dbpedia.org/resource/York>, <http://ang.dbpedia.org/resource/Eoforwic>, <http://la.dbpedia.org/resource/Eboracum>, <http://ta.dbpedia.org/resource/யார்க்>, <http://uk.dbpedia.org/resource/Йорк>, <http://vi.dbpedia.org/resource/York>, <http://fa.dbpedia.org/resource/یورک>, <http://sk.dbpedia.org/resource/York_(Anglicko)>, <http://fi.dbpedia.org/resource/York>, <http://tr.dbpedia.org/resource/York>, <http://no.dbpedia.org/resource/York>, <http://de.dbpedia.org/resource/York>, <http://ja.dbpedia.org/resource/ヨーク_(イングランド)>, <http://hr.dbpedia.org/resource/York>, <http://zh.dbpedia.org/resource/約克>, <http://nn.dbpedia.org/resource/York>, <http://da.dbpedia.org/resource/York>, <http://bg.dbpedia.org/resource/Йорк>, <http://th.dbpedia.org/resource/ยอร์ก>, <http://cs.dbpedia.org/resource/York>, <http://ka.dbpedia.org/resource/იორკი>, <http://he.dbpedia.org/resource/יורק>, <http://gd.dbpedia.org/resource/Eabhraig>, <http://ru.dbpedia.org/resource/Йорк>, <http://nl.dbpedia.org/resource/York_(Engeland)>, <http://vo.dbpedia.org/resource/York>, <http://simple.dbpedia.org/resource/York>, <http://hy.dbpedia.org/resource/Յորք>, <http://mr.dbpedia.org/resource/यॉर्क>, <http://ar.dbpedia.org/resource/يورك>, <http://et.dbpedia.org/resource/York>, <http://be.dbpedia.org/resource/Горад_Ёрк>, <http://tl.dbpedia.org/resource/York>, <http://ga.dbpedia.org/resource/Eabhrac>, <http://eu.dbpedia.org/resource/York>, <http://war.dbpedia.org/resource/York>, <http://sv.dbpedia.org/resource/York>, <http://nrm.dbpedia.org/resource/Évèroui>, <http://fy.dbpedia.org/resource/York>, <http://id.dbpedia.org/resource/York,_Inggris>, <http://is.dbpedia.org/resource/York>, <http://qu.dbpedia.org/resource/York>, <http://sw.dbpedia.org/resource/York>;
+    dbpedia-owl:wikiPageRevisionID "495342845"^^xsd:integer.
+:dbpedia a void:Dataset, hydra:Collection;
+    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=dbpedia%3AYork&predicate=&object=>;
+    void:uriLookupEndpoint "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:search _:triplePattern.
+_:triplePattern hydra:template "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:mapping _:subject, _:predicate, _:object.
+_:subject hydra:variable "subject";
+    hydra:property rdf:subject.
+_:predicate hydra:variable "predicate";
+    hydra:property rdf:predicate.
+_:object hydra:variable "object";
+    hydra:property rdf:object.
+<http://data.linkeddatafragments.org/dbpedia?subject=dbpedia%3AYork&predicate=&object=> a hydra:Collection, hydra:PagedCollection;
+    dcterms:title "A 'dbpedia' Linked Data Fragment"@en;
+    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { <http://dbpedia.org/resource/York> ?p ?o }."@en;
+    hydra:entrypoint :dbpedia;
+    dcterms:source :dbpedia;
+    hydra:totalItems "1080"^^xsd:integer;
+    void:triples "1080"^^xsd:integer;
+    dcterms:subject dbpedia:York.
+dbpedia:York rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FYork%3E>.
