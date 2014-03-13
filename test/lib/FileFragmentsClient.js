@@ -2,7 +2,8 @@
 /** Test implementation of FragmentsClient that reads fragments from disk. */
 
 var fs = require('fs'),
-    N3 = require('n3');
+    N3 = require('n3'),
+    rdf = require('../../lib/rdf/RdfUtil');
 var fragmentsPath = __dirname + '/../data/fragments/';
 
 function FileFragmentsClient() {}
@@ -21,9 +22,9 @@ FileFragmentsClient.prototype.getBindingsByPattern = function (pattern) {
 
 FileFragmentsClient.prototype._getPath = function (pattern) {
   return fragmentsPath +
-    ((/var/.test(pattern.subject) ? '$' : pattern.subject.match(/\w+$/)[0]) + '-' +
-     (/var/.test(pattern.predicate) ? '$' : pattern.predicate.match(/\w+$/)) + '-' +
-     (/var/.test(pattern.object) ? '$' : pattern.object.match(/\w+$/)[0])).toLowerCase();
+    ((rdf.isVariable(pattern.subject)   ? '$' : pattern.subject.match(/\w+$/)[0]) + '-' +
+     (rdf.isVariable(pattern.predicate) ? '$' : pattern.predicate.match(/\w+$/)) + '-' +
+     (rdf.isVariable(pattern.object)    ? '$' : pattern.object.match(/\w+$/)[0])).toLowerCase();
 };
 
 module.exports = FileFragmentsClient;

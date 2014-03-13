@@ -29,14 +29,14 @@ describe('SingleBindingsIterator', function () {
   describe('A SingleBindingsIterator without arguments', function () {
     var iterator = new SingleBindingsIterator();
     it('should stream an empty bindings object', function (done) {
-      iterator.should.be.a.streamOf([{}], done);
+      iterator.should.be.a.streamOf([{ bindings: {} }], done);
     });
   });
 
   describe('A SingleBindingsIterator with a falsy argument', function () {
     var iterator = new SingleBindingsIterator(null);
     it('should stream an empty bindings object', function (done) {
-      iterator.should.be.a.streamOf([{}], done);
+      iterator.should.be.a.streamOf([{ bindings: {} }], done);
     });
   });
 
@@ -45,7 +45,7 @@ describe('SingleBindingsIterator', function () {
     var iterator = new SingleBindingsIterator(bindings);
     bindings.c = '?c';
     it('should stream a copy of the bindings object', function (done) {
-      iterator.should.be.a.streamOf([{ '?a': 'a', '?b': 'b' }], done);
+      iterator.should.be.a.streamOf([{ bindings: { '?a': 'a', '?b': 'b' } }], done);
     });
   });
 });

@@ -26,6 +26,5 @@ chai.use(function (chai, utils) {
       catch (assertionError) { error = assertionError; }
       done(error);
     });
-    stream.resume();
   });
 });
