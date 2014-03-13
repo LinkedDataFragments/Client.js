@@ -2,6 +2,7 @@
 
 var TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator');
 var Stream = require('stream').Stream,
+    SingleBindingsIterator = require('../../lib/iterators/SingleBindingsIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/rdf/RdfUtil');
 
@@ -35,6 +36,7 @@ describe('TriplePatternIterator', function () {
                     predicate: 'urn:var#p',
                     object: 'urn:var#o' };
     var iterator = new TriplePatternIterator(pattern, { fragmentsClient: testClient });
+    SingleBindingsIterator({}).pipe(iterator);
     it('should be a stream of ?p/?o bindings', function (done) {
       var expectedBindings = testClient.getBindingsByPattern(pattern).map(function (binding) {
         return { bindings: { 'urn:var#p': binding.predicate, 'urn:var#o': binding.object } };
@@ -48,6 +50,7 @@ describe('TriplePatternIterator', function () {
                     predicate: rdf.RDF_TYPE,
                     object: rdf.DBPEDIAOWL + 'Artist' };
     var iterator = new TriplePatternIterator(pattern, { fragmentsClient: testClient });
+    SingleBindingsIterator({}).pipe(iterator);
     it('should be a stream of ?x bindings', function (done) {
       var expectedBindings = testClient.getBindingsByPattern(pattern).map(function (binding) {
         return { bindings: { 'urn:var#x': binding.subject } };
