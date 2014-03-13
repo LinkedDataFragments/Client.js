@@ -7,7 +7,8 @@ var sinon = global.sinon = require('sinon');
 
 // Set up the Chai assertion library
 var chai = global.chai = require('chai'),
-    should = global.should = chai.should();
+    should = global.should = chai.should(),
+    expect = global.expect = chai.expect;
 chai.use(require('sinon-chai'));
 
 // Add stream testing methods
