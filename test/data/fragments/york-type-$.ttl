@@ -1,4 +1,4 @@
-# Basic Linked Data Fragment from DBpedia for { ?s a dbpedia-owl:Artist. }
+# Basic Linked Data Fragment from DBpedia for { dbpedia:York a ?o. }
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
@@ -17,10 +17,14 @@
 @prefix void: <http://rdfs.org/ns/void#>.
 @prefix : <http://data.linkeddatafragments.org/>.
 
-<http://dbpedia.org/resource/Alan_Price> a dbpedia-owl:Artist.
-<http://dbpedia.org/resource/Alan_Silva> a dbpedia-owl:Artist.
+dbpedia:York a <http://www.w3.org/2002/07/owl#Thing>,
+      <http://dbpedia.org/ontology/Place>,
+      <http://dbpedia.org/ontology/PopulatedPlace>,
+      <http://dbpedia.org/ontology/Settlement>,
+      <http://dbpedia.org/class/yago/PopulatedPlacesEstablishedInThe1stCentury>,
+      <http://dbpedia.org/class/yago/Town108665504>.
 :dbpedia a void:Dataset, hydra:Collection;
-    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist>;
+    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=dbpedia%3AYork&predicate=rdf%3Atype&object=>;
     void:uriLookupEndpoint "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
     hydra:search _:triplePattern.
 _:triplePattern hydra:template "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
@@ -31,23 +35,13 @@ _:predicate hydra:variable "predicate";
     hydra:property rdf:predicate.
 _:object hydra:variable "object";
     hydra:property rdf:object.
-<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist> a hydra:Collection, hydra:PagedCollection;
+<http://data.linkeddatafragments.org/dbpedia?subject=dbpedia%3AYork&predicate=rdf%3Atype&object=> a hydra:Collection, hydra:PagedCollection;
     dcterms:title "A 'dbpedia' Linked Data Fragment"@en;
-    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist> }."@en;
+    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { <http://dbpedia.org/resource/York> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?o }."@en;
     hydra:entrypoint :dbpedia;
     dcterms:source :dbpedia;
-    hydra:totalItems "61073"^^xsd:integer;
-    void:triples "61073"^^xsd:integer.
+    hydra:totalItems "7"^^xsd:integer;
+    void:triples "7"^^xsd:integer;
+    dcterms:subject dbpedia:York.
+dbpedia:York rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FYork%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FYork%3E>.
 rdf:type rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?predicate=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>.
-<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist> dcterms:subject dbpedia-owl:Artist.
-:dbpedia void:classPartition <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist>.
-<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist> void:class dbpedia-owl:Artist.
-dbpedia-owl:Artist rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FArtist%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FArtist%3E>.
-dbpedia:Albano_Carrisi a dbpedia-owl:Artist.
-dbpedia:Albert_Alberts a dbpedia-owl:Artist.
-dbpedia:Albert_Collins a dbpedia-owl:Artist.
-dbpedia:Albert_Cossery a dbpedia-owl:Artist.
-dbpedia:Alberto_Vargas a dbpedia-owl:Artist.
-dbpedia:John_Flaxman a dbpedia-owl:Artist.
-dbpedia:Eddie_Robson a dbpedia-owl:Artist.
-dbpedia:Henry_Scott_Tuke a dbpedia-owl:Artist.

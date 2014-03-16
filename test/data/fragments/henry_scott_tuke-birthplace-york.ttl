@@ -1,0 +1,4 @@
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+
+dbpedia:Henry_Scott_Tuke dbpedia-owl:birthPlace dbpedia:York.

@@ -1,0 +1,4 @@
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+
+dbpedia:Eddie_Robson dbpedia-owl:birthPlace dbpedia:York.

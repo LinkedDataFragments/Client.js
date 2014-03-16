@@ -5,8 +5,8 @@
   { "subject": "http://dbpedia.org/resource/Albert_Alberts" },
   { "subject": "http://dbpedia.org/resource/Albert_Collins" },
   { "subject": "http://dbpedia.org/resource/Albert_Cossery" },
-  { "subject": "http://dbpedia.org/resource/Albert_Gleizes" },
-  { "subject": "http://dbpedia.org/resource/Alberto_Guerrero" },
-  { "subject": "http://dbpedia.org/resource/Alberto_Magnelli" },
-  { "subject": "http://dbpedia.org/resource/Alberto_Vargas" }
+  { "subject": "http://dbpedia.org/resource/Alberto_Vargas" },
+  { "subject": "http://dbpedia.org/resource/John_Flaxman" },
+  { "subject": "http://dbpedia.org/resource/Eddie_Robson" },
+  { "subject": "http://dbpedia.org/resource/Henry_Scott_Tuke" }
 ]

@@ -10,10 +10,13 @@ function FileFragmentsClient() {}
 
 FileFragmentsClient.prototype.getFragmentByPattern = function (pattern) {
   var filename = this._getPath(pattern) + '.ttl',
-      tripleStream = N3.StreamParser(),
-      turtleStream = fs.createReadStream(filename);
-  turtleStream.on('error', console.error);
-  return turtleStream.pipe(tripleStream);
+      tripleStream = N3.StreamParser();
+  fs.exists(filename, function (exists) {
+    if (!exists) return tripleStream.end();
+    fs.createReadStream(filename).pipe(tripleStream);
+  });
+  tripleStream.on('error', console.error);
+  return tripleStream;
 };
 
 FileFragmentsClient.prototype.getBindingsByPattern = function (pattern) {

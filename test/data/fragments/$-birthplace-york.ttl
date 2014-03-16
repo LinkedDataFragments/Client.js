@@ -1,0 +1,51 @@
+# Basic Linked Data Fragment from DBpedia for { ?s dbpedia-owl:birthPlace dbpedia:York. }
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dc11: <http://purl.org/dc/elements/1.1/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+@prefix dbpprop: <http://dbpedia.org/property/>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix void: <http://rdfs.org/ns/void#>.
+@prefix : <http://data.linkeddatafragments.org/>.
+
+<http://dbpedia.org/resource/Brian_Kelly_(chess_player)> dbpedia-owl:birthPlace dbpedia:York.
+dbpedia:Joseph_Hansom dbpedia-owl:birthPlace dbpedia:York.
+<http://dbpedia.org/resource/John_Hicks_(cricketer)> dbpedia-owl:birthPlace dbpedia:York.
+dbpedia:Eddie_Robson dbpedia-owl:birthPlace dbpedia:York.
+<http://dbpedia.org/resource/David_Davis_(British_politician)> dbpedia-owl:birthPlace dbpedia:York.
+dbpedia:Bertram_Best-Dunkley dbpedia-owl:birthPlace dbpedia:York.
+dbpedia:John_Flaxman dbpedia-owl:birthPlace dbpedia:York.
+<http://dbpedia.org/resource/Francis_Matthews_(actor)> dbpedia-owl:birthPlace dbpedia:York.
+dbpedia:Henry_Scott_Tuke dbpedia-owl:birthPlace dbpedia:York.
+dbpedia:Frankie_Howerd dbpedia-owl:birthPlace dbpedia:York.
+:dbpedia a void:Dataset, hydra:Collection;
+    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork>;
+    void:uriLookupEndpoint "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:search _:triplePattern.
+_:triplePattern hydra:template "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:mapping _:subject, _:predicate, _:object.
+_:subject hydra:variable "subject";
+    hydra:property rdf:subject.
+_:predicate hydra:variable "predicate";
+    hydra:property rdf:predicate.
+_:object hydra:variable "object";
+    hydra:property rdf:object.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork> a hydra:Collection, hydra:PagedCollection;
+    dcterms:title "A 'dbpedia' Linked Data Fragment"@en;
+    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { ?s <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/York> }."@en;
+    hydra:entrypoint :dbpedia;
+    dcterms:source :dbpedia;
+    hydra:totalItems "169"^^xsd:integer;
+    void:triples "169"^^xsd:integer.
+dbpedia-owl:birthPlace rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?predicate=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FbirthPlace%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FbirthPlace%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FbirthPlace%3E>.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork> dcterms:subject dbpedia:York.
+dbpedia:York rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FYork%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fdbpedia.org%2Fresource%2FYork%3E>.

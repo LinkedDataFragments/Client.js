@@ -13,6 +13,7 @@ var testClient = new FileFragmentsClient();
 var patterns = {
   york_p_o: { subject: rdf.DBPEDIA + 'York', predicate: '?p', object: '?o' },
   s_type_artist: { subject: '?s', predicate: rdf.RDF_TYPE, object: rdf.DBPEDIAOWL + 'Artist' },
+  s_birthplace_york: { subject: '?s', predicate: rdf.DBPEDIAOWL + 'birthPlace', object: rdf.DBPEDIA + 'York' },
 };
 
 describe('TriplePatternIterator', function () {
@@ -125,6 +126,17 @@ describe('TriplePatternIterator', function () {
             }});
           });
         });
+        iterator.should.be.a.streamOf(expectedBindings, done);
+      });
+    });
+
+    describe('a TriplePatternIterator for ?s birthPlace York', function () {
+      var iterator = new TriplePatternIterator(patterns.s_birthplace_york, { fragmentsClient: testClient });
+      createSource().pipe(iterator);
+      it('should return only those triples that match both patterns', function (done) {
+        var expectedBindings = testClient.getBindingsByPattern(patterns.s_type_artist)
+            .filter(function (bindings) { return (/Flaxman|Robson|Tuke/).test(bindings.subject); })
+            .map(function (bindings) { return { bindings: { '?s': bindings.subject } }; });
         iterator.should.be.a.streamOf(expectedBindings, done);
       });
     });
