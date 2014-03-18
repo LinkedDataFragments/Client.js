@@ -1,6 +1,8 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var HttpClient = require('../../lib/http/HttpClient');
 
+var EventEmitter = require('events').EventEmitter;
+
 describe('HttpClient', function () {
   describe('The HttpClient module', function () {
     it('should be a function', function () {
@@ -17,7 +19,8 @@ describe('HttpClient', function () {
   });
 
   describe('An HttpClient without arguments', function () {
-    var request = sinon.stub().returns('response');
+    var response = new EventEmitter();
+    var request = sinon.stub().returns(response);
     var client = new HttpClient({ request: request });
 
     describe('get http://example.org/foo', function () {
@@ -34,13 +37,22 @@ describe('HttpClient', function () {
       });
 
       it('should return the request value', function () {
-        request.should.have.returned('response');
+        request.should.have.returned(response);
+      });
+
+      it('should emit the content type', function (done) {
+        response.on('contentType', function (contentType) {
+          contentType.should.equal('text/html');
+          done();
+        });
+        response.emit('response', { headers: { 'content-type': 'text/html' }});
       });
     });
   });
 
   describe('An HttpClient with content type "text/turtle"', function () {
-    var request = sinon.stub().returns('response');
+    var response = new EventEmitter();
+    var request = sinon.stub().returns(response);
     var client = new HttpClient({ request: request, contentType: 'text/turtle' });
 
     describe('get http://example.org/foo', function () {
@@ -57,7 +69,15 @@ describe('HttpClient', function () {
       });
 
       it('should return the request value', function () {
-        request.should.have.returned('response');
+        request.should.have.returned(response);
+      });
+
+      it('should emit the content type', function (done) {
+        response.on('contentType', function (contentType) {
+          contentType.should.equal('text/turtle');
+          done();
+        });
+        response.emit('response', { headers: { 'content-type': 'text/turtle ; charset=utf-8' }});
       });
     });
   });
