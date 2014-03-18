@@ -27,4 +27,19 @@ chai.use(function (chai, utils) {
       done(error);
     });
   });
+
+  // Tests whether the object is a stream with the given length
+  utils.addMethod(chai.Assertion.prototype, 'streamWithLength', function (expectedLength, done) {
+    var stream = utils.flag(this, 'object'), items = [];
+    should.exist(stream);
+    stream.should.be.an.instanceof(Stream);
+
+    stream.on('error', done);
+    stream.on('data', function (item) { items.push(item); });
+    stream.on('end', function (error) {
+      try { items.should.have.length(expectedLength); }
+      catch (assertionError) { error = assertionError; }
+      done(error);
+    });
+  });
 });
