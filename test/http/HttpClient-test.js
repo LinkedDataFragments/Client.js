@@ -32,7 +32,7 @@ describe('HttpClient', function () {
         request.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { 'Content-Type': '*/*' },
+          headers: { accept: '*/*' },
         });
       });
 
@@ -64,7 +64,7 @@ describe('HttpClient', function () {
         request.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { 'Content-Type': 'text/turtle' },
+          headers: { accept: 'text/turtle' },
         });
       });
 
