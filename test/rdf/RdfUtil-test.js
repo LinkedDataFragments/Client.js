@@ -368,4 +368,67 @@ describe('RdfUtil', function () {
       });
     });
   });
+
+  describe('findConnectedPatterns', function () {
+    describe('finding connected patterns in the empty graph', function () {
+      var patterns = RdfUtil.findConnectedPatterns([]);
+      it('should have the empty graph as connected subpattern', function () {
+        patterns.should.deep.equal([[]]);
+      });
+    });
+
+    describe('finding connected patterns in a one-triple graph', function () {
+      var patterns = RdfUtil.findConnectedPatterns([
+        RdfUtil.triple('?s', 'p', 'o'),
+      ]);
+      it('should have the triple as a single connected subpattern', function () {
+        patterns.should.deep.equal([[
+          RdfUtil.triple('?s', 'p', 'o'),
+        ]]);
+      });
+    });
+
+    describe('finding connected patterns in a disconnected two-triple graph', function () {
+      var patterns = RdfUtil.findConnectedPatterns([
+        RdfUtil.triple('?s', 'p', 'o'),
+        RdfUtil.triple('s', '?p', 'o'),
+      ]);
+      it('should have two connected subpatterns', function () {
+        patterns.should.deep.equal([[
+          RdfUtil.triple('?s', 'p', 'o'),
+        ], [
+          RdfUtil.triple('s', '?p', 'o'),
+        ]]);
+      });
+    });
+
+    describe('finding connected patterns in a connected two-triple graph', function () {
+      var patterns = RdfUtil.findConnectedPatterns([
+        RdfUtil.triple('a', '?p', 'o'),
+        RdfUtil.triple('b', '?p', 'o'),
+      ]);
+      it('should have one connected subpattern', function () {
+        patterns.should.deep.equal([[
+          RdfUtil.triple('a', '?p', 'o'),
+          RdfUtil.triple('b', '?p', 'o'),
+        ]]);
+      });
+    });
+
+    describe('finding connected patterns in a disconnected three-triple graph', function () {
+      var patterns = RdfUtil.findConnectedPatterns([
+        RdfUtil.triple('a', 'b', '?o'),
+        RdfUtil.triple('d', 'e', '?o'),
+        RdfUtil.triple('?g', 'h', 'i'),
+      ]);
+      it('should have two connected subpattern', function () {
+        patterns.should.deep.equal([[
+          RdfUtil.triple('?g', 'h', 'i'),
+        ], [
+          RdfUtil.triple('a', 'b', '?o'),
+          RdfUtil.triple('d', 'e', '?o'),
+        ]]);
+      });
+    });
+  });
 });
