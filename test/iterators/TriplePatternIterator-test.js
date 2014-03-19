@@ -3,7 +3,7 @@
 var TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator');
 var Stream = require('stream').Stream,
     EmptyIterator = require('../../lib/iterators/EmptyIterator'),
-    SingleBindingsIterator = require('../../lib/iterators/SingleBindingsIterator'),
+    SingleItemIterator = require('../../lib/iterators/SingleItemIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/rdf/RdfUtil'),
     _ = require('lodash');
@@ -53,7 +53,7 @@ describe('TriplePatternIterator', function () {
   });
 
   describe('when piped a single empty bindings object', function () {
-    function createSource() { return SingleBindingsIterator({}); }
+    function createSource() { return SingleItemIterator({}); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(patterns.york_p_o, { fragmentsClient: testClient });
@@ -69,7 +69,7 @@ describe('TriplePatternIterator', function () {
   });
 
   describe('when piped a single non-overlapping bindings object', function () {
-    function createSource() { return SingleBindingsIterator({ '?a': 'a' }); }
+    function createSource() { return SingleItemIterator({ '?a': 'a' }); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(patterns.york_p_o, { fragmentsClient: testClient });
@@ -86,7 +86,7 @@ describe('TriplePatternIterator', function () {
 
   describe('when piped a single overlapping bindings object', function () {
     function createSource() {
-      return SingleBindingsIterator({ '?a': 'a', '?p': rdf.RDF_TYPE });
+      return SingleItemIterator({ '?a': 'a', '?p': rdf.RDF_TYPE });
     }
 
     describe('a TriplePatternIterator for York ?p ?o', function () {
@@ -106,7 +106,7 @@ describe('TriplePatternIterator', function () {
   describe('when piped an iterator for ?s a Artist', function () {
     function createSource() {
       var source = new TriplePatternIterator(patterns.s_type_artist, { fragmentsClient: testClient });
-      SingleBindingsIterator().pipe(source);
+      SingleItemIterator().pipe(source);
       return source;
     }
 

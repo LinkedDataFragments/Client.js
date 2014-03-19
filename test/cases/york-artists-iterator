@@ -5,7 +5,7 @@ var fragmentUrl = 'http://data.linkeddatafragments.org/dbpedia{?subject,predicat
 
 var FragmentsClient = require('../../lib/http/FragmentsClient'),
     UriTemplate = require('uritemplate'),
-    SingleBindingsIterator = require('../../lib/iterators/SingleBindingsIterator'),
+    SingleItemIterator = require('../../lib/iterators/SingleItemIterator'),
     TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator'),
     rdf = require('../../lib/rdf/RdfUtil');
 
@@ -17,7 +17,7 @@ var p_type_artist = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIAOWL + 'Artist'),
     c_name_York = rdf.triple('?c', rdf.FOAF + 'name', '"York"@en');
 
 var bindingsStream =
-  new SingleBindingsIterator({ })
+  new SingleItemIterator({ })
   .pipe(new TriplePatternIterator(c_name_York, iteratorOptions))
   .pipe(new TriplePatternIterator(p_birthPlace_c, iteratorOptions))
   .pipe(new TriplePatternIterator(p_type_artist, iteratorOptions));
