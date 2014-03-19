@@ -96,7 +96,7 @@ describe('RdfUtil', function () {
   });
 
   describe('applyBindings', function () {
-    describe('applying bindings to a pattern without variables', function () {
+    describe('applying bindings to a triple pattern without variables', function () {
       var bindings = { '?x': 'x' };
       var pattern = RdfUtil.triple('a', 'b', 'c');
       var boundPattern = RdfUtil.applyBindings(bindings, pattern);
@@ -106,7 +106,7 @@ describe('RdfUtil', function () {
       });
     });
 
-    describe('applying bindings to a pattern without without overlap', function () {
+    describe('applying bindings to a triple pattern without without overlap', function () {
       var bindings = { '?x': 'x' };
       var pattern = RdfUtil.triple('?s', '?p', 'c');
       var boundPattern = RdfUtil.applyBindings(bindings, pattern);
@@ -116,7 +116,7 @@ describe('RdfUtil', function () {
       });
     });
 
-    describe('applying bindings to a pattern without with overlap', function () {
+    describe('applying bindings to a triple pattern without with overlap', function () {
       var bindings = { '?x': 'x', '?s': 's' };
       var pattern = RdfUtil.triple('?s', '?p', 'c');
       var boundPattern = RdfUtil.applyBindings(bindings, pattern);
@@ -128,7 +128,7 @@ describe('RdfUtil', function () {
       });
     });
 
-    describe('applying bindings to a pattern without mutiple identical variables', function () {
+    describe('applying bindings to a triple pattern without mutiple identical variables', function () {
       var bindings = { '?x': 'x', '?s': 's' };
       var pattern = RdfUtil.triple('?s', '?s', '?s');
       var boundPattern = RdfUtil.applyBindings(bindings, pattern);
@@ -137,6 +137,19 @@ describe('RdfUtil', function () {
       });
       it('should not change the original pattern', function () {
         expect(pattern).to.deep.equal(RdfUtil.triple('?s', '?s', '?s'));
+      });
+    });
+
+    describe('applying bindings to a graph pattern', function () {
+      var bindings = { '?x': 'x', '?s': 's' };
+      var pattern = [ RdfUtil.triple('?s', '?p', 'c'), RdfUtil.triple('a', '?p', '?s') ];
+      var boundPattern = RdfUtil.applyBindings(bindings, pattern);
+      it('should bind the overlapping variables in all triples', function () {
+        expect(boundPattern).to.deep.equal(
+          [ RdfUtil.triple('s', '?p', 'c'), RdfUtil.triple('a', '?p', 's') ]);
+      });
+      it('should not change the original pattern', function () {
+        expect(pattern).to.deep.equal([ RdfUtil.triple('?s', '?p', 'c'), RdfUtil.triple('a', '?p', '?s') ]);
       });
     });
   });
