@@ -7,5 +7,13 @@
   "white": true,    // Enable strict whitespace checking.
   "indent": 2,      // The code uses an indentation width of 2 spaces.
   "node": true,     // Node.js is present.
-  "globals": { "jQuery": true, "it": true, "describe": true, "sinon": true, "expect": true }
+  "globals": {
+    "jQuery": true,
+    "it": true,
+    "describe": true,
+    "before": true,
+    "after": true,
+    "sinon": true,
+    "expect": true
+  }
 }
