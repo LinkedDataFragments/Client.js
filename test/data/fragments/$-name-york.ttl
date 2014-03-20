@@ -1,0 +1,52 @@
+# Basic Linked Data Fragment from DBpedia for { ?s foaf:name "York"@en. }
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dc11: <http://purl.org/dc/elements/1.1/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+@prefix dbpprop: <http://dbpedia.org/property/>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix void: <http://rdfs.org/ns/void#>.
+@prefix : <http://data.linkeddatafragments.org/>.
+
+dbpedia:York_railway_station foaf:name "York"@en.
+:dbpedia a void:Dataset, hydra:Collection;
+    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=foaf%3Aname&object=%22York%22%40en>;
+    void:uriLookupEndpoint "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:search _:triplePattern.
+_:triplePattern hydra:template "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:mapping _:subject, _:predicate, _:object.
+_:subject hydra:variable "subject";
+    hydra:property rdf:subject.
+_:predicate hydra:variable "predicate";
+    hydra:property rdf:predicate.
+_:object hydra:variable "object";
+    hydra:property rdf:object.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=foaf%3Aname&object=%22York%22%40en> a hydra:Collection, hydra:PagedCollection;
+    dcterms:title "A 'dbpedia' Linked Data Fragment"@en;
+    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { ?s <http://xmlns.com/foaf/0.1/name> \"York\"@en }."@en;
+    hydra:entrypoint :dbpedia;
+    dcterms:source :dbpedia;
+    hydra:totalItems "12"^^xsd:integer;
+    void:triples "12"^^xsd:integer.
+foaf:name rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?predicate=%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2Fname%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2Fname%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2Fname%3E>.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=foaf%3Aname&object=%22York%22%40en> dcterms:subject "York"@en.
+<http://dbpedia.org/resource/York_River_(Virginia)> foaf:name "York"@en.
+<http://dbpedia.org/resource/York_(explorer)> foaf:name "York"@en.
+<http://dbpedia.org/resource/York_(group)> foaf:name "York"@en.
+<http://dbpedia.org/resource/York,_Ontario> foaf:name "York"@en.
+<http://dbpedia.org/resource/York_County,_New_Brunswick> foaf:name "York"@en.
+<http://dbpedia.org/resource/28220_York> foaf:name "York"@en.
+<http://dbpedia.org/resource/York_(provincial_electoral_district)> foaf:name "York"@en.
+dbpedia:York foaf:name "York"@en.
+<http://dbpedia.org/resource/Otto_H._York> foaf:name "York"@en.
+<http://dbpedia.org/resource/York,_New_York> foaf:name "York"@en.
+<http://dbpedia.org/resource/York,_Western_Australia> foaf:name "York"@en.

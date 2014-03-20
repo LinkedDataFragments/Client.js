@@ -6,16 +6,20 @@ var fs = require('fs'),
     rdf = require('../../lib/rdf/RdfUtil');
 var fragmentsPath = __dirname + '/../data/fragments/';
 
-function FileFragmentsClient() {}
+function FileFragmentsClient() {
+  this._metadata = {};
+}
 
 FileFragmentsClient.prototype.getFragmentByPattern = function (pattern) {
   var filename = this._getPath(pattern) + '.ttl',
-      tripleStream = N3.StreamParser();
+      tripleStream = N3.StreamParser(),
+      metadata = this._metadata[this._getIdentifier(pattern)];
   fs.exists(filename, function (exists) {
     if (!exists) return tripleStream.end();
     fs.createReadStream(filename).pipe(tripleStream);
   });
   tripleStream.on('error', console.error);
+  tripleStream.getMetadata = function (callback) { callback(metadata); };
   return tripleStream;
 };
 
@@ -24,10 +28,16 @@ FileFragmentsClient.prototype.getBindingsByPattern = function (pattern) {
 };
 
 FileFragmentsClient.prototype._getPath = function (pattern) {
-  return fragmentsPath +
-    ((rdf.isVariable(pattern.subject)   ? '$' : pattern.subject.match(/\w+$/)[0]) + '-' +
-     (rdf.isVariable(pattern.predicate) ? '$' : pattern.predicate.match(/\w+$/)) + '-' +
-     (rdf.isVariable(pattern.object)    ? '$' : pattern.object.match(/\w+$/)[0])).toLowerCase();
+  return fragmentsPath + this._getIdentifier(pattern);
+};
+
+FileFragmentsClient.prototype._getIdentifier = function (pattern) {
+  return (rdf.toQuickString(pattern.subject) + '-' +
+          rdf.toQuickString(pattern.predicate) + '-' +
+          rdf.toQuickString(pattern.object))
+    .replace(/\?\w+/g, '$')
+    .replace(/[^\-_$a-zA-Z]/g, '')
+    .toLowerCase();
 };
 
 module.exports = FileFragmentsClient;

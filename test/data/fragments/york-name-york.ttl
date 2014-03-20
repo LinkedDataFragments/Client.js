@@ -1,0 +1,4 @@
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+dbpedia:York foaf:name "York"@en.

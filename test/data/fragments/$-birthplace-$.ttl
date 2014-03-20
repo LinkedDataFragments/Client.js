@@ -1,0 +1,97 @@
+# Basic Linked Data Fragment from DBpedia for { ?s dbpedia-owl:birthPlace ?o. }
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dc11: <http://purl.org/dc/elements/1.1/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+@prefix dbpprop: <http://dbpedia.org/property/>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix void: <http://rdfs.org/ns/void#>.
+@prefix : <http://data.linkeddatafragments.org/>.
+
+<http://dbpedia.org/resource/%C3%80ngel_%C3%92dena> dbpedia-owl:birthPlace dbpedia:Tarragona.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_R%C3%A9csey> dbpedia-owl:birthPlace dbpedia:Kingdom_of_Hungary, dbpedia:Ighiu.
+<http://dbpedia.org/resource/%60Abd_al-Qadir_Bada'uni> dbpedia-owl:birthPlace dbpedia:Toda, dbpedia:India.
+<http://dbpedia.org/resource/%C3%81gnes_Babos> dbpedia-owl:birthPlace dbpedia:Hungary.
+<http://dbpedia.org/resource/%22King_Ernest%22_Baker> dbpedia-owl:birthPlace dbpedia:United_States, <http://dbpedia.org/resource/Natchez,_Mississippi>.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_%C3%89rsek> dbpedia-owl:birthPlace dbpedia:Czechoslovakia.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Hrepka> dbpedia-owl:birthPlace dbpedia:Szeged, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81gnes_Farkas> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Vass> dbpedia-owl:birthPlace <http://dbpedia.org/resource/K%C3%A1poln%C3%A1sny%C3%A9k>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Fekete> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Ny%C3%ADregyh%C3%A1za>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Dud%C3%A1s> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Esztergom.
+<http://dbpedia.org/resource/%C3%81gnes_Dob%C3%B3> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Debrecen.
+<http://dbpedia.org/resource/%C3%81gnes_Horny%C3%A1k> dbpedia-owl:birthPlace dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81gnes_Ger%C3%A9b> dbpedia-owl:birthPlace dbpedia:Szeged.
+<http://dbpedia.org/resource/%C3%81gi_M%C3%A9sz%C3%A1ros> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Holczer> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Ajka.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Steinmetz> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+:dbpedia a void:Dataset, hydra:Collection;
+    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=>;
+    void:uriLookupEndpoint "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:search _:triplePattern.
+_:triplePattern hydra:template "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:mapping _:subject, _:predicate, _:object.
+_:subject hydra:variable "subject";
+    hydra:property rdf:subject.
+_:predicate hydra:variable "predicate";
+    hydra:property rdf:predicate.
+_:object hydra:variable "object";
+    hydra:property rdf:object.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=> a hydra:Collection, hydra:PagedCollection;
+    dcterms:title "A 'dbpedia' Linked Data Fragment"@en;
+    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { ?s <http://dbpedia.org/ontology/birthPlace> ?o }."@en;
+    hydra:entrypoint :dbpedia;
+    dcterms:source :dbpedia;
+    hydra:totalItems "427670470"^^xsd:integer;
+    void:triples "427670470"^^xsd:integer.
+:dbpedia void:propertyPartition <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=>.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=> void:property dbpedia-owl:birthPlace.
+dbpedia-owl:birthPlace rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FbirthPlace%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FbirthPlace%3E>.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Ficsor> dbpedia-owl:birthPlace <http://dbpedia.org/resource/People's_Republic_of_Hungary>, dbpedia:Miskolc.
+<http://dbpedia.org/resource/%C3%80lex_Pascual> dbpedia-owl:birthPlace dbpedia:Spain, dbpedia:Muro_de_Alcoy.
+<http://dbpedia.org/resource/%C3%80strid_Berg%C3%A8s-Frisbey> dbpedia-owl:birthPlace dbpedia:Spain, dbpedia:Barcelona.
+<http://dbpedia.org/resource/%C3%81gnes_Heller> dbpedia-owl:birthPlace dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Koml%C3%B3si> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Bogd%C3%A1n> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81g%C3%BAst_M%C3%A1r_J%C3%B3nsson> dbpedia-owl:birthPlace dbpedia:Iceland.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Vez%C3%A9r> dbpedia-owl:birthPlace dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Balajti> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Eger.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Kov%C3%A1csik> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Pint%C3%A9r> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Balassagyarmat.
+<http://dbpedia.org/resource/%22Dr._Death%22_Steve_Williams> dbpedia-owl:birthPlace dbpedia:Oklahoma, <http://dbpedia.org/resource/Lakewood,_Colorado>.
+<http://dbpedia.org/resource/%C3%80ngel_Fabregat> dbpedia-owl:birthPlace dbpedia:Spain, dbpedia:Catalonia, dbpedia:Belianes.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Simon_(footballer_born_1990)> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Salg%C3%B3tarj%C3%A1n>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Kiszny%C3%A9r> dbpedia-owl:birthPlace <http://dbpedia.org/resource/D%C3%B3sza>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%80lex_Corretja> dbpedia-owl:birthPlace dbpedia:Spain, dbpedia:Barcelona.
+<http://dbpedia.org/resource/%C3%80lex_Sim%C3%B3n_i_Casanovas> dbpedia-owl:birthPlace dbpedia:Barcelona.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Hanga> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81g%C3%BAst_Hauksson> dbpedia-owl:birthPlace dbpedia:Iceland.
+<http://dbpedia.org/resource/%22Weird_Al%22_Yankovic> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Downey,_California>.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Farkas_(footballer)> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81gi_Szal%C3%B3ki> dbpedia-owl:birthPlace dbpedia:Budapest.
+<http://dbpedia.org/resource/%22King%22_Bennie_Nawahi> dbpedia-owl:birthPlace dbpedia:Territory_of_Hawaii, dbpedia:Oahu, dbpedia:Honolulu, dbpedia:Hawaii.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Weitner> dbpedia-owl:birthPlace dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Szalai> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_B%C3%B3di> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Ny%C3%ADregyh%C3%A1za>, dbpedia:Hungary.
+<http://dbpedia.org/resource/!PAUS3> dbpedia-owl:birthPlace dbpedia:Ukraine, dbpedia:Odessa.
+<http://dbpedia.org/resource/%C3%80ngels_Rib%C3%A9> dbpedia-owl:birthPlace dbpedia:Spain, dbpedia:Barcelona.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Gyurcs%C3%B3> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Tatab%C3%A1nya>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Heged%C5%B1s> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Kecskem%C3%A9t>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Pr%C3%A9singer> dbpedia-owl:birthPlace <http://dbpedia.org/resource/P%C3%A1pa>, dbpedia:Hungary.
+<http://dbpedia.org/resource/%22Sunshine%22_Sonny_Payne> dbpedia-owl:birthPlace dbpedia:United_States, <http://dbpedia.org/resource/Helena,_Arkansas>, dbpedia:Arkansas.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Bajorhegyi> dbpedia-owl:birthPlace dbpedia:Szeged, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81g%C3%BAst_Gylfason> dbpedia-owl:birthPlace dbpedia:Iceland.
+<http://dbpedia.org/resource/%C3%80ngel_Rangel> dbpedia-owl:birthPlace dbpedia:Spain, <http://dbpedia.org/resource/Sant_Carles_de_la_R%C3%A0pita>.
+<http://dbpedia.org/resource/%22Irish%22_Teddy_Mann> dbpedia-owl:birthPlace <http://dbpedia.org/resource/Point_Pleasant,_New_Jersey>.
+<http://dbpedia.org/resource/%C3%81brah%C3%A1m_Jen%C5%91> dbpedia-owl:birthPlace dbpedia:Szeged, dbpedia:Hungary.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_K%C3%B3sa> dbpedia-owl:birthPlace dbpedia:Budapest.
+<http://dbpedia.org/resource/%C3%81d%C3%A1m_Szab%C3%B3> dbpedia-owl:birthPlace dbpedia:Hungary, dbpedia:Budapest.
