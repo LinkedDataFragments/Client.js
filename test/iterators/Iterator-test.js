@@ -240,3 +240,163 @@ describe('EmptyIterator', function () {
     });
   });
 });
+
+describe('ArrayIterator', function () {
+  var ArrayIterator = Iterator.ArrayIterator;
+
+  describe('The ArrayIterator module', function () {
+    it('should make ArrayIterator objects', function () {
+      ArrayIterator().should.be.an.instanceof(ArrayIterator);
+    });
+
+    it('should be a ArrayIterator constructor', function () {
+      new ArrayIterator().should.be.an.instanceof(ArrayIterator);
+    });
+
+    it('should make Iterator objects', function () {
+      ArrayIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be a Iterator constructor', function () {
+      new ArrayIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be accessible through Iterator.fromArray()', function () {
+      Iterator.fromArray.should.equal(ArrayIterator);
+    });
+  });
+
+  describe('An ArrayIterator instance without arguments', function () {
+    var iterator = new ArrayIterator();
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should have emitted end', function () {
+      expect(endEventEmitted).to.equal(1);
+    });
+
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should not return elements', function () {
+      expect(iterator.read()).to.be.null;
+    });
+  });
+
+  describe('An ArrayIterator instance with an empty array as argument', function () {
+    var iterator = new ArrayIterator([]);
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should have emitted end', function () {
+      expect(endEventEmitted).to.equal(1);
+    });
+
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should not return elements', function () {
+      expect(iterator.read()).to.be.null;
+    });
+  });
+
+  describe('An ArrayIterator instance with an empty array as argument', function () {
+    var iterator = new ArrayIterator([]);
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should have emitted end', function () {
+      expect(endEventEmitted).to.equal(1);
+    });
+
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should not return elements', function () {
+      expect(iterator.read()).to.be.null;
+    });
+  });
+
+  describe('An ArrayIterator instance with a one-element array as argument', function () {
+    var iterator = new ArrayIterator([1]);
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should not emit end before read 1', function () {
+      endEventEmitted.should.equal(0);
+    });
+
+    it('should return element 1 on read 1', function () {
+      expect(iterator.read()).to.equal(1);
+    });
+
+    it('should emit end after read 1', function () {
+      endEventEmitted.should.equal(1);
+    });
+
+    it('should have ended after read 1', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('An ArrayIterator instance with a three-element array as argument', function () {
+    var iterator = new ArrayIterator([1, 2, 3]);
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should return element 1 on read 1', function () {
+      expect(iterator.read()).to.equal(1);
+    });
+
+    it('should not have ended after read 1', function () {
+      expect(iterator.ended).to.be.false;
+    });
+
+    it('should return element 2 on read 2', function () {
+      expect(iterator.read()).to.equal(2);
+    });
+
+    it('should not have ended after read 2', function () {
+      expect(iterator.ended).to.be.false;
+    });
+
+    it('should not emit end before read 3', function () {
+      endEventEmitted.should.equal(0);
+    });
+
+    it('should return element 3 on read 3', function () {
+      expect(iterator.read()).to.equal(3);
+    });
+
+    it('should emit end after read 3', function () {
+      endEventEmitted.should.equal(1);
+    });
+
+    it('should have ended after read 3', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should return null on read 4', function () {
+      expect(iterator.read()).to.equal(null);
+    });
+
+    it('should have ended after read 4', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should return null on read 5', function () {
+      expect(iterator.read()).to.equal(null);
+    });
+
+    it('should have ended after read 5', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should have emited end only once', function () {
+      endEventEmitted.should.equal(1);
+    });
+  });
+});
