@@ -196,3 +196,47 @@ describe('Iterator', function () {
     });
   });
 });
+
+describe('EmptyIterator', function () {
+  var EmptyIterator = Iterator.EmptyIterator;
+
+  describe('The EmptyIterator module', function () {
+    it('should make EmptyIterator objects', function () {
+      EmptyIterator().should.be.an.instanceof(EmptyIterator);
+    });
+
+    it('should be a EmptyIterator constructor', function () {
+      new EmptyIterator().should.be.an.instanceof(EmptyIterator);
+    });
+
+    it('should make Iterator objects', function () {
+      EmptyIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be a Iterator constructor', function () {
+      new EmptyIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be accessible through Iterator.empty()', function () {
+      Iterator.empty.should.equal(EmptyIterator);
+    });
+  });
+
+  describe('An EmptyIterator instance', function () {
+    var iterator = new EmptyIterator();
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should have emitted end', function () {
+      expect(endEventEmitted).to.equal(1);
+    });
+
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should not return elements', function () {
+      expect(iterator.read()).to.be.null;
+    });
+  });
+});
