@@ -2,7 +2,8 @@
 
 var Iterator = require('../../lib/iterators/Iterator');
 
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('events').EventEmitter,
+    Readable = require('stream').Readable;
 
 describe('Iterator', function () {
   describe('The Iterator module', function () {
@@ -38,7 +39,7 @@ describe('Iterator', function () {
     var readCalled = 0;
     iterator._read = function () {
       readCalled++;
-      this._push(items.shift());
+      this._push(items.shift() || null);
     };
     var endEventEmitted = 0;
     iterator.on('end', function () { endEventEmitted++; });
@@ -397,6 +398,154 @@ describe('ArrayIterator', function () {
 
     it('should have emited end only once', function () {
       endEventEmitted.should.equal(1);
+    });
+  });
+});
+
+describe('StreamIterator', function () {
+  var StreamIterator = Iterator.StreamIterator;
+
+  describe('The StreamIterator module', function () {
+    it('should make StreamIterator objects', function () {
+      StreamIterator().should.be.an.instanceof(StreamIterator);
+    });
+
+    it('should be a StreamIterator constructor', function () {
+      new StreamIterator().should.be.an.instanceof(StreamIterator);
+    });
+
+    it('should make Iterator objects', function () {
+      StreamIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be a Iterator constructor', function () {
+      new StreamIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be accessible through Iterator.fromStream()', function () {
+      Iterator.fromStream.should.equal(StreamIterator);
+    });
+  });
+
+  describe('A StreamIterator instance without arguments', function () {
+    var iterator = new StreamIterator();
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should have emitted end', function () {
+      expect(endEventEmitted).to.equal(1);
+    });
+
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    it('should not return elements', function () {
+      expect(iterator.read()).to.be.null;
+    });
+  });
+
+  describe('A StreamIterator instance with an empty stream as argument', function () {
+    var stream = new Readable({ objectMode: true });
+    stream._read = function () {};
+    var iterator = new StreamIterator(stream);
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    describe('before the stream was readable', function () {
+      it('should not have emitted end', function () {
+        expect(endEventEmitted).to.equal(0);
+      });
+
+      it('should not have ended', function () {
+        expect(iterator.ended).to.be.false;
+      });
+
+      it('should not return elements', function () {
+        expect(iterator.read()).to.be.null;
+      });
+    });
+
+    describe('after the stream was readable', function () {
+      stream.push(null);
+
+      it('should have emitted end', function () {
+        expect(endEventEmitted).to.equal(1);
+      });
+
+      it('should have ended', function () {
+        expect(iterator.ended).to.be.true;
+      });
+
+      it('should not return elements', function () {
+        expect(iterator.read()).to.be.null;
+      });
+    });
+  });
+
+  describe('A StreamIterator instance with a one-element stream as argument', function () {
+    var stream = new Readable({ objectMode: true });
+    stream._read = function () {};
+    var iterator = new StreamIterator(stream);
+    var readableEventEmitted = 0;
+    iterator.on('readable', function () { readableEventEmitted++; });
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    describe('before the stream was readable', function () {
+      it('should not have emitted readable', function () {
+        expect(readableEventEmitted).to.equal(0);
+      });
+
+      it('should not have emitted end', function () {
+        expect(endEventEmitted).to.equal(0);
+      });
+
+      it('should not have ended', function () {
+        expect(iterator.ended).to.be.false;
+      });
+
+      it('should not return elements', function () {
+        expect(iterator.read()).to.be.null;
+      });
+    });
+
+    describe('after the stream was readable', function () {
+      before(function (done) {
+        stream.push(1);
+        iterator.on('readable', done);
+      });
+
+      it('should not have emitted end', function () {
+        expect(endEventEmitted).to.equal(0);
+      });
+
+      it('should not have ended', function () {
+        expect(iterator.ended).to.be.false;
+      });
+
+      it('should return the element', function () {
+        expect(iterator.read()).to.equal(1);
+      });
+    });
+
+    describe('after the stream has ended', function () {
+      before(function (done) {
+        stream.push(null);
+        stream.on('end', done);
+      });
+
+      it('should have emitted end', function () {
+        expect(endEventEmitted).to.equal(1);
+      });
+
+      it('should have ended', function () {
+        expect(iterator.ended).to.be.true;
+      });
+
+      it('should not return elements', function () {
+        expect(iterator.read()).to.be.null;
+      });
     });
   });
 });
