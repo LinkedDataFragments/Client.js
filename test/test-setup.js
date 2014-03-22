@@ -11,6 +11,17 @@ var chai = global.chai = require('chai'),
     expect = global.expect = chai.expect;
 chai.use(require('sinon-chai'));
 
+// Add triple testing methods
+chai.use(function (chai, utils) {
+  // Tests whether the object is equal to the given triple
+  utils.addMethod(chai.Assertion.prototype, 'triple', function (s, p, o) {
+    var triple = utils.flag(this, 'object');
+    expect(triple).to.have.property('subject', s);
+    expect(triple).to.have.property('predicate', p);
+    expect(triple).to.have.property('object', o);
+  });
+});
+
 // Add stream testing methods
 chai.use(function (chai, utils) {
   // Tests whether the object is a stream with the given items
