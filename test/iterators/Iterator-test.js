@@ -607,6 +607,10 @@ describe('TransformIterator', function () {
       source.should.equal(sourceIterator);
       push('t' + source.read());
     };
+    iterator._flush = function (push) {
+      push('end');
+      push(null);
+    };
 
     it('should return the transformed element 1 on read 1', function () {
       expect(iterator.read()).to.equal('t1');
@@ -620,7 +624,15 @@ describe('TransformIterator', function () {
       expect(iterator.read()).to.equal('t3');
     });
 
-    it('should have ended after read 3', function () {
+    it('should not have ended after read 3', function () {
+      expect(iterator.ended).to.be.false;
+    });
+
+    it('should return the flushed element on read 4', function () {
+      expect(iterator.read()).to.equal('end');
+    });
+
+    it('should have ended after read 4', function () {
       expect(iterator.ended).to.be.true;
     });
   });
