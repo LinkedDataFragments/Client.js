@@ -33,13 +33,13 @@ describe('Iterator', function () {
     });
   });
 
-  describe('An Iterator instance returning 3 items and then falsy', function () {
+  describe('An Iterator instance pushing 3 items and then null', function () {
     var iterator = new Iterator();
     var items = [1, 2, 3];
     var readCalled = 0;
-    iterator._read = function () {
+    iterator._read = function (push) {
       readCalled++;
-      this._push(items.shift() || null);
+      push(items.shift() || null);
     };
     var endEventEmitted = 0;
     iterator.on('end', function () { endEventEmitted++; });
@@ -101,82 +101,13 @@ describe('Iterator', function () {
     });
   });
 
-  describe('An Iterator instance returning 3 items and then calling _end', function () {
-    var iterator = new Iterator();
-    var items = [1, 2, 3, 4, 5];
-    var readCalled = 0;
-    iterator._read = function () {
-      this._push(items.shift());
-      if (++readCalled === 3)
-        this._end();
-    };
-    var endEventEmitted = 0;
-    iterator.on('end', function () { endEventEmitted++; });
-
-    it('should return element 1 on read 1', function () {
-      expect(iterator.read()).to.equal(1);
-    });
-
-    it('should not have ended after read 1', function () {
-      expect(iterator.ended).to.be.false;
-    });
-
-    it('should return element 2 on read 2', function () {
-      expect(iterator.read()).to.equal(2);
-    });
-
-    it('should not have ended after read 2', function () {
-      expect(iterator.ended).to.be.false;
-    });
-
-    it('should not emit end before read 3', function () {
-      endEventEmitted.should.equal(0);
-    });
-
-    it('should return element 3 on read 3', function () {
-      expect(iterator.read()).to.equal(3);
-    });
-
-    it('should emit end after read 3', function () {
-      endEventEmitted.should.equal(1);
-    });
-
-    it('should have ended after read 3', function () {
-      expect(iterator.ended).to.be.true;
-    });
-
-    it('should return null on read 4', function () {
-      expect(iterator.read()).to.equal(null);
-    });
-
-    it('should have ended after read 4', function () {
-      expect(iterator.ended).to.be.true;
-    });
-
-    it('should return null on read 5', function () {
-      expect(iterator.read()).to.equal(null);
-    });
-
-    it('should have ended after read 5', function () {
-      expect(iterator.ended).to.be.true;
-    });
-
-    it('should have called _read only 3 times', function () {
-      readCalled.should.equal(3);
-    });
-
-    it('should have emited end only once', function () {
-      endEventEmitted.should.equal(1);
-    });
-  });
-
-  describe('An Iterator instance returning 8 items', function () {
+  describe('An Iterator instance pushing 8 items', function () {
     var iterator = new Iterator();
     var items = [1, 2, 3, 4, 5, 6, 7, 8];
     var readCalled = 0;
-    iterator._read = function () {
+    iterator._read = function (push) {
       readCalled++;
-      this._push(items.shift());
+      push(items.shift());
     };
 
     describe('after construction', function () {
@@ -238,6 +169,61 @@ describe('EmptyIterator', function () {
 
     it('should not return elements', function () {
       expect(iterator.read()).to.be.null;
+    });
+  });
+});
+
+describe('SingleIterator', function () {
+  var SingleIterator = Iterator.SingleIterator;
+
+  describe('The SingleIterator module', function () {
+    it('should make SingleIterator objects', function () {
+      SingleIterator().should.be.an.instanceof(SingleIterator);
+    });
+
+    it('should be a SingleIterator constructor', function () {
+      new SingleIterator().should.be.an.instanceof(SingleIterator);
+    });
+
+    it('should make Iterator objects', function () {
+      SingleIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be an Iterator constructor', function () {
+      new SingleIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be accessible through Iterator.single()', function () {
+      Iterator.single.should.equal(SingleIterator);
+    });
+  });
+
+  describe('An SingleIterator instance without parameter', function () {
+    var iterator = new SingleIterator();
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('An SingleIterator instance with an item', function () {
+    var iterator = new SingleIterator(1);
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+
+    it('should not emit end before read 1', function () {
+      endEventEmitted.should.equal(0);
+    });
+
+    it('should return element 1 on read 1', function () {
+      expect(iterator.read()).to.equal(1);
+    });
+
+    it('should emit end after read 1', function () {
+      endEventEmitted.should.equal(1);
+    });
+
+    it('should have ended after read 1', function () {
+      expect(iterator.ended).to.be.true;
     });
   });
 });
@@ -546,6 +532,96 @@ describe('StreamIterator', function () {
       it('should not return elements', function () {
         expect(iterator.read()).to.be.null;
       });
+    });
+  });
+});
+
+describe('TransformIterator', function () {
+  var TransformIterator = Iterator.TransformIterator;
+
+  describe('The TransformIterator module', function () {
+    it('should make TransformIterator objects', function () {
+      TransformIterator().should.be.an.instanceof(TransformIterator);
+    });
+
+    it('should be a TransformIterator constructor', function () {
+      new TransformIterator().should.be.an.instanceof(TransformIterator);
+    });
+
+    it('should make Iterator objects', function () {
+      TransformIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be an Iterator constructor', function () {
+      new TransformIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be accessible through Iterator.transform()', function () {
+      Iterator.transform.should.equal(TransformIterator);
+    });
+  });
+
+  describe('An TransformIterator instance without parameters', function () {
+    var iterator = new TransformIterator();
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('An TransformIterator instance with an empty iterator', function () {
+    var iterator = new TransformIterator(Iterator.empty());
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('An TransformIterator instance without _transform function', function () {
+    var iterator = new TransformIterator(Iterator.single(1));
+    it('should throw an error on read', function () {
+      (function () { iterator.read(); })
+      .should.throw('The _transform method has not been implemented.');
+    });
+  });
+
+  describe('An TransformIterator instance with a single-element iterator', function () {
+    var sourceIterator = Iterator.single(1);
+    var iterator = new TransformIterator(sourceIterator);
+    iterator._transform = function (source, push) {
+      source.should.equal(sourceIterator);
+      push('t' + source.read());
+    };
+
+    it('should return the transformed element 1 on read 1', function () {
+      expect(iterator.read()).to.equal('t1');
+    });
+
+    it('should have ended after read 1', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('An TransformIterator instance with a three-element iterator', function () {
+    var sourceIterator = Iterator.fromArray([1, 2, 3]);
+    var iterator = new TransformIterator(sourceIterator);
+    iterator._transform = function (source, push) {
+      source.should.equal(sourceIterator);
+      push('t' + source.read());
+    };
+
+    it('should return the transformed element 1 on read 1', function () {
+      expect(iterator.read()).to.equal('t1');
+    });
+
+    it('should return the transformed element 2 on read 2', function () {
+      expect(iterator.read()).to.equal('t2');
+    });
+
+    it('should return the transformed element 3 on read 3', function () {
+      expect(iterator.read()).to.equal('t3');
+    });
+
+    it('should have ended after read 3', function () {
+      expect(iterator.ended).to.be.true;
     });
   });
 });
