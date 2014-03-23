@@ -64,13 +64,8 @@ chai.use(function (chai, utils) {
     should.exist(iterator);
     iterator.should.be.an.instanceof(Iterator);
 
-    (function read() {
-      var item;
-      while ((item = iterator.read()) !== null)
-        items.push(item);
-      iterator.once('readable', read);
-    })();
     iterator.on('error', done);
+    iterator.on('data', function (item) { items.push(item); });
     iterator.on('end', function (error) {
       try { items.should.deep.equal(expectedItems); }
       catch (assertionError) { error = assertionError; }
