@@ -60,14 +60,11 @@ chai.use(function (chai, utils) {
 chai.use(function (chai, utils) {
   // Tests whether the object is a stream with the given items
   utils.addMethod(chai.Assertion.prototype, 'iteratorOf', function (expectedItems, done) {
-    var iterator = utils.flag(this, 'object'), items = [];
+    var iterator = utils.flag(this, 'object');
     should.exist(iterator);
     iterator.should.be.an.instanceof(Iterator);
-
-    iterator.on('error', done);
-    iterator.on('data', function (item) { items.push(item); });
-    iterator.on('end', function (error) {
-      try { items.should.deep.equal(expectedItems); }
+    iterator.toArray(function (error, items) {
+      try { error || items.should.deep.equal(expectedItems); }
       catch (assertionError) { error = assertionError; }
       done(error);
     });
