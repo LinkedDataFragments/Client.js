@@ -5,8 +5,8 @@ var fragmentUrl = 'http://data.linkeddatafragments.org/dbpedia{?subject,predicat
 
 var FragmentsClient = require('../../lib/http/FragmentsClient'),
     UriTemplate = require('uritemplate'),
-    SingleItemIterator = require('../../lib/iterators/SingleItemIterator'),
-    GraphPatternIterator = require('../../lib/iterators/GraphPatternIterator'),
+    Iterator = require('../../lib/iterators/Iterator'),
+    TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator'),
     rdf = require('../../lib/rdf/RdfUtil');
 
 var client = new FragmentsClient(UriTemplate.parse(fragmentUrl)),
@@ -17,11 +17,12 @@ var p_type_artist = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIAOWL + 'Artist'),
     c_name_York = rdf.triple('?c', rdf.FOAF + 'name', '"York"@en');
 var query = [p_type_artist, p_birthPlace_c, c_name_York];
 
-var bindingsStream =
-  new SingleItemIterator({ })
-  .pipe(new GraphPatternIterator(query, iteratorOptions));
+var iterator = Iterator.single({ bindings: { } });
+iterator = new TriplePatternIterator(iterator, c_name_York, iteratorOptions);
+iterator = new TriplePatternIterator(iterator, p_birthPlace_c, iteratorOptions);
+iterator = new TriplePatternIterator(iterator, p_type_artist, iteratorOptions);
 
-bindingsStream.on('data', function (bindingsContext) {
+iterator.on('data', function (bindingsContext) {
   console.log(JSON.stringify(bindingsContext.bindings));
 });
-bindingsStream.on('error', console.error);
+iterator.on('error', console.error);

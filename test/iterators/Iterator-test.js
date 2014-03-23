@@ -452,7 +452,7 @@ describe('StreamIterator', function () {
       });
     });
 
-    describe('after the stream was readable', function () {
+    describe('after the stream was ended', function () {
       stream.push(null);
 
       it('should have emitted end', function () {
@@ -496,7 +496,7 @@ describe('StreamIterator', function () {
       });
     });
 
-    describe('after the stream was readable', function () {
+    describe('after the stream became readable', function () {
       before(function (done) {
         stream.push(1);
         iterator.on('readable', done);
