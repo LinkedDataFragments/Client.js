@@ -498,8 +498,8 @@ describe('StreamIterator', function () {
 
     describe('after the stream became readable', function () {
       before(function (done) {
-        stream.push(1);
         iterator.on('readable', done);
+        stream.push(1);
       });
 
       it('should not have emitted end', function () {
