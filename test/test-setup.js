@@ -1,6 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var Stream = require('stream').Stream;
+var Stream = require('stream').Stream,
+    Iterator = require('../lib/iterators/Iterator');
 
 // Set up the sinon stubbing library
 var sinon = global.sinon = require('sinon');
@@ -49,6 +50,29 @@ chai.use(function (chai, utils) {
     stream.on('data', function (item) { items.push(item); });
     stream.on('end', function (error) {
       try { items.should.have.length(expectedLength); }
+      catch (assertionError) { error = assertionError; }
+      done(error);
+    });
+  });
+});
+
+// Add iterator testing methods
+chai.use(function (chai, utils) {
+  // Tests whether the object is a stream with the given items
+  utils.addMethod(chai.Assertion.prototype, 'iteratorOf', function (expectedItems, done) {
+    var iterator = utils.flag(this, 'object'), items = [];
+    should.exist(iterator);
+    iterator.should.be.an.instanceof(Iterator);
+
+    (function read() {
+      var item;
+      while ((item = iterator.read()) !== null)
+        items.push(item);
+      iterator.once('readable', read);
+    })();
+    iterator.on('error', done);
+    iterator.on('end', function (error) {
+      try { items.should.deep.equal(expectedItems); }
       catch (assertionError) { error = assertionError; }
       done(error);
     });
