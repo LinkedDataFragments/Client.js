@@ -10,7 +10,7 @@ var FragmentsClient = require('../../lib/http/FragmentsClient'),
     rdf = require('../../lib/rdf/RdfUtil');
 
 var client = new FragmentsClient(UriTemplate.parse(fragmentUrl)),
-    iteratorOptions = { fragmentsClient: client };
+    iteratorOptions = { fragmentsClient: client, bufferSize: 8 };
 
 var p_type_artist = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIAOWL + 'Artist'),
     p_birthPlace_c = rdf.triple('?p', rdf.DBPEDIAOWL + 'birthPlace', '?c'),
