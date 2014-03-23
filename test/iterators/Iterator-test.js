@@ -586,8 +586,9 @@ describe('TransformIterator', function () {
   describe('An TransformIterator instance with a single-element iterator', function () {
     var sourceIterator = Iterator.single(1);
     var iterator = new TransformIterator(sourceIterator);
-    iterator._transform = function (item, push) {
+    iterator._transform = function (item, push, done) {
       push('t' + item);
+      done();
     };
 
     it('should return the transformed element 1 on read 1', function () {
@@ -602,8 +603,9 @@ describe('TransformIterator', function () {
   describe('An TransformIterator instance with a three-element iterator', function () {
     var sourceIterator = Iterator.fromArray([1, 2, 3]);
     var iterator = new TransformIterator(sourceIterator);
-    iterator._transform = function (item, push) {
+    iterator._transform = function (item, push, done) {
       push('t' + item);
+      done();
     };
     iterator._flush = function (push) {
       push('end');
