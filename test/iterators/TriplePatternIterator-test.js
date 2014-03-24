@@ -2,11 +2,9 @@
 
 var TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator');
 
-var Stream = require('stream').Stream,
-    Iterator = require('../../lib/iterators/Iterator'),
+var Iterator = require('../../lib/iterators/Iterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
-    rdf = require('../../lib/rdf/RdfUtil'),
-    _ = require('lodash');
+    rdf = require('../../lib/rdf/RdfUtil');
 
 var testClient = new FileFragmentsClient();
 
@@ -68,13 +66,13 @@ describe('TriplePatternIterator', function () {
     });
   });
 
-  describe('when piped a single non-overlapping bindings object', function () {
+  describe('a TriplePatternIterator passed a single non-overlapping bindings object', function () {
     function createSource() { return Iterator.single({ bindings: { '?a': 'a' } }); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(createSource(),
         patterns.york_p_o, { fragmentsClient: testClient });
-      it('should be a stream of ?a/?p/?o bindings', function (done) {
+      it('should be an iterator of ?a/?p/?o bindings', function (done) {
         var expectedBindings = testClient.getBindingsByPattern(patterns.york_p_o)
             .map(function (binding) {
               return { bindings: { '?a': 'a', '?p': binding.predicate, '?o': binding.object } };
@@ -84,7 +82,7 @@ describe('TriplePatternIterator', function () {
     });
   });
 
-  describe('when piped a single overlapping bindings object', function () {
+  describe('a TriplePatternIterator passed a single overlapping bindings object', function () {
     function createSource() {
       return Iterator.single({ bindings: { '?a': 'a', '?p': rdf.RDF_TYPE } });
     }
@@ -103,7 +101,7 @@ describe('TriplePatternIterator', function () {
     });
   });
 
-  describe('when piped an iterator for ?s a Artist', function () {
+  describe('when passed an iterator for ?s a Artist', function () {
     function createSource() {
       return new TriplePatternIterator(Iterator.single({ bindings: {} }),
         patterns.s_type_artist, { fragmentsClient: testClient });
