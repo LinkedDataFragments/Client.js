@@ -69,4 +69,16 @@ chai.use(function (chai, utils) {
       done(error);
     });
   });
+
+  // Tests whether the object is a stream with the given items
+  utils.addMethod(chai.Assertion.prototype, 'iteratorWithLength', function (expectedLength, done) {
+    var iterator = utils.flag(this, 'object');
+    should.exist(iterator);
+    iterator.should.be.an.instanceof(Iterator);
+    iterator.toArray(function (error, items) {
+      try { error || items.should.have.length(expectedLength); }
+      catch (assertionError) { error = assertionError; }
+      done(error);
+    });
+  });
 });

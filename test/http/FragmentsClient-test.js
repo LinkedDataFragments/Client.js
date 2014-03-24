@@ -40,7 +40,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the triples in the fragment', function (done) {
-          result.should.be.a.streamWithLength(39, done);
+          result.should.be.a.iteratorWithLength(39, done);
         });
       });
 
