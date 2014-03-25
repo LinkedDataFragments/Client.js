@@ -1,7 +1,8 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var HttpClient = require('../../lib/http/HttpClient');
 
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = require('events').EventEmitter,
+    Iterator = require('../../lib/iterators/Iterator');
 
 describe('HttpClient', function () {
   describe('The HttpClient module', function () {
@@ -19,66 +20,67 @@ describe('HttpClient', function () {
   });
 
   describe('An HttpClient without arguments', function () {
-    var response = new EventEmitter();
-    var request = sinon.stub().returns(response);
-    var client = new HttpClient({ request: request });
+    var request = new EventEmitter();
+    var createRequest = sinon.stub().returns(request);
+    var client = new HttpClient({ request: createRequest });
 
     describe('get http://example.org/foo', function () {
-      var response = client.get('http://example.org/foo'),
-          options = request.getCall(0).args[0];
+      var response = client.get('http://example.org/foo'), contentType;
+      response.on('contentType', function (t) { contentType = t; });
+      request.emit('response', createResponse([1, 2, 3], 'text/html;encoding=utf8'));
 
       it('should call request once with the URL and accept "*/*"', function () {
-        request.should.have.been.calledOnce;
-        request.should.have.been.calledWithMatch({
+        createRequest.should.have.been.calledOnce;
+        createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
           headers: { accept: '*/*' },
         });
       });
 
-      it('should return the request value', function () {
-        request.should.have.returned(response);
+      it("should return an iterator with the response's contents", function (done) {
+        response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
-      it('should emit the content type', function (done) {
-        response.on('contentType', function (contentType) {
-          contentType.should.equal('text/html');
-          done();
-        });
-        response.emit('response', { headers: { 'content-type': 'text/html' }});
+      it('should emit the content type', function () {
+        contentType.should.equal('text/html');
       });
     });
   });
 
   describe('An HttpClient with content type "text/turtle"', function () {
-    var response = new EventEmitter();
-    var request = sinon.stub().returns(response);
-    var client = new HttpClient({ request: request, contentType: 'text/turtle' });
+    var request = new EventEmitter();
+    var createRequest = sinon.stub().returns(request);
+    var client = new HttpClient({ request: createRequest, contentType: 'text/turtle' });
 
     describe('get http://example.org/foo', function () {
-      var response = client.get('http://example.org/foo'),
-          options = request.getCall(0).args[0];
+      var response = client.get('http://example.org/foo'), contentType;
+      response.on('contentType', function (t) { contentType = t; });
+      request.emit('response', createResponse([1, 2, 3], 'text/turtle;encoding=utf8'));
 
       it('should call request once with the URL and accept "text/turtle"', function () {
-        request.should.have.been.calledOnce;
-        request.should.have.been.calledWithMatch({
+        createRequest.should.have.been.calledOnce;
+        createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
           headers: { accept: 'text/turtle' },
         });
       });
 
-      it('should return the request value', function () {
-        request.should.have.returned(response);
+      it('should return the request value', function (done) {
+        response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
-      it('should emit the content type', function (done) {
-        response.on('contentType', function (contentType) {
-          contentType.should.equal('text/turtle');
-          done();
-        });
-        response.emit('response', { headers: { 'content-type': 'text/turtle ; charset=utf-8' }});
+      it('should emit the content type', function () {
+        contentType.should.equal('text/turtle');
       });
     });
   });
 });
+
+// Creates a dummy HTTP response
+function createResponse(contents, contentType) {
+  var response = Iterator.fromArray(contents);
+  response.headers = { 'content-type': contentType };
+  return response;
+}

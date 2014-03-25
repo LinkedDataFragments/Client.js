@@ -26,21 +26,21 @@ describe('TriplesIterator', function () {
     });
   });
 
-  describe('An TriplesIterator instance without parameters', function () {
+  describe('A TriplesIterator instance without parameters', function () {
     var iterator = new TriplesIterator();
     it('should have ended', function () {
       expect(iterator.ended).to.be.true;
     });
   });
 
-  describe('An TriplesIterator instance with an empty iterator', function () {
+  describe('A TriplesIterator instance with an empty iterator', function () {
     var iterator = new TriplesIterator(Iterator.empty());
     it('should have ended', function () {
       expect(iterator.ended).to.be.true;
     });
   });
 
-  describe('An TriplesIterator instance with a single triple', function () {
+  describe('A TriplesIterator instance with a single triple', function () {
     var iterator = new TriplesIterator(Iterator.single('<a> <b> <c>.'));
 
     it('should parse the triple', function () {
@@ -52,7 +52,7 @@ describe('TriplesIterator', function () {
     });
   });
 
-  describe('An TriplesIterator instance parsing a file', function () {
+  describe('A TriplesIterator instance parsing a file', function () {
     var iterator;
     var triples = [];
     before(function (done) {
