@@ -2,6 +2,7 @@
 var FragmentsClient = require('../../lib/http/FragmentsClient');
 
 var UriTemplate = require('uritemplate'),
+    Iterator = require('../../lib/iterators/Iterator'),
     rdf = require('../../lib/rdf/RdfUtil'),
     fs = require('fs');
 
@@ -29,10 +30,10 @@ describe('FragmentsClient', function () {
       var pattern = rdf.triple('?s', '?o', rdf.DBPEDIA + 'York');
 
       describe('and receiving a Turtle response', function () {
-        var fragment = fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl');
+        var fragment = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl'));
         httpClient.get = sinon.stub().returns(fragment);
         var result = client.getFragmentByPattern(pattern);
-        fragment.emit('contentType', 'text/turtle');
+        fragment.setProperty('contentType', 'text/turtle');
 
         it('should GET the corresponding fragment', function () {
           httpClient.get.should.have.been.calledOnce;
@@ -45,11 +46,11 @@ describe('FragmentsClient', function () {
       });
 
       describe('and receiving a non-supported response', function () {
-        var fragment = fs.createReadStream(__filename);
+        var fragment = Iterator.fromStream(fs.createReadStream(__filename));
         httpClient.get = sinon.stub().returns(fragment);
         var result = client.getFragmentByPattern(pattern), resultError;
         result.on('error', function (error) { resultError = error; });
-        fragment.emit('contentType', 'application/javascript');
+        fragment.setProperty('contentType', 'application/javascript');
 
         it('should emit an error', function () {
           resultError.should.deep.equal(new Error('No parser for application/javascript'));

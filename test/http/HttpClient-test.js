@@ -26,7 +26,6 @@ describe('HttpClient', function () {
 
     describe('get http://example.org/foo', function () {
       var response = client.get('http://example.org/foo'), contentType;
-      response.on('contentType', function (t) { contentType = t; });
       request.emit('response', createResponse([1, 2, 3], 'text/html;encoding=utf8'));
 
       it('should call request once with the URL and accept "*/*"', function () {
@@ -42,8 +41,11 @@ describe('HttpClient', function () {
         response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
-      it('should emit the content type', function () {
-        contentType.should.equal('text/html');
+      it('should set the content type', function (done) {
+        response.getProperty('contentType', function (contentType) {
+          contentType.should.equal('text/html');
+          done();
+        });
       });
     });
   });
@@ -55,7 +57,6 @@ describe('HttpClient', function () {
 
     describe('get http://example.org/foo', function () {
       var response = client.get('http://example.org/foo'), contentType;
-      response.on('contentType', function (t) { contentType = t; });
       request.emit('response', createResponse([1, 2, 3], 'text/turtle;encoding=utf8'));
 
       it('should call request once with the URL and accept "text/turtle"', function () {
@@ -71,8 +72,11 @@ describe('HttpClient', function () {
         response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
-      it('should emit the content type', function () {
-        contentType.should.equal('text/turtle');
+      it('should set the content type', function (done) {
+        response.getProperty('contentType', function (contentType) {
+          contentType.should.equal('text/turtle');
+          done();
+        });
       });
     });
   });
