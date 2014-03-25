@@ -22,16 +22,21 @@ describe('FragmentsClient', function () {
   });
 
   describe('A FragmentsClient with a URI template', function () {
-    var template = UriTemplate.parse('http://example.org/dataset{?subject,predicate,object}'),
-        httpClient = {};
-    var client = new FragmentsClient(template, { httpClient: httpClient });
+    var template = UriTemplate.parse('http://example.org/dataset{?subject,predicate,object}');
+    function createClient(httpClient) {
+      return new FragmentsClient(template, { httpClient: httpClient });
+    }
+    function createHttpClient(fragment) {
+      return { get: sinon.stub().returns(fragment) };
+    }
 
-    describe('when asked for ?s ?o York', function () {
+    describe('when asked for a pattern', function () {
       var pattern = rdf.triple('?s', '?o', rdf.DBPEDIA + 'York');
 
       describe('and receiving a Turtle response', function () {
         var fragment = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl'));
-        httpClient.get = sinon.stub().returns(fragment);
+        var httpClient = createHttpClient(fragment);
+        var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern);
         fragment.setProperty('contentType', 'text/turtle');
 
@@ -47,7 +52,8 @@ describe('FragmentsClient', function () {
 
       describe('and receiving a non-supported response', function () {
         var fragment = Iterator.fromStream(fs.createReadStream(__filename));
-        httpClient.get = sinon.stub().returns(fragment);
+        var httpClient = createHttpClient(fragment);
+        var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern), resultError;
         result.on('error', function (error) { resultError = error; });
         fragment.setProperty('contentType', 'application/javascript');
