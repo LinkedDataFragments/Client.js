@@ -17,9 +17,7 @@ var p_type_artist = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIAOWL + 'Artist'),
     c_name_York = rdf.triple('?c', rdf.FOAF + 'name', '"York"@en');
 var query = [p_type_artist, p_birthPlace_c, c_name_York];
 
-var iterator = Iterator.single({ bindings: { } });
+var iterator = Iterator.single({});
 iterator = new GraphPatternIterator(iterator, query, iteratorOptions);
-iterator.on('data', function (bindingsContext) {
-  console.log(JSON.stringify(bindingsContext.bindings));
-});
+iterator.on('data', function (bindings) { console.log(JSON.stringify(bindings)); });
 iterator.on('error', console.error);

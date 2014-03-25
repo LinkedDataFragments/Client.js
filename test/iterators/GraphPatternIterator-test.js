@@ -88,7 +88,7 @@ describe('GraphPatternIterator', function () {
   });
 
   describe('A GraphPatternIterator passed a single non-overlapping bindings object', function () {
-    function createSource() { return Iterator.single({ bindings: { '?a': 'a' } }); }
+    function createSource() { return Iterator.single({ '?a': 'a' }); }
 
     describe('passed a GraphPatternIterator for the York query', function () {
       var iterator = new GraphPatternIterator(createSource(),
@@ -96,11 +96,11 @@ describe('GraphPatternIterator', function () {
       it('should be an iterator of ?a/?p/?o bindings', function (done) {
         var yorkBindings = testClient.getBindingsByPattern(patterns.p_birthplace_york)
             .map(function (binding) {
-              return { bindings: { '?a': 'a', '?c': rdf.DBPEDIA + 'York', '?p': binding.subject } };
+              return { '?a': 'a', '?c': rdf.DBPEDIA + 'York', '?p': binding.subject };
             });
         var yorkOntarioBindings = testClient.getBindingsByPattern(patterns.p_birthplace_yorkontario)
             .map(function (binding) {
-              return { bindings: { '?a': 'a', '?c': rdf.DBPEDIA + 'York,_Ontario', '?p': binding.subject } };
+              return { '?a': 'a', '?c': rdf.DBPEDIA + 'York,_Ontario', '?p': binding.subject };
             });
         var expectedBindings = yorkOntarioBindings.concat(yorkBindings);
         iterator.should.be.an.iteratorOf(expectedBindings, done);
@@ -109,7 +109,7 @@ describe('GraphPatternIterator', function () {
   });
 
   describe('when passed a single overlapping bindings object', function () {
-    function createSource() { return Iterator.single({ bindings: { '?a': 'a', '?c': rdf.DBPEDIA + 'York' } }); }
+    function createSource() { return Iterator.single({ '?a': 'a', '?c': rdf.DBPEDIA + 'York' }); }
 
     describe('a GraphPatternIterator for the York query', function () {
       var iterator = new GraphPatternIterator(createSource(),
@@ -117,7 +117,7 @@ describe('GraphPatternIterator', function () {
       it('should be an iterator of matching ?a/?p/?o bindings', function (done) {
         var yorkBindings = testClient.getBindingsByPattern(patterns.p_birthplace_york)
             .map(function (binding) {
-              return { bindings: { '?a': 'a', '?c': rdf.DBPEDIA + 'York', '?p': binding.subject } };
+              return { '?a': 'a', '?c': rdf.DBPEDIA + 'York', '?p': binding.subject };
             });
         var expectedBindings = yorkBindings;
         iterator.should.be.an.iteratorOf(expectedBindings, done);

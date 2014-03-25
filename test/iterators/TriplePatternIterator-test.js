@@ -51,7 +51,7 @@ describe('TriplePatternIterator', function () {
   });
 
   describe('a TriplePatternIterator passed an empty binding', function () {
-    function createSource() { return Iterator.single({ bindings: {} }); }
+    function createSource() { return Iterator.single({}); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(createSource(),
@@ -59,7 +59,7 @@ describe('TriplePatternIterator', function () {
       it('should be an iterator of ?p/?o bindings', function (done) {
         var expectedBindings = testClient.getBindingsByPattern(patterns.york_p_o)
             .map(function (binding) {
-              return { bindings: { '?p': binding.predicate, '?o': binding.object } };
+              return { '?p': binding.predicate, '?o': binding.object };
             });
         iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
@@ -67,7 +67,7 @@ describe('TriplePatternIterator', function () {
   });
 
   describe('a TriplePatternIterator passed a single non-overlapping bindings object', function () {
-    function createSource() { return Iterator.single({ bindings: { '?a': 'a' } }); }
+    function createSource() { return Iterator.single({ '?a': 'a' }); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(createSource(),
@@ -75,7 +75,7 @@ describe('TriplePatternIterator', function () {
       it('should be an iterator of ?a/?p/?o bindings', function (done) {
         var expectedBindings = testClient.getBindingsByPattern(patterns.york_p_o)
             .map(function (binding) {
-              return { bindings: { '?a': 'a', '?p': binding.predicate, '?o': binding.object } };
+              return { '?a': 'a', '?p': binding.predicate, '?o': binding.object };
             });
         iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
@@ -84,7 +84,7 @@ describe('TriplePatternIterator', function () {
 
   describe('a TriplePatternIterator passed a single overlapping bindings object', function () {
     function createSource() {
-      return Iterator.single({ bindings: { '?a': 'a', '?p': rdf.RDF_TYPE } });
+      return Iterator.single({ '?a': 'a', '?p': rdf.RDF_TYPE });
     }
 
     describe('a TriplePatternIterator for York ?p ?o', function () {
@@ -94,7 +94,7 @@ describe('TriplePatternIterator', function () {
         var expectedBindings = testClient.getBindingsByPattern(patterns.york_p_o)
             .filter(function (binding) { return binding.predicate === rdf.RDF_TYPE; })
             .map(function (binding) {
-              return { bindings: { '?a': 'a', '?p': binding.predicate, '?o': binding.object } };
+              return { '?a': 'a', '?p': binding.predicate, '?o': binding.object };
             });
         iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
@@ -103,7 +103,7 @@ describe('TriplePatternIterator', function () {
 
   describe('when passed an iterator for ?s a Artist', function () {
     function createSource() {
-      return new TriplePatternIterator(Iterator.single({ bindings: {} }),
+      return new TriplePatternIterator(Iterator.single({}),
         patterns.s_type_artist, { fragmentsClient: testClient });
     }
 
@@ -116,11 +116,11 @@ describe('TriplePatternIterator', function () {
         var expectedBindings = [];
         artistBindings.forEach(function (artistBindings) {
           yorkBindings.forEach(function (yorkBindings) {
-            expectedBindings.push({ bindings: {
+            expectedBindings.push({
               '?s': artistBindings.subject,
               '?p': yorkBindings.predicate,
               '?o': yorkBindings.object,
-            }});
+            });
           });
         });
         iterator.should.be.an.iteratorOf(expectedBindings, done);
@@ -133,7 +133,7 @@ describe('TriplePatternIterator', function () {
       it('should return only those triples that match both patterns', function (done) {
         var expectedBindings = testClient.getBindingsByPattern(patterns.s_type_artist)
             .filter(function (bindings) { return (/Flaxman|Robson|Tuke/).test(bindings.subject); })
-            .map(function (bindings) { return { bindings: { '?s': bindings.subject } }; });
+            .map(function (bindings) { return { '?s': bindings.subject }; });
         iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
