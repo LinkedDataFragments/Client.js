@@ -637,3 +637,120 @@ describe('TransformIterator', function () {
     });
   });
 });
+
+describe('CloneableIterator', function () {
+  var CloneableIterator = Iterator.CloneableIterator;
+
+  describe('The CloneableIterator module', function () {
+    it('should make CloneableIterator objects', function () {
+      CloneableIterator().should.be.an.instanceof(CloneableIterator);
+    });
+
+    it('should be a CloneableIterator constructor', function () {
+      new CloneableIterator().should.be.an.instanceof(CloneableIterator);
+    });
+
+    it('should make Iterator objects', function () {
+      CloneableIterator().should.be.an.instanceof(Iterator);
+    });
+
+    it('should be an Iterator constructor', function () {
+      new CloneableIterator().should.be.an.instanceof(Iterator);
+    });
+  });
+
+  describe('A CloneableIterator instance without parameter', function () {
+    var iterator = new CloneableIterator();
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('A CloneableIterator instance', function () {
+    var source = Iterator.fromArray([1, 2, 3]);
+    var iterator = new CloneableIterator(source, { bufferSize: 0 });
+    var clone = iterator.clone();
+    var endEventEmitted = 0;
+    iterator.on('end', function () { endEventEmitted++; });
+    var cloneEndEventEmitted = 0;
+    clone.on('end', function () { cloneEndEventEmitted++; });
+
+    it('should not emit end before read 1', function () {
+      endEventEmitted.should.equal(0);
+    });
+
+    it('should return element 1 on iterator.read()', function () {
+      expect(iterator.read()).to.equal(1);
+    });
+
+    it('should return element 1 on clone.read()', function () {
+      expect(clone.read()).to.equal(1);
+    });
+
+    it('should return element 2 on iterator.read()', function () {
+      expect(iterator.read()).to.equal(2);
+    });
+
+    it('should return element 2 on clone.read()', function () {
+      expect(clone.read()).to.equal(2);
+    });
+
+    it('should return element 3 on clone.read()', function () {
+      expect(clone.read()).to.equal(3);
+    });
+
+    it('should emit end on the clone after read 3', function () {
+      cloneEndEventEmitted.should.equal(1);
+    });
+
+    it('should not emit end on the iterator before read 3', function () {
+      endEventEmitted.should.equal(0);
+    });
+
+    it('should return element 3 on iterator.read()', function () {
+      expect(iterator.read()).to.equal(3);
+    });
+
+    it('should emit end after read 3', function () {
+      endEventEmitted.should.equal(1);
+    });
+
+    it('should have ended after read 3', function () {
+      expect(iterator.ended).to.be.true;
+    });
+
+    describe('a clone created after this instance ended', function () {
+      var clone = iterator.clone();
+      var endEventEmitted = 0;
+      clone.on('end', function () { endEventEmitted++; });
+
+      it('should be a CloneableIterator', function () {
+        clone.should.be.an.instanceof(CloneableIterator);
+      });
+
+      it('should not emit end before read 1', function () {
+        endEventEmitted.should.equal(0);
+      });
+
+      it('should return element 1 on read 1', function () {
+        expect(clone.read()).to.equal(1);
+      });
+
+      it('should return element 2 on read 2', function () {
+        expect(clone.read()).to.equal(2);
+      });
+
+      it('should return element 3 on read 3', function () {
+        expect(clone.read()).to.equal(3);
+      });
+
+      it('should emit end after read 3', function () {
+        endEventEmitted.should.equal(1);
+      });
+
+      it('should have ended after read 3', function () {
+        expect(clone.ended).to.be.true;
+      });
+    });
+  });
+});
