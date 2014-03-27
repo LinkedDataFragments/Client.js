@@ -127,6 +127,32 @@ describe('Iterator', function () {
       });
     });
   });
+
+  describe('An Iterator instance pushing 9 items', function () {
+    var iterator = new Iterator();
+    var items = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var readCalled = 0;
+    iterator._read = function (push) {
+      readCalled++;
+      push(items.shift());
+    };
+
+    describe('after construction', function () {
+      it('should not buffer any elements', function () {
+        readCalled.should.equal(0);
+      });
+    });
+
+    describe("after adding a 'readable' listener", function () {
+      before(function () {
+        iterator.addListener('readable', function () {});
+      });
+
+      it('should buffer 4 elements in advance', function () {
+        readCalled.should.equal(4);
+      });
+    });
+  });
 });
 
 describe('EmptyIterator', function () {
