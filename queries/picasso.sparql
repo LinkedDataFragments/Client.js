@@ -1,4 +1,4 @@
-SELECT ?artist, ?date WHERE {
+SELECT ?artist ?date WHERE {
   ?artist dbpedia-owl:influencedBy dbpedia:Pablo_Picasso.
   ?artist a dbpedia-owl:Artist.
   ?artist dbpedia-owl:birthDate ?date.
