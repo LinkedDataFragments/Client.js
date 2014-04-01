@@ -1,0 +1,5 @@
+SELECT * WHERE {
+  ?scheme skos:prefLabel "Nace2008".
+  ?concept skos:inScheme ?scheme;
+           rdfs:label ?label.
+}
