@@ -3,7 +3,7 @@ var FragmentsClient = require('../../lib/http/FragmentsClient');
 
 var UriTemplate = require('uritemplate'),
     Iterator = require('../../lib/iterators/Iterator'),
-    rdf = require('../../lib/rdf/RdfUtil'),
+    rdf = require('../../lib/util/RdfUtil'),
     fs = require('fs');
 
 describe('FragmentsClient', function () {

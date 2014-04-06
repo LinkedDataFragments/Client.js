@@ -4,7 +4,7 @@
 var Iterator = require('../../lib/iterators/Iterator'),
     fs = require('fs'),
     N3 = require('n3'),
-    rdf = require('../../lib/rdf/RdfUtil');
+    rdf = require('../../lib/util/RdfUtil');
 var fragmentsPath = __dirname + '/../data/fragments/';
 
 function FileFragmentsClient() {

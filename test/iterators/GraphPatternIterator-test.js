@@ -7,7 +7,7 @@ var Iterator = require('../../lib/iterators/Iterator'),
     SingleIterator = Iterator.SingleIterator,
     TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
-    rdf = require('../../lib/rdf/RdfUtil');
+    rdf = require('../../lib/util/RdfUtil');
 
 var testClient = new FileFragmentsClient();
 

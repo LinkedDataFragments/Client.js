@@ -4,7 +4,7 @@ var TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator')
 
 var Iterator = require('../../lib/iterators/Iterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
-    rdf = require('../../lib/rdf/RdfUtil');
+    rdf = require('../../lib/util/RdfUtil');
 
 var testClient = new FileFragmentsClient();
 

@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var RdfUtil = require('../../lib/rdf/RdfUtil'),
+var RdfUtil = require('../../lib/util/RdfUtil'),
     N3 = require('n3');
 
 describe('RdfUtil', function () {

@@ -7,7 +7,7 @@ var FragmentsClient = require('../../lib/http/FragmentsClient'),
     UriTemplate = require('uritemplate'),
     Iterator = require('../../lib/iterators/Iterator'),
     GraphPatternIterator = require('../../lib/iterators/GraphPatternIterator'),
-    rdf = require('../../lib/rdf/RdfUtil');
+    rdf = require('../../lib/util/RdfUtil');
 
 var client = new FragmentsClient(UriTemplate.parse(fragmentUrl)),
     iteratorOptions = { fragmentsClient: client, bufferSize: 8 };
