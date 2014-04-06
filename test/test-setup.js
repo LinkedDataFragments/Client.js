@@ -1,7 +1,9 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var Stream = require('stream').Stream,
+var Logger = require('../lib/util/Logger'),
+    Stream = require('stream').Stream,
     Iterator = require('../lib/iterators/Iterator');
+Logger.disable();
 
 // Set up the sinon stubbing library
 var sinon = global.sinon = require('sinon');

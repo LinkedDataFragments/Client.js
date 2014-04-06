@@ -12,8 +12,12 @@ var fs = require('fs'),
     path = require('path'),
     N3 = require('n3'),
     SparqlIterator = require('../lib/iterators/SparqlIterator'),
-    FragmentsClient = require('../lib/http/FragmentsClient');
+    FragmentsClient = require('../lib/http/FragmentsClient'),
+    Logger = require('../lib/util/Logger');
+
 var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
+
+Logger.disable();
 
 // Parse and initialize configuration
 var hasConfig = args.length >= 2,
