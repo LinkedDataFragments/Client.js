@@ -18,7 +18,8 @@
     "n3": ">=0.1.7",
     "sparql-parser": "~0.1.0",
     "uritemplate": "0.3.x",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "setimmediate": "~1.0.1"
   },
   "devDependencies": {
     "jshint": ">=2.1.10",
@@ -29,7 +30,6 @@
     "sinon-chai": "~2.5.0"
   },
   "browser": {
-    "./lib/LinkedDataFragmentHtmlParser.js": "./browser/lib/LinkedDataFragmentHtmlParser.js",
     "request": "./browser/lib/request.js",
     "zlib": false
   }

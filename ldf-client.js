@@ -2,7 +2,7 @@
 /** Main ldf-client module exports. */
 
 module.exports = {
-  LinkedDataFragmentsClient: require('./lib/LinkedDataFragmentsClient'),
-  SparqlQuerySolver: require('./lib/SparqlQuerySolver'),
-  Logger: require('./lib/Logger'),
+  SparqlIterator: require('./lib/iterators/SparqlIterator.js'),
+  FragmentsClient: require('./lib/http/FragmentsClient'),
+  Logger: require('./lib/util/Logger'),
 };

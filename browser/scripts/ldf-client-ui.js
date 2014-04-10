@@ -3,19 +3,10 @@
 
 var LinkedDataFragmentsClientUI = (function ($) {
   var ldf = require('ldf-client'),
-      SparqlQuerySolver = ldf.SparqlQuerySolver,
-      LinkedDataFragmentsClient = ldf.LinkedDataFragmentsClient,
+      SparqlIterator = ldf.SparqlIterator,
+      FragmentsClient = ldf.FragmentsClient,
       Logger = ldf.Logger,
       N3 = require('n3');
-
-  // Redirect the logger to the UI
-  Logger.prototype._print = function (items) {
-    $('.ldf-client .log').each(function () {
-      var $log = $(this);
-      $log.text($log.text() + items.join(' ') + '\n');
-      $log.scrollTop(1E10);
-    });
-  };
 
   // Creates a new Linked Data Fragments Client UI
   function LinkedDataFragmentsClientUI(element, config) {
@@ -30,7 +21,8 @@ var LinkedDataFragmentsClientUI = (function ($) {
         $query = this._$element.find('.query'),
         $results = this._$element.find('.results'),
         $execute = this._$element.find('.execute'),
-        $log = this._$element.find('.log', this);
+        $log = this._$element.find('.log', this),
+        logger = new Logger();
 
     // Execute the query when the button is clicked
     $execute.click(function () {
@@ -39,38 +31,57 @@ var LinkedDataFragmentsClientUI = (function ($) {
       $results.empty();
       $execute.prop('disabled', true);
 
-      // Create the client to solve the query
-      var client = new LinkedDataFragmentsClient(config),
-          querySolver = new SparqlQuerySolver(client, config.prefixes);
-      querySolver.getQueryResults($query.val())
-      .then(function (result) {
-        // Display result rows
-        if (result.rows) {
-          $results.text(JSON.stringify(result.rows, null, '  '));
-        }
-        // Display Turtle
-        else {
-          var writer = new N3.Writer(config.prefixes);
-          writer.addTriples(result.triples);
-          writer.end(function (error, turtle) {
-            // Display error or Turtle result
-            if (error) return $results.text(error);
-            $results.text(turtle);
-
-            // Scroll past prefix lines
-            var scrollTop = 0, lines = turtle.split('\n'),
-                lineHeight = $results[0].scrollHeight / lines.length;
-            lines.some(function (l) {
-              if (l.length && l[0] !== '@') return true;
-              scrollTop += lineHeight;
-            });
-            $results.animate({ scrollTop: scrollTop });
+      // Create the iterator to solve the query
+      config.logger = logger;
+      config.fragmentsClient = new FragmentsClient(config.datasource, config);
+      var sparqlIterator = new SparqlIterator($query.val(), config);
+      switch (sparqlIterator.parsedQuery.type) {
+        // Write a JSON array representation of the rows
+        case 'SELECT':
+          var resultsCount = 0;
+          addToResults('[');
+          sparqlIterator.on('data', function (row) {
+            addToResults(resultsCount++ ? ',\n' : '\n', row);
           });
-        }
-      })
-      .fail(function (error) { $results.text(error.message); })
-      .fin(function () { $execute.prop('disabled', false); });
+          sparqlIterator.on('end', function () {
+            addToResults(resultsCount ? '\n]' : ']');
+          });
+        break;
+        // Write an RDF representation of all results
+        case 'CONSTRUCT':
+          var writer = new N3.Writer({ write: function (chunk, encoding, done) {
+            addToResults(chunk), done && done();
+          }}, config.prefixes);
+          sparqlIterator.on('data', function (triple) { writer.addTriple(triple); })
+                        .on('end',  function () { writer.end(); });
+        break;
+        default:
+          throw new Error('Unsupported query type: ' + sparqlIterator.parsedQuery.type);
+      }
+      sparqlIterator.on('end', function () { $execute.prop('disabled', false); });
+      sparqlIterator.on('error', function (error) { $results.text(error.message); throw error; });
+      sparqlIterator.read();
     });
+
+    // Add text to the results
+    function addToResults() {
+      for (var i = 0, l = arguments.length; i < l; i++) {
+        var item = arguments[i];
+        if (typeof item !== 'string')
+          item = JSON.stringify(item, null, '  ');
+        $results.append(item);
+      }
+      $results.scrollTop(1E10);
+    };
+
+    // Add a line to the log
+    logger._print = function (items) {
+      $('.ldf-client .log').each(function () {
+        var $log = $(this);
+        $log.text($log.text() + items.join(' ').trim() + '\n');
+        $log.scrollTop(1E10);
+      });
+    };
   };
 
   return LinkedDataFragmentsClientUI;
