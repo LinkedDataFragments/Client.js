@@ -60,4 +60,16 @@ describe('TurtleFragmentParser', function () {
       });
     });
   });
+
+  describe('A TurtleFragmentParser for a fragment that is not read', function () {
+    var fragment = fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl');
+    var parser = new TurtleFragmentParser(fragment, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
+
+    it('should give access to fragment metadata', function (done) {
+      parser.getProperty('metadata', function (metadata) {
+        metadata.should.deep.equal({ totalTriples: 169 });
+        done();
+      });
+    });
+  });
 });
