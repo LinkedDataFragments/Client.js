@@ -59,15 +59,48 @@ describe('TurtleFragmentParser', function () {
         done();
       });
     });
+
+    describe('its fragment control set', function (done) {
+      var controls;
+      before(function (done) {
+        parser.getProperty('controls', function (result) {
+          controls = result;
+          controls.should.not.be.null;
+          done();
+        });
+      });
+
+      describe('the getFragmentUrl function', function () {
+        it('should be a function', function () {
+          controls.should.have.property('getFragmentUrl');
+          controls.getFragmentUrl.should.be.a('function');
+        });
+
+        it('should give the URL for the given triple pattern', function () {
+          var result = controls.getFragmentUrl({ subject: 'a', object: 'b' });
+          result.should.equal('http://data.linkeddatafragments.org/dbpedia?subject=a&object=b');
+        });
+      });
+    });
   });
 
   describe('A TurtleFragmentParser for a fragment that is not read', function () {
-    var fragment = fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl');
-    var parser = new TurtleFragmentParser(fragment, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
+    function createParser() {
+      var fragment = fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl');
+      return new TurtleFragmentParser(fragment, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
+    }
 
     it('should give access to fragment metadata', function (done) {
-      parser.getProperty('metadata', function (metadata) {
+      createParser().getProperty('metadata', function (metadata) {
         metadata.should.deep.equal({ totalTriples: 169 });
+        done();
+      });
+    });
+
+    it('should give access to fragment controls', function (done) {
+      createParser().getProperty('controls', function (controls) {
+        controls.should.not.be.null;
+        controls.should.have.property('getFragmentUrl');
         done();
       });
     });
