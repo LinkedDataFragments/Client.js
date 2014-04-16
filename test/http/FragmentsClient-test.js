@@ -1,8 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var FragmentsClient = require('../../lib/http/FragmentsClient');
 
-var UriTemplate = require('uritemplate'),
-    Iterator = require('../../lib/iterators/Iterator'),
+var Iterator = require('../../lib/iterators/Iterator'),
     rdf = require('../../lib/util/RdfUtil'),
     fs = require('fs');
 
@@ -21,10 +20,17 @@ describe('FragmentsClient', function () {
     });
   });
 
-  describe('A FragmentsClient with a URI template', function () {
-    var template = UriTemplate.parse('http://example.org/dataset{?subject,predicate,object}');
+  describe('A FragmentsClient with a start fragment', function () {
+    var startFragment = Iterator.passthrough();
+    startFragment.setProperty('controls', {
+      getFragmentUrl: function (pattern) {
+        var encode = encodeURIComponent;
+        return 'http://fragment/?s=' + encode(pattern.subject || '') +
+               '&p=' + encode(pattern.predicate || '') + '&o=' + encode(pattern.object || '');
+      },
+    });
     function createClient(httpClient) {
-      return new FragmentsClient(template, { httpClient: httpClient });
+      return new FragmentsClient(startFragment, { httpClient: httpClient });
     }
     function createHttpClient(fragment) {
       return { get: sinon.stub().returns(fragment) };
@@ -42,7 +48,7 @@ describe('FragmentsClient', function () {
 
         it('should GET the corresponding fragment', function () {
           httpClient.get.should.have.been.calledOnce;
-          httpClient.get.should.have.been.calledWith('http://example.org/dataset?object=http%3A%2F%2Fdbpedia.org%2Fresource%2FYork');
+          httpClient.get.should.have.been.calledWith('http://fragment/?s=&p=&o=http%3A%2F%2Fdbpedia.org%2Fresource%2FYork');
         });
 
         it('should stream the triples in the fragment', function (done) {
