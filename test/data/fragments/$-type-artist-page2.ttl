@@ -1,0 +1,56 @@
+# Basic Linked Data Fragment from DBpedia for { ?s a dbpedia-owl:Artist. }
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dc11: <http://purl.org/dc/elements/1.1/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>.
+@prefix dbpprop: <http://dbpedia.org/property/>.
+@prefix hydra: <http://www.w3.org/ns/hydra/core#>.
+@prefix void: <http://rdfs.org/ns/void#>.
+@prefix : <http://data.linkeddatafragments.org/>.
+
+:dbpedia a void:Dataset, hydra:Collection;
+    void:subset <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2>;
+    void:uriLookupEndpoint "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:search _:triplePattern.
+_:triplePattern hydra:template "http://data.linkeddatafragments.org/dbpedia{?subject,predicate,object}";
+    hydra:mapping _:subject, _:predicate, _:object.
+_:subject hydra:variable "subject";
+    hydra:property rdf:subject.
+_:predicate hydra:variable "predicate";
+    hydra:property rdf:predicate.
+_:object hydra:variable "object";
+    hydra:property rdf:object.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2> a hydra:Collection, hydra:PagedCollection;
+    dcterms:title "A 'dbpedia' Linked Data Fragment"@en;
+    dcterms:description "Basic Linked Data Fragment of the 'dbpedia' dataset containing triples matching the pattern { ?s <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Artist> }."@en;
+    hydra:entrypoint :dbpedia;
+    dcterms:source :dbpedia;
+    hydra:totalItems "61073"^^xsd:integer;
+    void:triples "61073"^^xsd:integer;
+    hydra:firstPage <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1>;
+    hydra:previousPage <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1>;
+    hydra:nextPage <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=3>.
+rdf:type rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?predicate=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist> dcterms:subject dbpedia-owl:Artist.
+:dbpedia void:classPartition <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist>.
+<http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist> void:class dbpedia-owl:Artist.
+dbpedia-owl:Artist rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FArtist%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FArtist%3E>.
+dbpedia:Abbott_Fuller_Graves a dbpedia-owl:Artist.
+dbpedia:Abel_Talamantez a dbpedia-owl:Artist.
+dbpedia:Abe_Walsh a dbpedia-owl:Artist.
+dbpedia:Abdul_Wahid_Khan a dbpedia-owl:Artist.
+dbpedia:Abdul_Rauf_Rufi a dbpedia-owl:Artist.
+dbpedia:Aarya_Ambekar a dbpedia-owl:Artist.
+dbpedia:Abdullah_Hussain a dbpedia-owl:Artist.
+dbpedia:Aaron_Sprinkle a dbpedia-owl:Artist.
+dbpedia:Abel_Guier a dbpedia-owl:Artist.
+dbpedia:Aasim a dbpedia-owl:Artist.
