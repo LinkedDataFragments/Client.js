@@ -587,21 +587,30 @@ describe('TransformIterator', function () {
     });
   });
 
-  describe('An TransformIterator instance without parameters', function () {
+  describe('A TransformIterator instance without parameters', function () {
     var iterator = new TransformIterator();
     it('should have ended', function () {
       expect(iterator.ended).to.be.true;
     });
   });
 
-  describe('An TransformIterator instance with an empty iterator', function () {
+  describe('A TransformIterator instance with an empty iterator', function () {
     var iterator = new TransformIterator(Iterator.empty());
     it('should have ended', function () {
       expect(iterator.ended).to.be.true;
     });
   });
 
-  describe('An TransformIterator instance without _transform function', function () {
+  describe('A TransformIterator instance with an iterator that has already ended', function () {
+    var endedIterator = new EventEmitter();
+    endedIterator.ended = true;
+    var iterator = new TransformIterator(endedIterator);
+    it('should have ended', function () {
+      expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('A TransformIterator instance without _transform function', function () {
     var iterator = new TransformIterator(Iterator.single(1));
     it('should throw an error on read', function () {
       (function () { iterator.read(); })
@@ -609,7 +618,7 @@ describe('TransformIterator', function () {
     });
   });
 
-  describe('An TransformIterator instance with a single-element iterator', function () {
+  describe('A TransformIterator instance with a single-element iterator', function () {
     var sourceIterator = Iterator.single(1);
     var iterator = new TransformIterator(sourceIterator);
     iterator._transform = function (item, push, done) {
@@ -626,7 +635,7 @@ describe('TransformIterator', function () {
     });
   });
 
-  describe('An TransformIterator instance with a three-element iterator', function () {
+  describe('A TransformIterator instance with a three-element iterator', function () {
     var sourceIterator = Iterator.fromArray([1, 2, 3]);
     var iterator = new TransformIterator(sourceIterator);
     iterator._transform = function (item, push, done) {
