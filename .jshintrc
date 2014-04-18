@@ -3,6 +3,7 @@
   "expr": true,     // Allow expressions where statements are expected.
   "undef": true,    // Variables should be defined.
   "loopfunc": true, // Allow function creation in loops.
+  "-W082": true,    // Allow function declarations in blocks.
   "trailing": true, // Do not leave trailing whitespace.
   "white": true,    // Enable strict whitespace checking.
   "indent": 2,      // The code uses an indentation width of 2 spaces.
