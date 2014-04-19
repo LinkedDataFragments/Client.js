@@ -37,9 +37,9 @@ describe('Iterator', function () {
     var iterator = new Iterator();
     var items = [1, 2, 3];
     var readCalled = 0;
-    iterator._read = function (push) {
+    iterator._read = function () {
       readCalled++;
-      push(items.shift() || null);
+      this._push(items.shift() || null);
     };
     var endEventEmitted = 0;
     iterator.on('end', function () { endEventEmitted++; });
@@ -105,9 +105,9 @@ describe('Iterator', function () {
     var iterator = new Iterator();
     var items = [1, 2, 3, 4, 5, 6, 7, 8];
     var readCalled = 0;
-    iterator._read = function (push) {
+    iterator._read = function () {
       readCalled++;
-      push(items.shift());
+      this._push(items.shift());
     };
 
     describe('after construction', function () {
@@ -132,9 +132,9 @@ describe('Iterator', function () {
     var iterator = new Iterator();
     var items = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     var readCalled = 0;
-    iterator._read = function (push) {
+    iterator._read = function () {
       readCalled++;
-      push(items.shift());
+      this._push(items.shift());
     };
 
     describe('after construction', function () {
@@ -621,8 +621,8 @@ describe('TransformIterator', function () {
   describe('A TransformIterator instance with a single-element iterator', function () {
     var sourceIterator = Iterator.single(1);
     var iterator = new TransformIterator(sourceIterator);
-    iterator._transform = function (item, push, done) {
-      push('t' + item);
+    iterator._transform = function (item, done) {
+      this._push('t' + item);
       done();
     };
 
@@ -638,13 +638,13 @@ describe('TransformIterator', function () {
   describe('A TransformIterator instance with a three-element iterator', function () {
     var sourceIterator = Iterator.fromArray([1, 2, 3]);
     var iterator = new TransformIterator(sourceIterator);
-    iterator._transform = function (item, push, done) {
-      push('t' + item);
+    iterator._transform = function (item, done) {
+      this._push('t' + item);
       done();
     };
-    iterator._flush = function (push) {
-      push('end');
-      push(null);
+    iterator._flush = function () {
+      this._push('end');
+      this._push(null);
     };
 
     it('should return the transformed element 1 on read 1', function () {
