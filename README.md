@@ -34,7 +34,7 @@ $ [sudo] npm install -g ldf-client
 
 You can execute SPARQL queries as follows:
 ```bash
-$ ldf-server query.sparql
+$ ldf-client query.sparql
 ```
 Here, `query.sparql` contains your query;
 alternatively, you can pass the query as a string.
