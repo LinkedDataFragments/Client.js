@@ -29,23 +29,39 @@ var hasConfig = args.length >= 2,
 config.fragmentsClient = new FragmentsClient(config.datasource, config);
 
 // Execute the query and output its results
-var sparqlIterator = new SparqlIterator(query, config);
-switch (sparqlIterator.parsedQuery.type) {
-  // Write JSON representations of the rows
-  case 'SELECT':
-    sparqlIterator.on('data', function (row) {
-      console.log(JSON.stringify(row));
-    });
-  break;
-  // Write an RDF representation of all results
-  case 'CONSTRUCT':
-    var writer = new N3.Writer(process.stdout, config.prefixes);
-    sparqlIterator.on('data', function (triple) { writer.addTriple(triple); })
-                  .on('end',  function () { writer.end(); });
-  break;
-  default:
-    throw new Error('Unsupported query type: ' + sparqlIterator.parsedQuery.type);
-}
+try {
+  var sparqlIterator = new SparqlIterator(query, config);
+  switch (sparqlIterator.parsedQuery.type) {
+    // Write JSON representations of the rows
+    case 'SELECT':
+      sparqlIterator.on('data', function (row) {
+        console.log(JSON.stringify(row));
+      });
+    break;
+    // Write an RDF representation of all results
+    case 'CONSTRUCT':
+      var writer = new N3.Writer(process.stdout, config.prefixes);
+      sparqlIterator.on('data', function (triple) { writer.addTriple(triple); })
+                    .on('end',  function () { writer.end(); });
+    break;
+    default:
+      throw new SparqlIterator.UnsupportedQueryError(query);
+  }
 
-// Report an error's stack trace
-sparqlIterator.on('error', function (error) { console.error(error.stack); });
+  // Report an error's stack trace
+  sparqlIterator.on('error', function (error) {
+    console.error('ERROR: An error occured during query execution.\n');
+    console.error(error.stack);
+  });
+}
+// Report a synchronous error
+catch (error) {
+  console.error('ERROR: Query execution could not start.\n');
+  switch (error.name) {
+    case 'UnsupportedQueryError':
+      console.error(error.message);
+      break;
+    default:
+      console.error(error.stack);
+  }
+}
