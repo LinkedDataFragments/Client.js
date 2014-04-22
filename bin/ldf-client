@@ -58,6 +58,7 @@ try {
 catch (error) {
   console.error('ERROR: Query execution could not start.\n');
   switch (error.name) {
+    case 'SparqlSyntaxError':
     case 'UnsupportedQueryError':
       console.error(error.message);
       break;

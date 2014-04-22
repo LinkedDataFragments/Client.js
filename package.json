@@ -16,7 +16,7 @@
     "jsdom": "0.8.8",
     "request": "2.27.x",
     "n3": ">=0.1.7",
-    "sparql-parser": "~0.1.1",
+    "sparql-parser": "~0.1.2",
     "uritemplate": "0.3.x",
     "lodash": "~2.4.1",
     "setimmediate": "~1.0.1"
