@@ -53,6 +53,78 @@ describe('RdfUtil', function () {
     });
   });
 
+  describe('hasVariables', function () {
+    it('should not match a falsy value', function () {
+      RdfUtil.hasVariables(null).should.be.false;
+    });
+
+    it('should not match a triple without variables', function () {
+      RdfUtil.hasVariables(RdfUtil.triple('_:a', 'b', '"?c"')).should.be.false;
+    });
+
+    it('should match a triple with a variable in the subject', function () {
+      RdfUtil.hasVariables(RdfUtil.triple('?a', 'b', 'c')).should.be.true;
+    });
+
+    it('should match a triple with a variable in the predicate', function () {
+      RdfUtil.hasVariables(RdfUtil.triple('a', '?b', 'c')).should.be.true;
+    });
+
+    it('should match a triple with a variable in the object', function () {
+      RdfUtil.hasVariables(RdfUtil.triple('a', 'b', '?c')).should.be.true;
+    });
+
+    it('should match a triple with a variable in two components', function () {
+      RdfUtil.hasVariables(RdfUtil.triple('?a', 'b', '?c')).should.be.true;
+    });
+
+    it('should match a triple with a variable in three components', function () {
+      RdfUtil.hasVariables(RdfUtil.triple('?a', '?b', '?c')).should.be.true;
+    });
+  });
+
+  describe('hasVariablesOrBlanks', function () {
+    it('should not match a falsy value', function () {
+      RdfUtil.hasVariablesOrBlanks(null).should.be.false;
+    });
+
+    it('should not match a triple without variables or blanks', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('a', 'b', '"?c"')).should.be.false;
+    });
+
+    it('should match a triple with a variable in the subject', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('?a', 'b', 'c')).should.be.true;
+    });
+
+    it('should match a triple with a variable in the predicate', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('a', '?b', 'c')).should.be.true;
+    });
+
+    it('should match a triple with a variable in the object', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('a', 'b', '?c')).should.be.true;
+    });
+
+    it('should match a triple with a blank in the subject', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('_:a', 'b', 'c')).should.be.true;
+    });
+
+    it('should match a triple with a blank in the predicate', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('a', '_:b', 'c')).should.be.true;
+    });
+
+    it('should match a triple with a blank in the object', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('a', 'b', '_:c')).should.be.true;
+    });
+
+    it('should match a triple with a variable or blank in two components', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('?a', 'b', '_:c')).should.be.true;
+    });
+
+    it('should match a triple with a variable or blank in three components', function () {
+      RdfUtil.hasVariablesOrBlanks(RdfUtil.triple('_:a', '_:b', '?c')).should.be.true;
+    });
+  });
+
   describe('tripleFilter', function () {
     describe('without parameter', function () {
       var filter = RdfUtil.tripleFilter();
