@@ -73,13 +73,13 @@ describe('BindingsIterator', function () {
   });
 
   describe('A BindingsIterator with a two-element bindings source', function () {
-    var iterator, endEventEmitted = 0;
+    var iterator, endEventEmitted = 0, options = { 'x': 'y' };
     before(function () {
       var source = new Iterator.fromArray([{ '?a': 'a' }, { '?a': 'b' }]);
       var transformerA = new Iterator.fromArray([{ '?a': 'a1'}, { '?a': 'a2' }]);
       var transformerB = new Iterator.fromArray([{ '?a': 'b1'}, { '?a': 'b2' }, { '?a': 'b3' }]);
 
-      iterator = new BindingsIterator(source);
+      iterator = new BindingsIterator(source, options);
       iterator.on('end', function () { endEventEmitted++; });
 
       var create = sinon.stub(iterator, '_createBindingsTransformer');
@@ -109,6 +109,14 @@ describe('BindingsIterator', function () {
 
       it('should have called _createBindingsTransformer twice', function () {
         iterator._createBindingsTransformer.should.have.been.calledTwice;
+      });
+
+      it('should have called _createBindingsTransformer with the first binding and options', function () {
+        iterator._createBindingsTransformer.should.have.been.calledWith({ '?a': 'a' }, options);
+      });
+
+      it('should have called _createBindingsTransformer with the second binding and options', function () {
+        iterator._createBindingsTransformer.should.have.been.calledWith({ '?a': 'b' }, options);
       });
 
       it('should not have ended', function () {
