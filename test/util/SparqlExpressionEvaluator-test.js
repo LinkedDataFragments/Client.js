@@ -335,6 +335,44 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the str operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'str',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          }
+        ]
+      });
+
+      it('should return the literal if passed a literal', function () {
+        evaluator({ '?a': '"a"' }).should.equal('"a"');
+      });
+
+      it("should return a stringified version if passed a number", function () {
+        evaluator({ '?a': 3 }).should.equal('"3"');
+      });
+    });
+
+    describe('of the xsd:double operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'http://www.w3.org/2001/XMLSchema#double',
+        arguments: [
+          {
+            type: 'literal',
+            value: '"123"',
+          }
+        ]
+      });
+
+      it('should return the literal as a double', function () {
+        evaluator({}).should.equal('"123.0"^^<http://www.w3.org/2001/XMLSchema#double>');
+      });
+    });
+
     describe('of an unsuppported expression type', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'invalid' }); })
