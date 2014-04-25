@@ -127,6 +127,172 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of an equality comparison', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'equals',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 'a',
+          }
+        ]
+      });
+
+      it('should return true if the arguments match', function () {
+        evaluator({ '?a': 'a' }).should.equal.true;
+      });
+
+      it("should return false if the arguments don't match", function () {
+        evaluator({ '?a': 'b' }).should.equal.false;
+      });
+    });
+
+    describe('of a non-equality comparison', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'notEquals',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 'a',
+          }
+        ]
+      });
+
+      it('should return false if the arguments match', function () {
+        evaluator({ '?a': 'a' }).should.equal.false;
+      });
+
+      it("should return true if the arguments don't match", function () {
+        evaluator({ '?a': 'b' }).should.equal.true;
+      });
+    });
+
+    describe('of a less-than comparison', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'lessThan',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 20,
+          }
+        ]
+      });
+
+      it('should return true if a < b', function () {
+        evaluator({ '?a': '3' }).should.be.true;
+      });
+
+      it('should return false if a == b', function () {
+        evaluator({ '?a': '20' }).should.be.false;
+      });
+
+      it('should return false if a > b', function () {
+        evaluator({ '?a': '120' }).should.be.false;
+      });
+    });
+
+    describe('of a less-or-equal-than comparison', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'lessThanOrEqual',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 20,
+          }
+        ]
+      });
+
+      it('should return true if a < b', function () {
+        evaluator({ '?a': '3' }).should.be.true;
+      });
+
+      it('should return true if a == b', function () {
+        evaluator({ '?a': '20' }).should.be.true;
+      });
+
+      it('should return false if a > b', function () {
+        evaluator({ '?a': '120' }).should.be.false;
+      });
+    });
+
+    describe('of a greater-than comparison', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'greaterThan',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 20,
+          }
+        ]
+      });
+
+      it('should return false if a < b', function () {
+        evaluator({ '?a': '3' }).should.be.false;
+      });
+
+      it('should return false if a == b', function () {
+        evaluator({ '?a': '20' }).should.be.false;
+      });
+
+      it('should return true if a > b', function () {
+        evaluator({ '?a': '120' }).should.be.true;
+      });
+    });
+
+    describe('of a greater-or-equal-than comparison', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'greaterThanOrEqual',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 20,
+          }
+        ]
+      });
+
+      it('should return false if a < b', function () {
+        evaluator({ '?a': '3' }).should.be.false;
+      });
+
+      it('should return true if a == b', function () {
+        evaluator({ '?a': '20' }).should.be.true;
+      });
+
+      it('should return true if a > b', function () {
+        evaluator({ '?a': '120' }).should.be.true;
+      });
+    });
+
     describe('of an unsuppported expression type', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'invalid' }); })
