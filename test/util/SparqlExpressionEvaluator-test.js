@@ -47,10 +47,110 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of a sum', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'sum',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 2,
+          }
+        ]
+      });
+      it('should return the sum of the expressions', function () {
+        evaluator({ '?a': '"3"' }).should.equal(5);
+      });
+    });
+
+    describe('of a difference', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'difference',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 2,
+          }
+        ]
+      });
+      it('should return the difference of the expressions', function () {
+        evaluator({ '?a': '"5"' }).should.equal(3);
+      });
+    });
+
+    describe('of a product', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'product',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 2,
+          }
+        ]
+      });
+      it('should return the product of the expressions', function () {
+        evaluator({ '?a': '"5"' }).should.equal(10);
+      });
+    });
+
+    describe('of a quotient', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'quotient',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'number',
+            value: 2,
+          }
+        ]
+      });
+      it('should return the quotient of the expressions', function () {
+        evaluator({ '?a': '"10"' }).should.equal(5);
+      });
+    });
+
     describe('of an unsuppported expression type', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'invalid' }); })
         .should.throw('Unsupported expression type: invalid');
+      });
+    });
+
+    describe('of an unsupported operator', function () {
+      it('should throw an error', function () {
+        (function () { SparqlExpressionEvaluator({ type: 'operator', operator: 'invalid' }); })
+          .should.throw('Unsupported operator: invalid.');
+      });
+    });
+
+    describe('of an operator with an invalid number of arguments', function () {
+      it('should throw an error', function () {
+        (function () {
+          SparqlExpressionEvaluator({
+            type: 'operator',
+            operator: 'sum',
+            arguments: [1, 2, 3],
+          });
+        })
+        .should.throw('Invalid number of arguments for sum: 3 (expected: 2).');
       });
     });
   });
