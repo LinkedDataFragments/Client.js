@@ -293,7 +293,42 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
-    describe('of the getLanguage operator', function () {
+    describe('of the not operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'not',
+        arguments: [
+          {
+            type: 'operator',
+            operator: '=',
+            arguments: [
+              { type: 'variable', value: '?a' },
+              { type: 'number',   value: 'a' },
+            ]
+          }
+        ]
+      });
+
+      it('should return false if the child expression is true', function () {
+        evaluator({ '?a': 'a' }).should.be.false;
+      });
+
+      it('should return true if the child expression is false', function () {
+        evaluator({ '?a': 'b' }).should.be.true;
+      });
+
+      it('should throw an error if the argument is not a boolean', function () {
+        var evaluator = SparqlExpressionEvaluator({
+          type: 'operator',
+          operator: 'not',
+          arguments: [ { type: 'number', value: 3 } ]
+        });
+        (function () { evaluator({ '?a': 'a' }); })
+          .should.throw('NOT needs a boolean argument but got: 3.');
+      });
+    });
+
+    describe('of the lang operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
         operator: 'lang',
@@ -310,7 +345,7 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
-    describe('of the languageMatches operator', function () {
+    describe('of the langmatches operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
         operator: 'langmatches',
