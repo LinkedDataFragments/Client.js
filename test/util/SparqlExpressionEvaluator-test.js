@@ -50,7 +50,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a sum', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'sum',
+        operator: '+',
         arguments: [
           {
             type: 'variable',
@@ -70,7 +70,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a difference', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'difference',
+        operator: '-',
         arguments: [
           {
             type: 'variable',
@@ -90,7 +90,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a product', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'product',
+        operator: '*',
         arguments: [
           {
             type: 'variable',
@@ -110,7 +110,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a quotient', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'quotient',
+        operator: '/',
         arguments: [
           {
             type: 'variable',
@@ -130,7 +130,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of an equality comparison', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'equals',
+        operator: '=',
         arguments: [
           {
             type: 'variable',
@@ -155,7 +155,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a non-equality comparison', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'notEquals',
+        operator: '!=',
         arguments: [
           {
             type: 'variable',
@@ -180,7 +180,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a less-than comparison', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'lessThan',
+        operator: '<',
         arguments: [
           {
             type: 'variable',
@@ -209,7 +209,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a less-or-equal-than comparison', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'lessThanOrEqual',
+        operator: '<=',
         arguments: [
           {
             type: 'variable',
@@ -238,7 +238,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a greater-than comparison', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'greaterThan',
+        operator: '>',
         arguments: [
           {
             type: 'variable',
@@ -267,7 +267,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of a greater-or-equal-than comparison', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'greaterThanOrEqual',
+        operator: '>=',
         arguments: [
           {
             type: 'variable',
@@ -296,7 +296,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of the getLanguage operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'getLanguage',
+        operator: 'lang',
         arguments: [
           {
             type: 'variable',
@@ -313,7 +313,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of the languageMatches operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'languageMatches',
+        operator: 'langmatches',
         arguments: [
           {
             type: 'variable',
@@ -354,11 +354,11 @@ describe('SparqlExpressionEvaluator', function () {
         (function () {
           SparqlExpressionEvaluator({
             type: 'operator',
-            operator: 'sum',
+            operator: '+',
             arguments: [1, 2, 3],
           });
         })
-        .should.throw('Invalid number of arguments for sum: 3 (expected: 2).');
+        .should.throw('Invalid number of arguments for +: 3 (expected: 2).');
       });
     });
   });
