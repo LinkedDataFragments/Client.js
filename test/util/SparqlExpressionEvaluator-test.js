@@ -293,6 +293,48 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the getLanguage operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'getLanguage',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+        ]
+      });
+
+      it('should return the lowercase language of a string', function () {
+        evaluator({ '?a': '"hello"@EN' }).should.equal('en');
+      });
+    });
+
+    describe('of the languageMatches operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'languageMatches',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?l',
+          },
+          {
+            type: 'literal',
+            value: '"EN"',
+          }
+        ]
+      });
+
+      it('should return true if the language matches', function () {
+        evaluator({ '?l': '"hello"@en' }).should.be.true;
+      });
+
+      it("should return false if the language doesn't match", function () {
+        evaluator({ '?l': '"bonjour"@fr' }).should.be.false;
+      });
+    });
+
     describe('of an unsuppported expression type', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'invalid' }); })
