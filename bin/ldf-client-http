@@ -9,6 +9,7 @@ var clientPath = path.join(__dirname, 'ldf-client');
 
 var MIME_JSON = 'application/json';
 var MIME_TURTLE = 'text/turtle';
+var MIME_PLAIN = 'text/plain';
 
 // Parse arguments
 var args = process.argv.slice(2);
@@ -30,21 +31,26 @@ function onRequest(request, response) {
   var requestUrl = url.parse(request.url, true),
       path = requestUrl.pathname,
       query = requestUrl.query.query;
-  if (path !== '/sparql' || !query)
-    return writeResponse(400, JSON.stringify({ message: 'Resource not found' }));
+  if (path !== '/sparql' || !query) {
+    response.writeHead(404, { 'Content-type': MIME_JSON });
+    response.end(JSON.stringify({ message: 'Resource not found' }));
+  }
 
   // Get the results of the query from the client
-  var result = '', type = (/^\s*SELECT/i).test(query) ? MIME_JSON : MIME_TURTLE,
-      client = spawn(process.argv[0], [clientPath, configFile, query],
-                     { stdio: ['ignore', 'pipe', 'ignore'] });
+  var client = spawn(process.argv[0], [clientPath, configFile, query],
+                     { stdio: ['ignore', 'pipe', 'pipe'] });
   client.stdout.setEncoding('utf8');
-  client.stdout.on('data', function (data) { result += data; });
-  client.on('exit', function (code) { writeResponse(code ? 500 : 200, result || '{}', type); });
+  client.stdout.once('data', function (data) {
+    if (!response.headersSent) {
+      response.writeHead(200, { 'Content-type': data[0] === '{' ? MIME_JSON : MIME_TURTLE });
+      client.stdout.pipe(response);
+    }
+  });
+  client.stderr.once('data', function (data) {
+    if (!response.headersSent) {
+      response.writeHead(400, { 'Content-type': MIME_PLAIN });
+      client.stderr.pipe(response);
+    }
+  });
   response.on('close', function () { client.kill('SIGKILL'); });
-
-  // Write a JSON response
-  function writeResponse(statusCode, body, contentType) {
-    response.writeHead(statusCode, { 'Content-type': contentType || MIME_JSON });
-    response.end(body);
-  }
 }
