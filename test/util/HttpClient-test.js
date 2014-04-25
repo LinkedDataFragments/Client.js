@@ -1,5 +1,5 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-var HttpClient = require('../../lib/http/HttpClient');
+var HttpClient = require('../../lib/util/HttpClient');
 
 var EventEmitter = require('events').EventEmitter,
     Iterator = require('../../lib/iterators/Iterator');

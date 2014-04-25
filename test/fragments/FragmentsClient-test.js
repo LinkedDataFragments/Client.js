@@ -1,5 +1,5 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-var FragmentsClient = require('../../lib/http/FragmentsClient');
+var FragmentsClient = require('../../lib/fragments/FragmentsClient');
 
 var Iterator = require('../../lib/iterators/Iterator'),
     rdf = require('../../lib/util/RdfUtil'),
