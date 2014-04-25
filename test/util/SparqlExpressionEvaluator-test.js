@@ -373,6 +373,37 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the bound operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'bound',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          }
+        ]
+      });
+
+      it('should return true if the variable is bound', function () {
+        evaluator({ '?a': 'a' }).should.be.true;
+      });
+
+      it('should return false if the variable is not bound', function () {
+        evaluator({ '?b': 'b' }).should.be.false;
+      });
+
+      it('should throw an error if the argument is not a variable', function () {
+        var evaluator = SparqlExpressionEvaluator({
+          type: 'operator',
+          operator: 'bound',
+          arguments: [ { type: 'number' } ]
+        });
+        (function () { evaluator({ '?a': 'a' }); })
+          .should.throw('BOUND expects a variable but got: number.');
+      });
+    });
+
     describe('of an unsuppported expression type', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'invalid' }); })
