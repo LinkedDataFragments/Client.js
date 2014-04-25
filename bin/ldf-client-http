@@ -35,6 +35,9 @@ function onRequest(request, response) {
     response.writeHead(404, { 'Content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Resource not found' }));
   }
+  // Security check on query (shouldn't be a file)
+  if (/^\\|^\/|\.\.\\|\.\.\//.test(query))
+    query = 'SELECT ';
 
   // Get the results of the query from the client
   var client = spawn(process.argv[0], [clientPath, configFile, query],
