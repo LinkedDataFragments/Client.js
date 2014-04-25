@@ -370,6 +370,41 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the regex operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'regex',
+        arguments: [
+          {
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'literal',
+            value: '"a+b"',
+          }
+        ]
+      });
+
+      it('should return true if the argument matches the regular expression', function () {
+        evaluator({ '?a': 'aaaaaab' }).should.be.true;
+      });
+
+      it("should return false if the argument doesn't match the regular expression", function () {
+        evaluator({ '?a': 'bbbb' }).should.be.false;
+      });
+
+      it('should throw an error if the argument is not a variable', function () {
+        var evaluator = SparqlExpressionEvaluator({
+          type: 'operator',
+          operator: 'bound',
+          arguments: [ { type: 'number' } ]
+        });
+        (function () { evaluator({ '?a': 'a' }); })
+          .should.throw('BOUND expects a variable but got: number.');
+      });
+    });
+
     describe('of the str operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
