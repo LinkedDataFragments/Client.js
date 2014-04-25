@@ -502,3 +502,47 @@ describe('SparqlExpressionEvaluator', function () {
     });
   });
 });
+
+describe('SparqlExpressionEvaluator.evaluate', function () {
+  it('should return the evaluation of an expression for the given bindings', function () {
+    SparqlExpressionEvaluator.evaluate({
+      type: 'operator',
+      operator: '+',
+      arguments: [{
+          type: 'variable',
+          value: '?a',
+        },
+        {
+          type: 'variable',
+          value: '?b',
+        }
+      ]
+    },
+    {
+      '?a': 1,
+      '?b': 2,
+    })
+    .should.equal(3);
+  });
+
+  it('should throw an error when not all bindings are present', function () {
+    (function () {
+      SparqlExpressionEvaluator.evaluate({
+        type: 'operator',
+        operator: '+',
+        arguments: [{
+            type: 'variable',
+            value: '?a',
+          },
+          {
+            type: 'variable',
+            value: '?b',
+          }
+        ]
+      },
+      {
+        '?a': 1,
+      });
+    }).should.throw('Cannot evaluate variable ?b because it is not bound.');
+  });
+});
