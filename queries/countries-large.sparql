@@ -1,0 +1,8 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT * WHERE {
+  ?country a dbpedia-owl:Country;
+           <http://dbpedia.org/ontology/PopulatedPlace/areaTotal> ?area.
+  FILTER (xsd:double(?area) > 1000000)
+}
