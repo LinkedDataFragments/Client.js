@@ -25,62 +25,37 @@ chai.use(function (chai, utils) {
   });
 });
 
-// Add stream testing methods
-chai.use(function (chai, utils) {
-  // Tests whether the object is a stream with the given items
-  utils.addMethod(chai.Assertion.prototype, 'streamOf', function (expectedItems, done) {
-    var stream = utils.flag(this, 'object'), items = [];
-    should.exist(stream);
-    stream.should.be.an.instanceof(Stream);
-
-    stream.on('error', done);
-    stream.on('data', function (item) { items.push(item); });
-    stream.on('end', function (error) {
-      try { items.should.deep.equal(expectedItems); }
-      catch (assertionError) { error = assertionError; }
-      done(error);
-    });
-  });
-
-  // Tests whether the object is a stream with the given length
-  utils.addMethod(chai.Assertion.prototype, 'streamWithLength', function (expectedLength, done) {
-    var stream = utils.flag(this, 'object'), items = [];
-    should.exist(stream);
-    stream.should.be.an.instanceof(Stream);
-
-    stream.on('error', done);
-    stream.on('data', function (item) { items.push(item); });
-    stream.on('end', function (error) {
-      try { items.should.have.length(expectedLength); }
-      catch (assertionError) { error = assertionError; }
-      done(error);
-    });
-  });
-});
-
 // Add iterator testing methods
 chai.use(function (chai, utils) {
   // Tests whether the object is a stream with the given items
   utils.addMethod(chai.Assertion.prototype, 'iteratorOf', function (expectedItems, done) {
-    var iterator = utils.flag(this, 'object');
-    should.exist(iterator);
-    iterator.should.be.an.instanceof(Iterator);
-    iterator.toArray(function (error, items) {
-      try { error || items.should.deep.equal(expectedItems); }
-      catch (assertionError) { error = assertionError; }
-      done(error);
+    getIteratorItems(utils.flag(this, 'object'), function (error, items) {
+      try { done(error) || items.should.deep.equal(expectedItems); }
+      catch (error) { done(error); }
     });
   });
 
   // Tests whether the object is a stream with the given items
   utils.addMethod(chai.Assertion.prototype, 'iteratorWithLength', function (expectedLength, done) {
-    var iterator = utils.flag(this, 'object');
-    should.exist(iterator);
-    iterator.should.be.an.instanceof(Iterator);
-    iterator.toArray(function (error, items) {
-      try { error || items.should.have.length(expectedLength); }
-      catch (assertionError) { error = assertionError; }
-      done(error);
+    getIteratorItems(utils.flag(this, 'object'), function (error, items) {
+      try { done(error) || items.should.have.length(expectedLength); }
+      catch (error) { done(error); }
     });
   });
 });
+
+// Gets the items of the given iterator, validating its characteristics
+function getIteratorItems(iterator, callback) {
+  var wasEmpty = !iterator || iterator.ended, endEmitted = 0;
+  should.exist(iterator);
+  iterator.should.be.an.instanceof(Iterator);
+  iterator.on('end', function () { endEmitted++; });
+  iterator.toArray(function (error, items) {
+    try {
+      expect(error).to.not.exist;
+      wasEmpty || endEmitted.should.equal(1);
+      callback(null, items);
+    }
+    catch (assertionError) { callback(error); }
+  });
+}
