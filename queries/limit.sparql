@@ -1,0 +1,9 @@
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT * WHERE {
+  ?artist a dbpedia-owl:Artist;
+          rdfs:label ?name.
+}
+OFFSET 10
+LIMIT 100
