@@ -25,7 +25,6 @@ describe('DistinctIterator', function () {
 
   describe('A DistinctIterator without source', function () {
     var iterator = new DistinctIterator();
-
     it('should have ended', function () {
       iterator.ended.should.be.true;
     });
@@ -33,96 +32,32 @@ describe('DistinctIterator', function () {
 
   describe('A DistinctIterator having an infinite window length', function () {
     describe('with a single item', function () {
-      var iterator = new DistinctIterator(Iterator.single(1)), endEmitted = 0;
-      iterator.on('end', function () { endEmitted++; });
-
-      it('should return the item', function () {
-        expect(iterator.read()).to.equal(1);
-      });
-
-      it('should not read more items', function () {
-        expect(iterator.read()).to.equal(null);
-      });
-
-      it('should have ended', function () {
-        iterator.ended.should.be.true;
-      });
-
-      it('should have emitted end', function () {
-        endEmitted.should.equal(1);
+      var iterator = new DistinctIterator(Iterator.single(1));
+      it('should return the item', function (done) {
+        iterator.should.be.an.iteratorOf([1], done);
       });
     });
 
     describe('with 8 items', function () {
-      var iterator = new DistinctIterator(Iterator.fromArray([2, 1, 3, 3, 1, 2, 4, 2])), endEmitted = 0;
-      iterator.on('end', function () { endEmitted++; });
-
-      it('should return the unique items', function () {
-        expect(iterator.read()).to.equal(2);
-        expect(iterator.read()).to.equal(1);
-        expect(iterator.read()).to.equal(3);
-        expect(iterator.read()).to.equal(4);
-      });
-
-      it('should not read more items', function () {
-        expect(iterator.read()).to.equal(null);
-      });
-
-      it('should have ended', function () {
-        iterator.ended.should.be.true;
-      });
-
-      it('should have emitted end', function () {
-        endEmitted.should.equal(1);
+      var iterator = new DistinctIterator(Iterator.fromArray([2, 1, 3, 3, 1, 2, 4, 2]));
+      it('should return the unique items', function (done) {
+        iterator.should.be.an.iteratorOf([2, 1, 3, 4], done);
       });
     });
   });
 
-  describe('A DistinctIterator having window length 4', function () {
+  describe('A DistinctIterator having window length 2', function () {
     describe('with a single item', function () {
-      var iterator = new DistinctIterator(Iterator.single(1), { window: 4 }), endEmitted = 0;
-      iterator.on('end', function () { endEmitted++; });
-
-      it('should return the item', function () {
-        expect(iterator.read()).to.equal(1);
-      });
-
-      it('should not read more items', function () {
-        expect(iterator.read()).to.equal(null);
-      });
-
-      it('should have ended', function () {
-        iterator.ended.should.be.true;
-      });
-
-      it('should have emitted end', function () {
-        endEmitted.should.equal(1);
+      var iterator = new DistinctIterator(Iterator.single(1), { window: 2 });
+      it('should return the item', function (done) {
+        iterator.should.be.an.iteratorOf([1], done);
       });
     });
 
     describe('with 8 items', function () {
-      var iterator = new DistinctIterator(Iterator.fromArray([2, 1, 3, 3, 1, 2, 4, 2]), { window: 4 }),
-          endEmitted = 0;
-      iterator.on('end', function () { endEmitted++; });
-
-      it('should return the sorted items', function () {
-        expect(iterator.read()).to.equal(2);
-        expect(iterator.read()).to.equal(1);
-        expect(iterator.read()).to.equal(3);
-        expect(iterator.read()).to.equal(2);
-        expect(iterator.read()).to.equal(4);
-      });
-
-      it('should not read more items', function () {
-        expect(iterator.read()).to.equal(null);
-      });
-
-      it('should have ended', function () {
-        iterator.ended.should.be.true;
-      });
-
-      it('should have emitted end', function () {
-        endEmitted.should.equal(1);
+      var iterator = new DistinctIterator(Iterator.fromArray([2, 1, 3, 3, 1, 2, 4, 2]), { window: 2 });
+      it('should return the sorted items', function (done) {
+        iterator.should.be.an.iteratorOf([2, 1, 3, 2, 4], done);
       });
     });
   });
