@@ -41,6 +41,13 @@ describe('HttpClient', function () {
         response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
+      it('should set the status code', function (done) {
+        response.getProperty('statusCode', function (statusCode) {
+          statusCode.should.equal(200);
+          done();
+        });
+      });
+
       it('should set the content type', function (done) {
         response.getProperty('contentType', function (contentType) {
           contentType.should.equal('text/html');
@@ -72,6 +79,13 @@ describe('HttpClient', function () {
         response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
+      it('should set the status code', function (done) {
+        response.getProperty('statusCode', function (statusCode) {
+          statusCode.should.equal(200);
+          done();
+        });
+      });
+
       it('should set the content type', function (done) {
         response.getProperty('contentType', function (contentType) {
           contentType.should.equal('text/turtle');
@@ -85,6 +99,7 @@ describe('HttpClient', function () {
 // Creates a dummy HTTP response
 function createResponse(contents, contentType) {
   var response = Iterator.fromArray(contents);
+  response.statusCode = 200;
   response.headers = { 'content-type': contentType };
   return response;
 }
