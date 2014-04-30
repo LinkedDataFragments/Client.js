@@ -39,22 +39,30 @@ describe('FragmentsClient', function () {
     }
 
     describe('when asked for ?s ?o dbpedia:York', function () {
-      var pattern = rdf.triple('?s', '?o', rdf.DBPEDIA + 'York');
+      var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
 
       describe('and receiving a Turtle response', function () {
         var fragment = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl'));
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern);
+        fragment.setProperty('statusCode',  200);
         fragment.setProperty('contentType', 'text/turtle');
 
         it('should GET the corresponding fragment', function () {
           httpClient.get.should.have.been.calledOnce;
-          httpClient.get.should.have.been.calledWith('http://data.linkeddatafragments.org/dbpedia?subject=&predicate=&object=http%3A%2F%2Fdbpedia.org%2Fresource%2FYork');
+          httpClient.get.should.have.been.calledWith('http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
         });
 
         it('should stream the triples in the fragment', function (done) {
           result.should.be.a.iteratorWithLength(39, done);
+        });
+
+        it('should emit the fragment metadata', function (done) {
+          result.getProperty('metadata', function (metadata) {
+            metadata.should.deep.equal({ totalTriples: 169 });
+            done();
+          });
         });
       });
 
@@ -64,6 +72,7 @@ describe('FragmentsClient', function () {
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern), resultError;
         result.on('error', function (error) { resultError = error; });
+        fragment.setProperty('statusCode',  200);
         fragment.setProperty('contentType', 'application/javascript');
 
         it('should emit an error', function () {
@@ -81,8 +90,11 @@ describe('FragmentsClient', function () {
         var page2 = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl'));
         var page3 = Iterator.empty();
         // Set content types
+        page1.setProperty('statusCode',  200);
         page1.setProperty('contentType', 'text/turtle');
+        page2.setProperty('statusCode',  200);
         page2.setProperty('contentType', 'text/turtle');
+        page3.setProperty('statusCode',  200);
         page3.setProperty('contentType', 'text/turtle');
         // Stub HTTP client so it returns the pages
         var httpClient = { get: sinon.stub() };
@@ -105,6 +117,42 @@ describe('FragmentsClient', function () {
 
         it('should stream the triples in all pages of the fragment', function (done) {
           result.should.be.a.iteratorWithLength(87, done);
+        });
+
+        it('should emit the fragment metadata', function (done) {
+          result.getProperty('metadata', function (metadata) {
+            metadata.should.deep.equal({ totalTriples: 61073 });
+            done();
+          });
+        });
+      });
+    });
+
+    describe('when asked for a non-existing fragment', function () {
+      var pattern = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIA + 'UnknownArtist');
+
+      describe('and receiving a 404 response', function () {
+        var fragment = Iterator.empty();
+        var httpClient = createHttpClient(fragment);
+        var client = createClient(httpClient);
+        var result = client.getFragmentByPattern(pattern);
+        fragment.setProperty('statusCode',  404);
+        fragment.setProperty('contentType', 'text/turtle');
+
+        it('should GET the corresponding fragment', function () {
+          httpClient.get.should.have.been.calledOnce;
+          httpClient.get.should.have.been.calledWith('http://data.linkeddatafragments.org/dbpedia?subject=&predicate=http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type&object=http%3A%2F%2Fdbpedia.org%2Fresource%2FUnknownArtist');
+        });
+
+        it('should not return any triples', function (done) {
+          result.should.be.a.iteratorWithLength(0, done);
+        });
+
+        it('should emit the fragment metadata', function (done) {
+          result.getProperty('metadata', function (metadata) {
+            metadata.should.deep.equal({ totalTriples: 0 });
+            done();
+          });
         });
       });
     });

@@ -20,6 +20,7 @@ function request(settings) {
   .done(function () {
     var response = new Readable();
     response._read = function () { };
+    response.statusCode = jqXHR.status;
     response.headers = { 'content-type': jqXHR.getResponseHeader('content-type') };
     response.push(jqXHR.responseText || '');
     response.push(null);
