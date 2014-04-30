@@ -19,6 +19,7 @@
     "sparql-parser": "~0.1.4",
     "uritemplate": "0.3.x",
     "lodash": "~2.4.1",
+    "lru-cache": "~2.5.0",
     "setimmediate": "~1.0.1"
   },
   "devDependencies": {
