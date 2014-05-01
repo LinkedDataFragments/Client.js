@@ -156,5 +156,49 @@ describe('FragmentsClient', function () {
         });
       });
     });
+
+    describe('when asked for a fragment with a literal as subject', function () {
+      var pattern = rdf.triple('"a"', 'b', 'c');
+      var httpClient = createHttpClient();
+      var client = createClient(httpClient);
+      var result = client.getFragmentByPattern(pattern);
+
+      it('should not GET the corresponding fragment', function () {
+        httpClient.get.should.not.have.been.called;
+      });
+
+      it('should not return any triples', function (done) {
+        result.should.be.a.iteratorWithLength(0, done);
+      });
+
+      it('should emit the fragment metadata', function (done) {
+        result.getProperty('metadata', function (metadata) {
+          metadata.should.deep.equal({ totalTriples: 0 });
+          done();
+        });
+      });
+    });
+
+    describe('when asked for a fragment with a literal as predicate', function () {
+      var pattern = rdf.triple('a', '"b"', 'c');
+      var httpClient = createHttpClient();
+      var client = createClient(httpClient);
+      var result = client.getFragmentByPattern(pattern);
+
+      it('should not GET the corresponding fragment', function () {
+        httpClient.get.should.not.have.been.called;
+      });
+
+      it('should not return any triples', function (done) {
+        result.should.be.a.iteratorWithLength(0, done);
+      });
+
+      it('should emit the fragment metadata', function (done) {
+        result.getProperty('metadata', function (metadata) {
+          metadata.should.deep.equal({ totalTriples: 0 });
+          done();
+        });
+      });
+    });
   });
 });
