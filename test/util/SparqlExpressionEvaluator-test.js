@@ -442,11 +442,11 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return true if the language matches', function () {
-        evaluator({ '?l': '"hello"@en' }).should.be.true;
+        evaluator({ '?l': '"en"' }).should.be.true;
       });
 
       it("should return false if the language doesn't match", function () {
-        evaluator({ '?l': '"bonjour"@fr' }).should.be.false;
+        evaluator({ '?l': '"fr"' }).should.be.false;
       });
     });
 
