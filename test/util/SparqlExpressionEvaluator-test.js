@@ -296,7 +296,7 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of the not operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operator',
-        operator: 'not',
+        operator: '!',
         arguments: [
           {
             type: 'operator',
@@ -320,7 +320,7 @@ describe('SparqlExpressionEvaluator', function () {
       it('should throw an error if the argument is not a boolean', function () {
         var evaluator = SparqlExpressionEvaluator({
           type: 'operator',
-          operator: 'not',
+          operator: '!',
           arguments: [ { type: 'number', value: 3 } ]
         });
         (function () { evaluator({ '?a': 'a' }); })
