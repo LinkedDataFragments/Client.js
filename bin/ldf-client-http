@@ -42,18 +42,26 @@ function onRequest(request, response) {
   // Get the results of the query from the client
   var client = spawn(process.argv[0], [clientPath, configFile, query],
                      { stdio: ['ignore', 'pipe', 'pipe'] });
+
+  // Write a successful data response
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
       response.writeHead(200, { 'Content-type': data[0] === '{' ? MIME_JSON : MIME_TURTLE });
+      response.write(data);
       client.stdout.pipe(response);
     }
   });
+  // Write an error response
+  client.stderr.setEncoding('utf8');
   client.stderr.once('data', function (data) {
     if (!response.headersSent) {
       response.writeHead(400, { 'Content-type': MIME_PLAIN });
+      response.write(data);
       client.stderr.pipe(response);
     }
   });
+
+  // Stop the client if the connection is terminated
   response.on('close', function () { client.kill('SIGKILL'); });
 }
