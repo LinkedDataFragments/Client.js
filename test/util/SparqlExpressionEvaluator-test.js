@@ -324,7 +324,87 @@ describe('SparqlExpressionEvaluator', function () {
           arguments: [ { type: 'number', value: 3 } ]
         });
         (function () { evaluator({ '?a': 'a' }); })
-          .should.throw('NOT needs a boolean argument but got: 3.');
+          .should.throw('! needs a boolean but got: 3.');
+      });
+    });
+
+    describe('of the and operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'and',
+        arguments: [
+          { type: 'variable', value: '?a' },
+          { type: 'variable', value: '?b' },
+        ]
+      });
+
+      it('should return false with arguments false, false', function () {
+        evaluator({ '?a': false, '?b': false }).should.be.false;
+      });
+
+
+      it('should return false with arguments true, false', function () {
+        evaluator({ '?a': true,  '?b': false }).should.be.false;
+      });
+
+
+      it('should return false with arguments false, true', function () {
+        evaluator({ '?a': false, '?b': true  }).should.be.false;
+      });
+
+
+      it('should return true with arguments true, true', function () {
+        evaluator({ '?a': true,  '?b': true  }).should.be.true;
+      });
+
+      it('should throw an error if the first argument is not a boolean', function () {
+        (function () { evaluator({ '?a': 'a', '?b': false }); })
+          .should.throw('and needs a boolean but got: a.');
+      });
+
+      it('should throw an error if the second argument is not a boolean', function () {
+        (function () { evaluator({ '?a': true, '?b': 'b' }); })
+          .should.throw('and needs a boolean but got: b.');
+      });
+    });
+
+    describe('of the or operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operator',
+        operator: 'or',
+        arguments: [
+          { type: 'variable', value: '?a' },
+          { type: 'variable', value: '?b' },
+        ]
+      });
+
+      it('should return false with arguments false, false', function () {
+        evaluator({ '?a': false, '?b': false }).should.be.false;
+      });
+
+
+      it('should return true with arguments true, false', function () {
+        evaluator({ '?a': true,  '?b': false }).should.be.true;
+      });
+
+
+      it('should return true with arguments false, true', function () {
+        evaluator({ '?a': false, '?b': true  }).should.be.true;
+      });
+
+
+      it('should return true with arguments true, true', function () {
+        evaluator({ '?a': true,  '?b': true  }).should.be.true;
+      });
+
+      it('should throw an error if the first argument is not a boolean', function () {
+        (function () { evaluator({ '?a': 'a', '?b': false }); })
+          .should.throw('or needs a boolean but got: a.');
+      });
+
+      it('should throw an error if the second argument is not a boolean', function () {
+        (function () { evaluator({ '?a': true, '?b': 'b' }); })
+          .should.throw('or needs a boolean but got: b.');
       });
     });
 
