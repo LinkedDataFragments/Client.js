@@ -421,7 +421,7 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return the lowercase language of a string', function () {
-        evaluator({ '?a': '"hello"@EN' }).should.equal('en');
+        evaluator({ '?a': '"hello"@EN' }).should.equal('"en"');
       });
     });
 
