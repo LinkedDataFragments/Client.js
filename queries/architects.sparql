@@ -1,0 +1,9 @@
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+
+SELECT ?person ?city WHERE {
+  ?person a dbpedia-owl:Architect.
+  ?person dbpprop:birthPlace ?city.
+  ?city dc:subject [ rdfs:label "Capitals in Europe"@en ].
+}
