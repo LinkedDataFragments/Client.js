@@ -26,7 +26,7 @@ var hasConfig = args.length >= 2,
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
     isQuery = queryMatcher.test(queryFile),
     query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
-config.fragmentsClient = new FragmentsClient(config.datasource, config);
+config.fragmentsClient = new FragmentsClient(config.startFragment, config);
 
 // Execute the query and output its results
 try {

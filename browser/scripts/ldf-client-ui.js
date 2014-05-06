@@ -33,7 +33,7 @@ var LinkedDataFragmentsClientUI = (function ($) {
 
       // Create the iterator to solve the query
       config.logger = logger;
-      config.fragmentsClient = new FragmentsClient(config.datasource, config);
+      config.fragmentsClient = new FragmentsClient(config.startFragment, config);
       var sparqlIterator = new SparqlIterator($query.val(), config);
       switch (sparqlIterator.parsedQuery.type) {
         // Write a JSON array representation of the rows
