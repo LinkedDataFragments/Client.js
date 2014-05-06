@@ -1,11 +1,18 @@
 {
   "name": "ldf-client",
   "description": "Linked Data Fragments Client",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "ldf-client.js",
   "bin": {
     "ldf-client": "./bin/ldf-client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:LinkedDataFragments/Client.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LinkedDataFragments/Client.js/issues"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
@@ -19,12 +26,12 @@
     "sparql-parser": "~0.1.4",
     "uritemplate": "0.3.x",
     "lodash": "~2.4.1",
-    "lru-cache": "~2.5.0",
-    "setimmediate": "~1.0.1"
+    "lru-cache": "~2.5.0"
   },
   "devDependencies": {
     "jshint": ">=2.1.10",
     "browserify": ">=3.32.0",
+    "setimmediate": "~1.0.1",
     "mocha": ">=1.17.1",
     "sinon": "~1.9.0",
     "chai": "~1.9.0",
