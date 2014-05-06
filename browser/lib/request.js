@@ -6,6 +6,9 @@ var EventEmitter = require('events').EventEmitter,
 
 require('setimmediate');
 
+// Indicate whether the browser caches HEAD requests
+var canCacheHEAD = false;
+
 // Requests the given resource as a stream
 function request(settings) {
   var request = new EventEmitter();
@@ -14,10 +17,19 @@ function request(settings) {
   var jqXHR = jQuery.ajax({
     url: settings.url,
     timeout: settings.timeout,
-    type: settings.method || 'GET',
+    type: canCacheHEAD && settings.method || 'GET',
     headers: { accept: 'text/turtle' },
   })
-  .done(function () {
+  // Don't consider Not Found or Gone responses failures
+  .fail(function (jqXHR, textStatus, error) {
+    if (jqXHR.status !== 404 && jqXHR.status !== 410) {
+      jqXHR.failure = error;
+      request.emit('error', error);
+    }
+  })
+  // Emit the result as a readable response stream
+  .always(function () {
+    if (jqXHR.failure) return;
     var response = new Readable();
     response._read = function () { };
     response.statusCode = jqXHR.status;
@@ -26,9 +38,6 @@ function request(settings) {
     response.push(null);
     request.emit('response', response);
   })
-  .fail(function (jqXHR, textStatus, error) {
-    request.emit('error', error);
-  });
 
   return request;
 }
