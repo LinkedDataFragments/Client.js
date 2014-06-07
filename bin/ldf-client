@@ -11,9 +11,9 @@ if (args.length < 1 || args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
 var fs = require('fs'),
     path = require('path'),
     N3 = require('n3'),
-    SparqlIterator = require('../lib/iterators/SparqlIterator'),
-    FragmentsClient = require('../lib/fragments/FragmentsClient'),
-    Logger = require('../lib/util/Logger');
+    SparqlIterator = require('../ldf-client').SparqlIterator,
+    FragmentsClient = require('../ldf-client').FragmentsClient,
+    Logger = require('../ldf-client').Logger;
 
 var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
 
