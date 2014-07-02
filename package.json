@@ -15,6 +15,7 @@
     "url": "https://github.com/LinkedDataFragments/Client.js/issues"
   },
   "scripts": {
+    "docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json README.md lib",
     "test": "./node_modules/mocha/bin/mocha",
     "browser": "./node_modules/browserify/bin/cmd.js -r ./ldf-client:ldf-client -r n3 > browser/scripts/ldf-client.js",
     "hint": "./node_modules/jshint/bin/jshint lib test"
@@ -29,6 +30,7 @@
     "lru-cache": "~2.5.0"
   },
   "devDependencies": {
+    "jsdoc": "~3.3.0",
     "jshint": ">=2.1.10",
     "browserify": ">=3.32.0",
     "setimmediate": "~1.0.1",
