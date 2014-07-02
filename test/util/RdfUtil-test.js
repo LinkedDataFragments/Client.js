@@ -334,7 +334,7 @@ describe('RdfUtil', function () {
       var oldBindings = { '?x': 'x' };
       it('should throw an error', function () {
         (function () { RdfUtil.addBinding(oldBindings, '?a', '_:b'); })
-        .should.throw('Right-hand side may not be variable.');
+        .should.throw('Right-hand side must not be variable.');
       });
       it('should not modify existing bindings', function () {
         expect(oldBindings).to.deep.equal({ '?x': 'x' });
@@ -345,7 +345,7 @@ describe('RdfUtil', function () {
       var oldBindings = { '?x': 'x' };
       it('should throw an error', function () {
         (function () { RdfUtil.addBinding(oldBindings, '?a', '_:b'); })
-        .should.throw('Right-hand side may not be variable.');
+        .should.throw('Right-hand side must not be variable.');
       });
       it('should not modify existing bindings', function () {
         expect(oldBindings).to.deep.equal({ '?x': 'x' });
@@ -378,7 +378,7 @@ describe('RdfUtil', function () {
       var oldBindings = { '?x': 'x', '?a': 'a' };
       it('should throw an error', function () {
         (function () { RdfUtil.addBinding(oldBindings, '?a', '_:b'); })
-        .should.throw('Right-hand side may not be variable.');
+        .should.throw('Right-hand side must not be variable.');
       });
       it('should not modify existing bindings', function () {
         expect(oldBindings).to.deep.equal({ '?x': 'x', '?a': 'a' });
@@ -389,7 +389,7 @@ describe('RdfUtil', function () {
       var oldBindings = { '?x': 'x', '?a': 'a' };
       it('should throw an error', function () {
         (function () { RdfUtil.addBinding(oldBindings, '?a', '_:b'); })
-        .should.throw('Right-hand side may not be variable.');
+        .should.throw('Right-hand side must not be variable.');
       });
       it('should not modify existing bindings', function () {
         expect(oldBindings).to.deep.equal({ '?x': 'x', '?a': 'a' });
@@ -422,7 +422,7 @@ describe('RdfUtil', function () {
       var oldBindings = { '?x': 'x', '?a': 'a' };
       it('should throw an error', function () {
         (function () { RdfUtil.addBinding(oldBindings, '?a', '_:b'); })
-        .should.throw('Right-hand side may not be variable.');
+        .should.throw('Right-hand side must not be variable.');
       });
       it('should not modify existing bindings', function () {
         expect(oldBindings).to.deep.equal({ '?x': 'x', '?a': 'a' });
@@ -433,7 +433,7 @@ describe('RdfUtil', function () {
       var oldBindings = { '?x': 'x', '?a': 'a' };
       it('should throw an error', function () {
         (function () { RdfUtil.addBinding(oldBindings, '?a', '_:b'); })
-        .should.throw('Right-hand side may not be variable.');
+        .should.throw('Right-hand side must not be variable.');
       });
       it('should not modify existing bindings', function () {
         expect(oldBindings).to.deep.equal({ '?x': 'x', '?a': 'a' });
