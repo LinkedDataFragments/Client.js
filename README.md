@@ -10,11 +10,11 @@ is that they are either so powerful that their servers suffer from low availabil
 ([as is the case with SPARQL](http://sw.deri.org/~aidanh/docs/epmonitorISWC.pdf)),
 or either don't allow efficient querying.
 
-Instead, this client solves queries by accessing **basic Linked Data Fragments**.
+Instead, this client solves queries by accessing **Triple Pattern Fragments**.
 <br>
-Each basic Linked Data Fragment offers:
+Each Triple Pattern Fragment offers:
 
-- **data** that corresponds to a _basic triple pattern_
+- **data** that corresponds to a _triple pattern_
   _([example](http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3ARestaurant))_.
 - **metadata** that consists of the (approximate) total triple count
   _([example](http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=))_.
