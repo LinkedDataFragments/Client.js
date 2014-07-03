@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var GraphPatternIterator = require('../../lib/triple-pattern-fragments/GraphPatternIterator');
+var ReorderingGraphPatternIterator = require('../../lib/triple-pattern-fragments/ReorderingGraphPatternIterator');
 
 var Iterator = require('../../lib/iterators/Iterator'),
     EmptyIterator = Iterator.EmptyIterator,
@@ -33,39 +33,39 @@ testClient._metadata = {
   '$-name-york':    { totalTriples: 10 },
 };
 
-describe('GraphPatternIterator', function () {
-  describe('The GraphPatternIterator module', function () {
+describe('ReorderingGraphPatternIterator', function () {
+  describe('The ReorderingGraphPatternIterator module', function () {
     it('should be a function', function () {
-      GraphPatternIterator.should.be.a('function');
+      ReorderingGraphPatternIterator.should.be.a('function');
     });
 
-    it('should make GraphPatternIterator objects', function () {
-      GraphPatternIterator(null, yorkQuery).should.be.an.instanceof(GraphPatternIterator);
+    it('should make ReorderingGraphPatternIterator objects', function () {
+      ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(ReorderingGraphPatternIterator);
     });
 
-    it('should be a GraphPatternIterator constructor', function () {
-      new GraphPatternIterator(null, yorkQuery).should.be.an.instanceof(GraphPatternIterator);
+    it('should be a ReorderingGraphPatternIterator constructor', function () {
+      new ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(ReorderingGraphPatternIterator);
     });
 
     it('should make Iterator objects', function () {
-      GraphPatternIterator(null, yorkQuery).should.be.an.instanceof(Iterator);
+      ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(Iterator);
     });
 
     it('should be an Iterator constructor', function () {
-      new GraphPatternIterator(null, yorkQuery).should.be.an.instanceof(Iterator);
+      new ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(Iterator);
     });
   });
 
-  describe('A GraphPatternIterator created with the empty graph', function () {
-    var iterator = new GraphPatternIterator(null, []);
+  describe('A ReorderingGraphPatternIterator created with the empty graph', function () {
+    var iterator = new ReorderingGraphPatternIterator(null, []);
     it('should be a pass-through iterator', function () {
       iterator.should.be.an.instanceof(Iterator.PassthroughIterator);
     });
   });
 
-  describe('A GraphPatternIterator created with a single-element graph', function () {
+  describe('A ReorderingGraphPatternIterator created with a single-element graph', function () {
     var triple = rdf.triple('?a', 'b', 'c'),
-        iterator = new GraphPatternIterator(null, [triple]);
+        iterator = new ReorderingGraphPatternIterator(null, [triple]);
     it('should be a triple pattern iterator', function () {
       iterator.should.be.an.instanceof(TriplePatternIterator);
     });
@@ -74,11 +74,11 @@ describe('GraphPatternIterator', function () {
     });
   });
 
-  describe('A GraphPatternIterator with an empty parent', function () {
+  describe('A ReorderingGraphPatternIterator with an empty parent', function () {
     function createSource() { return Iterator.empty(); }
 
-    describe('passed a GraphPatternIterator for the York query', function () {
-      var iterator = new GraphPatternIterator(createSource(),
+    describe('passed a ReorderingGraphPatternIterator for the York query', function () {
+      var iterator = new ReorderingGraphPatternIterator(createSource(),
         yorkQuery, { fragmentsClient: testClient });
       it('should return no bindings', function (done) {
         var expectedBindings = [];
@@ -87,11 +87,11 @@ describe('GraphPatternIterator', function () {
     });
   });
 
-  describe('A GraphPatternIterator passed a single non-overlapping bindings object', function () {
+  describe('A ReorderingGraphPatternIterator passed a single non-overlapping bindings object', function () {
     function createSource() { return Iterator.single({ '?a': 'a' }); }
 
-    describe('passed a GraphPatternIterator for the York query', function () {
-      var iterator = new GraphPatternIterator(createSource(),
+    describe('passed a ReorderingGraphPatternIterator for the York query', function () {
+      var iterator = new ReorderingGraphPatternIterator(createSource(),
         yorkQuery, { fragmentsClient: testClient });
       it('should be an iterator of ?a/?p/?o bindings', function (done) {
         var yorkBindings = testClient.getBindingsByPattern(patterns.p_birthplace_york)
@@ -111,8 +111,8 @@ describe('GraphPatternIterator', function () {
   describe('when passed a single overlapping bindings object', function () {
     function createSource() { return Iterator.single({ '?a': 'a', '?c': rdf.DBPEDIA + 'York' }); }
 
-    describe('a GraphPatternIterator for the York query', function () {
-      var iterator = new GraphPatternIterator(createSource(),
+    describe('a ReorderingGraphPatternIterator for the York query', function () {
+      var iterator = new ReorderingGraphPatternIterator(createSource(),
         yorkQuery, { fragmentsClient: testClient });
       it('should be an iterator of matching ?a/?p/?o bindings', function (done) {
         var yorkBindings = testClient.getBindingsByPattern(patterns.p_birthplace_york)
