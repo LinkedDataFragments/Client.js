@@ -3,6 +3,6 @@
 
 module.exports = {
   SparqlIterator: require('./lib/iterators/SparqlIterator.js'),
-  FragmentsClient: require('./lib/fragments/FragmentsClient'),
+  FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
   Logger: require('./lib/util/Logger'),
 };

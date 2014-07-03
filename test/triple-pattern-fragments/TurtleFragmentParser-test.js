@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var TurtleFragmentParser = require('../../lib/fragments/TurtleFragmentParser');
+var TurtleFragmentParser = require('../../lib/triple-pattern-fragments/TurtleFragmentParser');
 var Iterator = require('../../lib/iterators/Iterator'),
     fs = require('fs');
 
