@@ -2,7 +2,7 @@
 /** Main ldf-client module exports. */
 
 module.exports = {
-  SparqlIterator: require('./lib/iterators/SparqlIterator.js'),
+  SparqlIterator: require('./lib/triple-pattern-fragments/SparqlIterator.js'),
   FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
   Logger: require('./lib/util/Logger'),
 };

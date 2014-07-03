@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator');
+var TriplePatternIterator = require('../../lib/triple-pattern-fragments/TriplePatternIterator');
 
 var Iterator = require('../../lib/iterators/Iterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),

@@ -1,11 +1,11 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var GraphPatternIterator = require('../../lib/iterators/GraphPatternIterator');
+var GraphPatternIterator = require('../../lib/triple-pattern-fragments/GraphPatternIterator');
 
 var Iterator = require('../../lib/iterators/Iterator'),
     EmptyIterator = Iterator.EmptyIterator,
     SingleIterator = Iterator.SingleIterator,
-    TriplePatternIterator = require('../../lib/iterators/TriplePatternIterator'),
+    TriplePatternIterator = require('../../lib/triple-pattern-fragments/TriplePatternIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/util/RdfUtil');
 
