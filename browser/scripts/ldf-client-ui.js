@@ -69,7 +69,7 @@ var LinkedDataFragmentsClientUI = (function ($) {
         var item = arguments[i];
         if (typeof item !== 'string')
           item = JSON.stringify(item, null, '  ');
-        $results.append(item);
+        $results.append(document.createTextNode(item));
       }
       $results.scrollTop(1E10);
     };
@@ -78,7 +78,7 @@ var LinkedDataFragmentsClientUI = (function ($) {
     logger._print = function (items) {
       $('.ldf-client .log').each(function () {
         var $log = $(this);
-        $log.text($log.text() + items.join(' ').trim() + '\n');
+        $log.append(document.createTextNode(items.join(' ').trim() + '\n'));
         $log.scrollTop(1E10);
       });
     };
