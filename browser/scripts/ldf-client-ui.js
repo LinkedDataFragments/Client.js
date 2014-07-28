@@ -39,18 +39,18 @@ var LinkedDataFragmentsClientUI = (function ($) {
         // Write a JSON array representation of the rows
         case 'SELECT':
           var resultsCount = 0;
-          addToResults('[');
+          appendText($results, '[');
           sparqlIterator.on('data', function (row) {
-            addToResults(resultsCount++ ? ',\n' : '\n', row);
+            appendText($results, resultsCount++ ? ',\n' : '\n', row);
           });
           sparqlIterator.on('end', function () {
-            addToResults(resultsCount ? '\n]' : ']');
+            appendText($results, resultsCount ? '\n]' : ']');
           });
         break;
         // Write an RDF representation of all results
         case 'CONSTRUCT':
           var writer = new N3.Writer({ write: function (chunk, encoding, done) {
-            addToResults(chunk), done && done();
+            appendText($results, chunk), done && done();
           }}, config.prefixes);
           sparqlIterator.on('data', function (triple) { writer.addTriple(triple); })
                         .on('end',  function () { writer.end(); });
@@ -63,25 +63,19 @@ var LinkedDataFragmentsClientUI = (function ($) {
       sparqlIterator.read();
     });
 
-    // Add text to the results
-    function addToResults() {
-      for (var i = 0, l = arguments.length; i < l; i++) {
+    // Appends text to the given element
+    function appendText($element) {
+      for (var i = 1, l = arguments.length; i < l; i++) {
         var item = arguments[i];
         if (typeof item !== 'string')
           item = JSON.stringify(item, null, '  ');
-        $results.append(document.createTextNode(item));
+        $element.append(document.createTextNode(item));
       }
-      $results.scrollTop(1E10);
+      $element.scrollTop(1E10);
     };
 
-    // Add a line to the log
-    logger._print = function (items) {
-      $('.ldf-client .log').each(function () {
-        var $log = $(this);
-        $log.append(document.createTextNode(items.join(' ').trim() + '\n'));
-        $log.scrollTop(1E10);
-      });
-    };
+    // Add log lines to the log element
+    logger._print = function (items) { appendText($log, items.join(' ').trim() + '\n'); }
   };
 
   return LinkedDataFragmentsClientUI;
