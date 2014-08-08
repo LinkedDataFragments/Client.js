@@ -2,11 +2,11 @@
 /** Browser replacement for the request module. */
 
 var EventEmitter = require('events').EventEmitter,
-    Readable = require('stream').Readable;
+    SingleIterator = require('../../lib/iterators/Iterator').SingleIterator;
 
 require('setimmediate');
 
-// Requests the given resource as a stream
+// Requests the given resource as an iterator
 function request(settings) {
   var request = new EventEmitter();
 
@@ -17,15 +17,12 @@ function request(settings) {
     type: settings.method,
     headers: { accept: 'text/turtle' },
   })
-  // Emit the result as a readable response stream
+  // Emit the result as a readable response iterator
   .always(function () {
     if (jqXHR.failure) return;
-    var response = new Readable();
-    response._read = function () { };
+    var response = new SingleIterator(jqXHR.responseText || '');
     response.statusCode = jqXHR.status;
     response.headers = { 'content-type': jqXHR.getResponseHeader('content-type') };
-    response.push(jqXHR.responseText || '');
-    response.push(null);
     request.emit('response', response);
   })
 

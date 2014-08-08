@@ -17,7 +17,7 @@
   "scripts": {
     "docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json README.md lib",
     "test": "./node_modules/mocha/bin/mocha",
-    "browser": "./node_modules/browserify/bin/cmd.js -r ./ldf-client:ldf-client -r n3 > browser/scripts/ldf-client.js",
+    "browser": "./node_modules/browserify/bin/cmd.js -r ./ldf-client:ldf-client -r n3 -u stream > browser/scripts/ldf-client.js",
     "hint": "./node_modules/jshint/bin/jshint lib test"
   },
   "dependencies": {
@@ -32,7 +32,7 @@
   "devDependencies": {
     "jsdoc": "~3.3.0",
     "jshint": ">=2.1.10",
-    "browserify": ">=3.32.0",
+    "browserify": ">=5.9.0",
     "setimmediate": "~1.0.1",
     "mocha": ">=1.17.1",
     "sinon": "~1.9.0",
