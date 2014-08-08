@@ -17,13 +17,13 @@
   "scripts": {
     "docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json README.md lib",
     "test": "./node_modules/mocha/bin/mocha",
-    "browser": "./node_modules/browserify/bin/cmd.js -r ./ldf-client:ldf-client -r n3 -u stream > browser/scripts/ldf-client.js",
     "hint": "./node_modules/jshint/bin/jshint lib test"
   },
   "dependencies": {
     "jsdom": "0.8.8",
     "request": "2.27.x",
     "n3": ">=0.1.7",
+    "setimmediate": "~1.0.1",
     "sparql-parser": "~0.1.4",
     "uritemplate": "0.3.x",
     "lodash": "~2.4.1",
@@ -32,8 +32,6 @@
   "devDependencies": {
     "jsdoc": "~3.3.0",
     "jshint": ">=2.1.10",
-    "browserify": ">=5.9.0",
-    "setimmediate": "~1.0.1",
     "mocha": ">=1.17.1",
     "sinon": "~1.9.0",
     "chai": "~1.9.0",
@@ -45,7 +43,8 @@
     "test"
   ],
   "browser": {
-    "request": "./browser/lib/request.js",
+    "request": "./lib/util/request-browser.js",
+    "stream": false,
     "zlib": false
   }
 }
