@@ -30,7 +30,7 @@ To install, execute:
 $ [sudo] npm install -g ldf-client
 ```
 
-## Usage
+## Launching queries through the standalone application
 
 You can execute SPARQL queries as follows:
 ```bash
@@ -45,11 +45,23 @@ but you can specify your own by creating your own `config.json` based on `config
 $ ldf-client config.json query.sparql
 ```
 
-### Browser version
+## Using the library
 
+First, set up a client that will fetch fragments from a certain source.
+<br>
+You can then use this client to evaluate SPARQL queries.
 
+```JavaScript
+var ldf = require('ldf-client');
+
+var fragmentsClient = new ldf.FragmentsClient('http://data.linkeddatafragments.org/dbpedia');
+
+var query = 'SELECT * { ?s ?p <http://dbpedia.org/resource/Belgium>. } LIMIT 100'
+var results = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
+results.on('data', console.log);
 ```
 
+### Browser version
 
 The client can also run in Web browsers via [browserify](https://github.com/substack/node-browserify).
 [Live demo.](http://client.linkeddatafragments.org/)
