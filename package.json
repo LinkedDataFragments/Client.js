@@ -22,7 +22,7 @@
   "dependencies": {
     "jsdom": "0.8.8",
     "request": "2.27.x",
-    "n3": ">=0.1.7",
+    "n3": "~0.3.0",
     "setimmediate": "~1.0.1",
     "sparql-parser": "~0.1.4",
     "uritemplate": "0.3.x",
