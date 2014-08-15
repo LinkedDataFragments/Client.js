@@ -30,6 +30,13 @@ To install, execute:
 $ [sudo] npm install -g ldf-client
 ```
 
+To install from git, execute:
+```bash
+$ git clone git@github.com:LinkedDataFragments/Client.js
+$ cd Client.js
+$ npm install .
+```
+
 ## Launching queries through the standalone application
 
 You can execute SPARQL queries as follows:
@@ -39,10 +46,16 @@ $ ldf-client query.sparql
 Here, `query.sparql` contains your query;
 alternatively, you can pass the query as a string.
 
+When installed from git, you can run:
+```bash
+$ ./bin/ldf-client queries/artists-york.sparql
+```
+The `queries` folder contains several example queries.
+
 By default, the LDF server [data.linkeddatafragments.org](http://data.linkeddatafragments.org/) is used,
 but you can specify your own by creating your own `config.json` based on `config-default.json`:
 ```bash
-$ ldf-client config.json query.sparql
+$ [./bin/]ldf-client config.json query.sparql
 ```
 
 ## Using the library
