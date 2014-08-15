@@ -26,8 +26,16 @@ Each Triple Pattern Fragment offers:
 This client requires [Node.js](http://nodejs.org/) 0.10 or higher
 and is tested on OSX and Linux.
 To install, execute:
+
 ```bash
 $ [sudo] npm install -g ldf-client
+```
+To install from git, execute:
+
+```bash
+$ git clone git@github.com:LinkedDataFragments/Client.js
+$ cd Client.js
+$ npm install .
 ```
 
 ## Launching queries through the standalone application
@@ -38,6 +46,12 @@ $ ldf-client query.sparql
 ```
 Here, `query.sparql` contains your query;
 alternatively, you can pass the query as a string.
+
+When installed from git, you can run:
+
+```bash
+$ ./bin/ldf-client example-query.sparql
+```
 
 By default, the LDF server [data.linkeddatafragments.org](http://data.linkeddatafragments.org/) is used,
 but you can specify your own by creating your own `config.json` based on `config-default.json`:
