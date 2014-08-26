@@ -31,7 +31,7 @@ config.fragmentsClient = new FragmentsClient(config.startFragment, config);
 // Execute the query and output its results
 try {
   var sparqlIterator = new SparqlIterator(query, config);
-  switch (sparqlIterator.parsedQuery.type) {
+  switch (sparqlIterator.queryType) {
     // Write JSON representations of the rows
     case 'SELECT':
       sparqlIterator.on('data', function (row) {
