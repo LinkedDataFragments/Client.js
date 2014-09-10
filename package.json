@@ -17,7 +17,7 @@
   "scripts": {
     "docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json README.md lib",
     "test": "./node_modules/mocha/bin/mocha",
-    "hint": "./node_modules/jshint/bin/jshint lib test"
+    "hint": "./node_modules/jshint/bin/jshint bin/* lib test"
   },
   "dependencies": {
     "jsdom": "0.8.8",
