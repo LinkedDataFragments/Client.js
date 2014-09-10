@@ -25,7 +25,7 @@ describe('HttpClient', function () {
     var client = new HttpClient({ request: createRequest });
 
     describe('get http://example.org/foo', function () {
-      var response = client.get('http://example.org/foo'), contentType;
+      var response = client.get('http://example.org/foo');
       request.emit('response', createResponse([1, 2, 3], 'text/html;encoding=utf8'));
 
       it('should call request once with the URL and accept "*/*"', function () {
@@ -63,7 +63,7 @@ describe('HttpClient', function () {
     var client = new HttpClient({ request: createRequest, contentType: 'text/turtle' });
 
     describe('get http://example.org/foo', function () {
-      var response = client.get('http://example.org/foo'), contentType;
+      var response = client.get('http://example.org/foo');
       request.emit('response', createResponse([1, 2, 3], 'text/turtle;encoding=utf8'));
 
       it('should call request once with the URL and accept "text/turtle"', function () {

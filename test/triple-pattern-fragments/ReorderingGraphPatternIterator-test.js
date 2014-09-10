@@ -3,8 +3,6 @@
 var ReorderingGraphPatternIterator = require('../../lib/triple-pattern-fragments/ReorderingGraphPatternIterator');
 
 var Iterator = require('../../lib/iterators/Iterator'),
-    EmptyIterator = Iterator.EmptyIterator,
-    SingleIterator = Iterator.SingleIterator,
     TriplePatternIterator = require('../../lib/triple-pattern-fragments/TriplePatternIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/util/RdfUtil');
@@ -19,11 +17,6 @@ var patterns = {
   p_birthplace_yorkontario: { subject: '?p', predicate: rdf.DBPEDIAOWL + 'birthPlace', object: rdf.DBPEDIA + 'York,_Ontario' },
 };
 var yorkQuery = [
-  patterns.p_birthplace_c,
-  patterns.c_name_york,
-];
-var artistQuery = [
-  patterns.p_type_artist,
   patterns.p_birthplace_c,
   patterns.c_name_york,
 ];

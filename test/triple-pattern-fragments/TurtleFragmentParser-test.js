@@ -61,7 +61,7 @@ describe('TurtleFragmentParser', function () {
       });
     });
 
-    describe('its fragment control set', function (done) {
+    describe('its fragment control set', function () {
       var controls;
       before(function (done) {
         parser.getProperty('controls', function (result) {
