@@ -1,0 +1,8 @@
+SELECT ?title ?name
+WHERE {
+  ?movie dbpprop:starring dbpedia:Brad_Pitt;
+         rdfs:label ?title;
+         dbpedia-owl:director [ rdfs:label ?name ].
+  FILTER LANGMATCHES(LANG(?title), "EN")
+  FILTER LANGMATCHES(LANG(?name),  "EN")
+}
