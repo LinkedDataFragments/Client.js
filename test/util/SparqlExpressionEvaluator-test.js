@@ -437,7 +437,14 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of an unsupported operator', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'invalid' }); })
-          .should.throw('Unsupported operator: invalid.');
+          .should.throw('Unsupported operator: INVALID.');
+      });
+    });
+
+    describe('of an operator with an incorrect number of arguments', function () {
+      it('should throw an error', function () {
+        (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'regex', args: [1] }); })
+          .should.throw('Invalid number of arguments for REGEX: 1 (expected: 2).');
       });
     });
 

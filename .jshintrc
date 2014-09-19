@@ -4,6 +4,7 @@
   "undef": true,    // Variables should be defined.
   "loopfunc": true, // Allow function creation in loops.
   "-W082": true,    // Allow function declarations in blocks.
+  "-W022": true,    // Allow assignment to exception block parameter.
   "trailing": true, // Do not leave trailing whitespace.
   "white": true,    // Enable strict whitespace checking.
   "indent": 2,      // The code uses an indentation width of 2 spaces.
