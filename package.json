@@ -37,7 +37,8 @@
     "sinon": "~1.9.0",
     "chai": "~1.9.0",
     "sinon-chai": "~2.5.0",
-    "pre-commit": "~0.0.9"
+    "pre-commit": "~0.0.9",
+    "csv-stringify" : "~0.0.3"
   },
   "pre-commit": [
     "hint",
