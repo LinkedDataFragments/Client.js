@@ -14,10 +14,6 @@ describe('RdfUtil', function () {
       RdfUtil.isVariable('?abc').should.be.true;
     });
 
-    it('should match variable URIs', function () {
-      RdfUtil.isVariable('urn:var#abc').should.be.true;
-    });
-
     it('should not match blank nodes', function () {
       RdfUtil.isVariable('_:foo').should.be.false;
     });
@@ -34,10 +30,6 @@ describe('RdfUtil', function () {
   describe('isVariableOrBlank', function () {
     it('should match variables starting with a question mark', function () {
       RdfUtil.isVariableOrBlank('?abc').should.be.true;
-    });
-
-    it('should match variable URIs', function () {
-      RdfUtil.isVariableOrBlank('urn:var#abc').should.be.true;
     });
 
     it('should match blank nodes', function () {
@@ -141,7 +133,7 @@ describe('RdfUtil', function () {
     });
 
     describe('with a fixed subject', function () {
-      var filter = RdfUtil.tripleFilter({ subject: 'a', object: 'urn:var#o' });
+      var filter = RdfUtil.tripleFilter({ subject: 'a', object: '?o' });
       it('should match any triple with that subject', function () {
         filter(RdfUtil.triple('a', 'b', 'c')).should.be.true;
       });
