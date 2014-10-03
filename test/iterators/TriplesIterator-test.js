@@ -3,9 +3,7 @@
 var TriplesIterator = require('../../lib/iterators/TriplesIterator');
 
 var Iterator = require('../../lib/iterators/Iterator'),
-    Readable = require('stream').Readable,
-    fs = require('fs'),
-    rdf = require('../../lib/util/RdfUtil');
+    fs = require('fs');
 
 describe('TriplesIterator', function () {
   describe('The TriplesIterator module', function () {

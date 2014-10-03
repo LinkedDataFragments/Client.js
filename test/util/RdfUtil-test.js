@@ -241,7 +241,7 @@ describe('RdfUtil', function () {
       var triple = RdfUtil.triple('a', 'b', 'c');
       it('should throw an error', function () {
         (function () {
-          var bindings = RdfUtil.findBindings(pattern, triple);
+          RdfUtil.findBindings(pattern, triple);
         })
         .should.throw('Cannot bind a to c');
       });

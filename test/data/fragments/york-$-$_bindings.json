@@ -1,6 +1,6 @@
 [
-  { "predicate": "http://dbpedia.org/ontology/PopulatedPlace/areaTotal", "object": "\"271.94\"^^<http://dbpedia.org/datatype/squareKilometre>" },
-  { "predicate": "http://dbpedia.org/ontology/PopulatedPlace/populationDensity", "object": "\"687.0\"^^<http://dbpedia.org/datatype/inhabitantsPerSquareKilometre>" },
+  { "predicate": "http://dbpedia.org/ontology/PopulatedPlace/areaTotal", "object": "\"271.94\"^^http://dbpedia.org/datatype/squareKilometre" },
+  { "predicate": "http://dbpedia.org/ontology/PopulatedPlace/populationDensity", "object": "\"687.0\"^^http://dbpedia.org/datatype/inhabitantsPerSquareKilometre" },
   { "predicate": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "object": "http://www.w3.org/2002/07/owl#Thing" },
   { "predicate": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "object": "http://dbpedia.org/ontology/Place" },
   { "predicate": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "object": "http://dbpedia.org/ontology/PopulatedPlace" },

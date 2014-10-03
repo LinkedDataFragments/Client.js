@@ -1,7 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
 var Logger = require('../lib/util/Logger'),
-    Stream = require('stream').Stream,
     Iterator = require('../lib/iterators/Iterator');
 Logger.disable();
 
