@@ -54,6 +54,13 @@ describe('HttpClient', function () {
           done();
         });
       });
+
+      it('should set the response time', function (done) {
+        response.getProperty('responseTime', function (responseTime) {
+          responseTime.should.be.a('number');
+          done();
+        });
+      });
     });
   });
 
@@ -89,6 +96,13 @@ describe('HttpClient', function () {
       it('should set the content type', function (done) {
         response.getProperty('contentType', function (contentType) {
           contentType.should.equal('text/turtle');
+          done();
+        });
+      });
+
+      it('should set the response time', function (done) {
+        response.getProperty('responseTime', function (responseTime) {
+          responseTime.should.be.a('number');
           done();
         });
       });
