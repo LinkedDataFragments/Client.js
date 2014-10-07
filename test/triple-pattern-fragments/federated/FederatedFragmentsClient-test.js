@@ -19,6 +19,62 @@ describe('FederatedFragmentsClient', function () {
       new FederatedFragmentsClient().should.be.an.instanceof(FederatedFragmentsClient);
     });
   });
+  
+  describe('A FederatedFragmentsClient with a start fragments', function () {
+  
+    var startFragments = ['dbpedia', 'yago2s'].map(function (val) {
+      var startFragment = Iterator.passthrough();
+      startFragment.setProperty('controls', {
+        getFragmentUrl: function (pattern) {
+          var encode = encodeURIComponent;
+          return 'http://data.linkeddatafragments.org/' + val +
+                 '?subject='   + encode(pattern.subject || '') +
+                 '&predicate=' + encode(pattern.predicate || '') +
+                 '&object='    + encode(pattern.object || '');
+        },
+      });
+      return startFragment;
+    });
+    
+    function createClient(httpClient) {
+      return new FederatedFragmentsClient(startFragments, { httpClient: httpClient });
+    }
+    function createHttpClient(fragment) {
+      return { get: sinon.stub().returns(fragment) };
+    }
+    
+    describe('when asked for ?s ?o dbpedia:York', function () {
+      var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
+
+      describe('and receiving a Turtle response', function () {
+        var fragment = Iterator.fromStream(fs.createReadStream(__dirname + '/../../data/fragments/$-birthplace-york.ttl'));
+        var httpClient = createHttpClient(fragment);
+        
+        var client = createClient(httpClient);
+        var result = client.getFragmentByPattern(pattern);
+        fragment.setProperty('statusCode',  200);
+        fragment.setProperty('contentType', 'text/turtle');
+
+        it('should GET the corresponding fragment', function () {
+          httpClient.get.should.have.been.calledTwice;
+          httpClient.get.should.have.been.calledWith('http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
+          httpClient.get.should.have.been.calledWith('http://data.linkeddatafragments.org/yago2s?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
+        });
+
+        it('should stream the triples in the fragment', function (done) {
+          result.should.be.a.iteratorWithLength(39, done);
+        });
+
+        it('should emit the fragment metadata', function (done) {
+          result.getProperty('metadata', function (metadata) {
+            metadata.should.deep.equal({ totalTriples: 169 });
+            done();
+          });
+        });
+      });
+    
+    });
+  });
 /*
   describe('A FragmentsClient with a start fragment', function () {
     var startFragment = Iterator.passthrough();
