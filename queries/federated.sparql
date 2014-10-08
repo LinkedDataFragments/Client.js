@@ -1,0 +1,11 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX dbpedia: <http://dbpedia.org/ontology/>
+PREFIX yago: <http://yago-knowledge.org/resource/>
+
+SELECT ?a ?league 
+WHERE {
+  ?a yago:linksTo yago:Jan_Vertonghen .
+  ?a owl:sameAs ?b .
+  ?b dbpedia:league ?league .
+  ?b a dbpedia:SoccerClub .
+}
