@@ -32,6 +32,9 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 // Configure logging
 Logger.setLevel(args.l || 'warning');
 
+// measure time
+var hrstart = process.hrtime();
+
 // Execute the query and output its results
 config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
 try {
@@ -58,6 +61,11 @@ try {
   sparqlIterator.on('error', function (error) {
     console.error('ERROR: An error occured during query execution.\n');
     console.error(error.stack);
+  });
+  // Report query completion
+  sparqlIterator.on('end', function () {
+    var hrend = process.hrtime(hrstart);
+    console.info("Query execution time: %dms", hrend[1] / 1000000);
   });
 }
 // Report a synchronous error
