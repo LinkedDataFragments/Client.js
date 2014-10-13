@@ -33,7 +33,7 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 Logger.setLevel(args.l || 'warning');
 
 // measure time
-var hrstart = process.hrtime();
+var hrstart = new Date();
 
 // Execute the query and output its results
 config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
@@ -64,8 +64,8 @@ try {
   });
   // Report query completion
   sparqlIterator.on('end', function () {
-    var hrend = process.hrtime(hrstart);
-    console.info("Query execution time: %dms", hrend[1] / 1000000);
+    var hrend = new Date() - hrstart;
+    console.info("Query execution time: %dms", hrend / 1000);
   });
 }
 // Report a synchronous error

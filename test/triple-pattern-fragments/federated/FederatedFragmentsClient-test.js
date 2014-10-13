@@ -1,5 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient');
+var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
+FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient');
 
 var Iterator = require('../../../lib/iterators/Iterator'),
     rdf = require('../../../lib/util/RdfUtil'),
@@ -11,12 +12,20 @@ describe('FederatedFragmentsClient', function () {
       FederatedFragmentsClient.should.be.a('function');
     });
 
-    it('should make FragmentsClient objects', function () {
-      FederatedFragmentsClient().should.be.an.instanceof(FederatedFragmentsClient);
+    it('should make FragmentsClient objects if only one start fragment', function () {
+      FederatedFragmentsClient(['http://data.linkeddatafragments.org/a']).should.be.an.instanceof(FragmentsClient);
     });
 
-    it('should be a FragmentsClient constructor', function () {
-      new FederatedFragmentsClient().should.be.an.instanceof(FederatedFragmentsClient);
+    it('should be a FragmentsClient constructor if only one start fragment', function () {
+      new FederatedFragmentsClient(['http://data.linkeddatafragments.org/a']).should.be.an.instanceof(FragmentsClient);
+    });
+
+    it('should make FederatedFragmentsClient objects if more than one start fragment', function () {
+      FederatedFragmentsClient(['http://data.linkeddatafragments.org/a', 'http://data.linkeddatafragments.org/b']).should.be.an.instanceof(FederatedFragmentsClient);
+    });
+
+    it('should be a FederatedFragmentsClient constructor if more than one start fragment', function () {
+      new FederatedFragmentsClient(['http://data.linkeddatafragments.org/a', 'http://data.linkeddatafragments.org/b']).should.be.an.instanceof(FederatedFragmentsClient);
     });
   });
 
