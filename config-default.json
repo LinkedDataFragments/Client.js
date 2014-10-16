@@ -1,5 +1,5 @@
 {
-  "startFragment": "http://data.linkeddatafragments.org/dbpedia",
+  "startFragment": "http://fragments.dbpedia.org/2014/en",
 
   "prefixes": {
     "rdf":         "http://www.w3.org/1999/02/22-rdf-syntax-ns#",

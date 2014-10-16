@@ -7,8 +7,6 @@ WHERE {
   ?person a dbpedia-owl:Artist;
           rdfs:label ?name;
           dbpedia-owl:birthPlace ?city.
-  ?city rdfs:label ?cityName;
-        rdfs:label "Ghent"@en;
-        dbpedia-owl:country ?country.
-  ?country rdfs:label "Belgium"@en.
+  ?city rdfs:label "Ghent"@en.
+  FILTER LANGMATCHES(LANG(?name), "EN")
 }
