@@ -74,12 +74,12 @@ describe('FederatedFragmentsClient', function () {
           result.should.be.a.iteratorWithLength(78, done);
         });
 
-        it('should emit the fragment metadata', function (done) {
+        /*it('should emit the fragment metadata', function (done) {
           result.getProperty('metadata', function (metadata) {
             metadata.should.deep.equal({ totalTriples: 169 });
             done();
           });
-        });
+        });*/
       });
 
       describe('and receiving a non-supported response', function () {
