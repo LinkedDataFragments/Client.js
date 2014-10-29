@@ -33,12 +33,6 @@
                         <goals>
                             <goal>fetch-modules</goal>
                         </goals>
-                        <configuration>
-                            <packages>
-                                <package>colors:0.5.1</package>
-                                <package>jshint:0.8.1</package>
-                            </packages>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
