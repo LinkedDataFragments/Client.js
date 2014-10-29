@@ -33,6 +33,18 @@
                         <goals>
                             <goal>fetch-modules</goal>
                         </goals>
+                        <configuration>
+                            <packages>
+                                <package>jsdom:0.8.8</package>
+                                <package>request:~2.27.0</package>
+                                <package>n3:~0.3.0</package>
+                                <package>setimmediate:~1.0.1</package>
+                                <package>sparqljs:~1.0.1</package>
+                                <package>uritemplate:~0.3.0</package>
+                                <package>lodash:~2.4.1</package>
+                                <package>lru-cache:~2.5.0</package>
+                            </packages>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
