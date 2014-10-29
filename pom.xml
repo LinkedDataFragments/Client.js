@@ -45,8 +45,9 @@
         </plugins>
         <resources>
             <resource>
-                <directory>lib</directory>
+                <directory>src/main/resources/META-INF/</directory>
                 <filtering>false</filtering>
+                <targetPath>${project.build.outputDirectory}/META-INF/resources/webjars/${project.groupId}.${project.artifactId}/${project.version}</targetPath>
             </resource>
             <resource>
                 <directory>lib</directory>
