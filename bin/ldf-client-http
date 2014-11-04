@@ -4,6 +4,7 @@
 var path = require('path'),
     http = require('http'),
     url = require('url'),
+    querystring = require('querystring'),
     spawn = require('child_process').spawn;
 var clientPath = path.join(__dirname, 'ldf-client');
 
@@ -14,39 +15,50 @@ var MIME_PLAIN = 'text/plain';
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
 if (args._.length || args.help) {
-  console.log('usage: ldf-client-http [-c config.json] [-p port]');
+  console.error('usage: ldf-client-http [-c config.json] [-p port]');
   return process.exit(1);
 }
 var configFile = args.c || path.join(__dirname, '../config-default.json'),
     port = parseInt(args.p, 10) || 3000;
 
 // Start server
-var server = http.createServer(onRequest);
+var server = http.createServer(handleRequest);
 server.listen(port);
-console.log('Server running on http://localhost:' + port + '/');
+console.error('Server running on http://localhost:' + port + '/');
 
-// Handle a request
-function onRequest(request, response) {
-  var requestUrl = url.parse(request.url, true),
-      path = requestUrl.pathname,
-      query = requestUrl.query.query;
-  if (path !== '/sparql' || !query) {
-    response.writeHead(404, { 'Content-type': MIME_JSON });
+// Handles an HTTP request
+function handleRequest(request, response) {
+  // Verify the path
+  var requestUrl = url.parse(request.url, true);
+  if (requestUrl.pathname !== '/sparql') {
+    response.writeHead(404, { 'content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Resource not found' }));
+    return;
   }
-  // Security check on query (shouldn't be a file)
-  if (/^\\|^\/|\.\.\\|\.\.\//.test(query))
-    query = 'SELECT ';
 
+  // Parse the query, depending on the HTTP method
+  switch (request.method) {
+  case 'POST':
+    return parseBody(request, function (query) { writeQueryResult(request, response, query); });
+  case 'GET':
+    return writeQueryResult(request, response, requestUrl.query.query || '');
+  default:
+    response.writeHead(405, { 'content-type': MIME_PLAIN });
+    response.end();
+  }
+}
+
+// Writes the result of the given SPARQL query
+function writeQueryResult(request, response, query) {
   // Get the results of the query from the client
-  var client = spawn(process.argv[0], [clientPath, query, '-c', configFile],
+  var client = spawn(process.argv[0], [clientPath, '-q', query, '-c', configFile],
                      { stdio: ['ignore', 'pipe', 'pipe'] });
 
   // Write a successful data response
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
-      response.writeHead(200, { 'Content-type': data[0] === '{' ? MIME_JSON : MIME_TURTLE });
+      response.writeHead(200, { 'content-type': data[0] === '{' ? MIME_JSON : MIME_TURTLE });
       response.write(data);
       client.stdout.pipe(response);
     }
@@ -55,7 +67,7 @@ function onRequest(request, response) {
   client.stderr.setEncoding('utf8');
   client.stderr.once('data', function (data) {
     if (!response.headersSent) {
-      response.writeHead(400, { 'Content-type': MIME_PLAIN });
+      response.writeHead(400, { 'content-type': MIME_PLAIN });
       response.write(data);
       client.stderr.pipe(response);
     }
@@ -63,4 +75,21 @@ function onRequest(request, response) {
 
   // Stop the client if the connection is terminated
   response.on('close', function () { client.kill('SIGKILL'); });
+}
+
+// Parses the body of a SPARQL POST request
+function parseBody(request, callback) {
+  var body = '';
+  request.setEncoding('utf8');
+  request.on('data', function (chunk) { body += chunk; });
+  request.on('end', function () {
+    switch (request.headers['content-type']) {
+    case 'application/sparql-query':
+      return callback(body);
+    case 'application/x-www-form-urlencoded':
+      return callback(querystring.parse(body).query || '');
+    default:
+      return callback('');
+    }
+  });
 }

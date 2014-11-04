@@ -3,7 +3,7 @@
 
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
-if (args._.length < 1 || args._.length > 2 || args.h || args.help) {
+if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
   console.log('usage: ldf-client [startFragment] query.sparql [-c config.json] [-l logLevel] [--help]');
   return process.exit(1);
 }
@@ -20,10 +20,9 @@ var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
-    queryFile  = args._[1] || args._[0],
+    queryFile = args.f || args._[1] || args._[0],
     startFragment = args._[1] ? args._[0] : config.startFragment,
-    isQuery = queryMatcher.test(queryFile),
-    query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
+    query = args.q || (queryMatcher.test(queryFile) ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' }));
 
 // Configure logging
 Logger.setLevel(args.l || 'warning');
