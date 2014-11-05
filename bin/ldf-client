@@ -17,8 +17,10 @@ var fs = require('fs'),
 
 var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
 
+// Configure the logger
 Logger.disable('info', 'debug');
-Logger.isCSV = true;
+Logger.setMode('CSV');
+Logger.setMode('csv');
 
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
