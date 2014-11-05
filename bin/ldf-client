@@ -32,6 +32,10 @@ config.fragmentsClient = new FragmentsClient(config.startFragment, config);
 try {
   var sparqlIterator = new SparqlIterator(query, config);
   switch (sparqlIterator.queryType) {
+  // Write a boolean
+  case 'ASK':
+    sparqlIterator.on('data', console.log);
+    break;
   // Write JSON representations of the rows
   case 'SELECT':
     sparqlIterator.on('data', function (row) {
