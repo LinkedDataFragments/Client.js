@@ -11,15 +11,14 @@ var MIME_JSON = 'application/json';
 var MIME_TURTLE = 'text/turtle';
 var MIME_PLAIN = 'text/plain';
 
-// Parse arguments
-var args = process.argv.slice(2);
-if (args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
-  console.log('usage: ldf-client-http [config.json] [port]');
+// Retrieve and check arguments
+var args = require('minimist')(process.argv.slice(2));
+if (args._.length || args.help) {
+  console.log('usage: ldf-client-http [-c config.json] [-p port]');
   return process.exit(1);
 }
-var hasConfig = args.length >= 1 && !/^\d+$/.test(args[0]),
-    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-default.json'),
-    port = parseInt(hasConfig ? args[1] : args[0], 10) || 3000;
+var configFile = args.c || path.join(__dirname, '../config-default.json'),
+    port = parseInt(args.p, 10) || 3000;
 
 // Start server
 var server = http.createServer(onRequest);
@@ -40,7 +39,7 @@ function onRequest(request, response) {
     query = 'SELECT ';
 
   // Get the results of the query from the client
-  var client = spawn(process.argv[0], [clientPath, configFile, query],
+  var client = spawn(process.argv[0], [clientPath, query, '-c', configFile],
                      { stdio: ['ignore', 'pipe', 'pipe'] });
 
   // Write a successful data response
