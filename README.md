@@ -39,24 +39,22 @@ $ npm install .
 
 ## Launching queries through the standalone application
 
-You can execute SPARQL queries as follows:
+You can execute SPARQL queries like this:
 ```bash
-$ ldf-client query.sparql
+$ ldf-client http://fragments.dbpedia.org/2014/en query.sparql
 ```
-Here, `query.sparql` contains your query;
+The arguments to the `ldf-client` command are:
+
+0. Any fragment of the dataset you want to query, in this case DBpedia.
+[_More datasets._](http://linkeddatafragments.org/data/)
+0. Then specify`query.sparql` contains your query;
 alternatively, you can pass the query as a string.
 
 When installed from git, you can run:
 ```bash
-$ ./bin/ldf-client queries/artists-york.sparql
+$ ./bin/ldf-client http://fragments.dbpedia.org/2014/en queries/artists-york.sparql
 ```
-The `queries` folder contains several example queries.
-
-By default, the LDF server [data.linkeddatafragments.org](http://data.linkeddatafragments.org/) is used,
-but you can specify your own by creating your own `config.json` based on `config-default.json`:
-```bash
-$ [./bin/]ldf-client config.json query.sparql
-```
+The `queries` folder contains several example queries for DBpedia.
 
 ## Using the library
 
