@@ -15,14 +15,12 @@ var fs = require('fs'),
     FragmentsClient = require('../ldf-client').FragmentsClient,
     Logger = require('../ldf-client').Logger;
 
-var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
-
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
-    queryFile = args.f || args._[1] || args._[0],
-    startFragment = args._[1] ? args._[0] : config.startFragment,
-    query = args.q || (queryMatcher.test(queryFile) ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' }));
+    queryFile = args.f || args.q || args._.pop(),
+    startFragment = args._.pop() || config.startFragment,
+    query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile);
 
 // Configure logging
 Logger.setLevel(args.l || 'warning');
