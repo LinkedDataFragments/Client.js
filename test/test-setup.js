@@ -2,7 +2,7 @@
 
 var Logger = require('../lib/util/Logger'),
     Iterator = require('../lib/iterators/Iterator');
-Logger.disable();
+Logger.setLevel('warning');
 
 // Set up the sinon stubbing library
 var sinon = global.sinon = require('sinon');
