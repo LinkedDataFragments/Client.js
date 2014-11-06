@@ -35,7 +35,7 @@ try {
   case 'ASK':
   // Write JSON representations of the rows
   case 'SELECT':
-    new SparqlResultWriter('application/sparql+json', sparqlIterator).on('data', function (row) {
+    new SparqlResultWriter('application/sparql+xml', sparqlIterator).on('data', function (row) {
       console.log(row);
     });
     break;
