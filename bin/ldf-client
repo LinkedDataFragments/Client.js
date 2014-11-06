@@ -2,9 +2,10 @@
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
 // Retrieve and check arguments
-var args = process.argv.slice(2);
-if (args.length < 1 || args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
-  console.log('usage: ldf-client [config.json] query');
+var args = require('minimist')(process.argv.slice(2));
+
+if (args._.length < 1 || args._.length > 2 || args.help) {
+  console.log('usage: ldf-client [startFragment] query [-c config.json] [--help]');
   return process.exit(1);
 }
 
@@ -20,13 +21,14 @@ var queryMatcher = /^\s*(?:PREFIX|BASE|SELECT|CONSTRUCT|ASK|DESCRIBE)\s+/i;
 Logger.disable();
 
 // Parse and initialize configuration
-var hasConfig = args.length >= 2,
-    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-default.json'),
-    queryFile  = hasConfig ? args[1] : args[0],
+var hasStartFragment = args._.length >= 2,
+    configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
+    startFragment = hasStartFragment ? args._[0] : config.startFragment,
+    queryFile  = hasStartFragment ? args._[1] : args._[0],
     isQuery = queryMatcher.test(queryFile),
     query = isQuery ? queryFile : fs.readFileSync(queryFile, { encoding: 'utf8' });
-config.fragmentsClient = new FragmentsClient(config.startFragment, config);
+config.fragmentsClient = new FragmentsClient(startFragment, config);
 
 // Execute the query and output its results
 try {
