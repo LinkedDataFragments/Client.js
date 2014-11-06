@@ -4,7 +4,8 @@
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
 if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
-  console.log('usage: ldf-client [startFragment] query.sparql [-c config.json] [-l logLevel] [--help]');
+  console.log('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
+                                '[-t application/json] [-l logLevel] [--help]');
   return process.exit(1);
 }
 
@@ -21,7 +22,8 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
     queryFile = args.f || args.q || args._.pop(),
     startFragment = args._.pop() || config.startFragment,
-    query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile);
+    query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
+    mimeType = args.t || 'application/json';
 
 // Configure logging
 Logger.setLevel(args.l || 'warning');
@@ -35,7 +37,7 @@ try {
   case 'ASK':
   // Write JSON representations of the rows
   case 'SELECT':
-    new SparqlResultWriter('application/sparql+json', sparqlIterator).on('data', function (row) {
+    new SparqlResultWriter(mimeType, sparqlIterator).on('data', function (row) {
       console.log(row);
     });
     break;
