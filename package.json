@@ -27,7 +27,8 @@
     "sparqljs": "~1.0.1",
     "uritemplate": "~0.3.0",
     "lodash": "~2.4.1",
-    "lru-cache": "~2.5.0"
+    "lru-cache": "~2.5.0",
+    "minimist": "1.1.0"
   },
   "devDependencies": {
     "jsdoc": "~3.3.0",
