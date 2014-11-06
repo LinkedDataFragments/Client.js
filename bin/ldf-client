@@ -13,7 +13,8 @@ var fs = require('fs'),
     N3 = require('n3'),
     SparqlIterator = require('../ldf-client').SparqlIterator,
     FragmentsClient = require('../ldf-client').FragmentsClient,
-    Logger = require('../ldf-client').Logger;
+    Logger = require('../ldf-client').Logger,
+    SparqlResultWriter = require('../ldf-client').SparqlResultWriter;
 
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
@@ -36,8 +37,8 @@ try {
     break;
   // Write JSON representations of the rows
   case 'SELECT':
-    sparqlIterator.on('data', function (row) {
-      console.log(JSON.stringify(row));
+    new SparqlResultWriter('application/sparql+xml', sparqlIterator).on('data', function (row) {
+      console.log(row);
     });
     break;
   // Write an RDF representation of all results
