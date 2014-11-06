@@ -58,7 +58,7 @@ function writeQueryResult(request, response, query) {
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
-      response.writeHead(200, { 'content-type': data[0] === '{' ? MIME_JSON : MIME_TURTLE });
+      response.writeHead(200, { 'content-type': mimeType || data[0] === '{' ? MIME_JSON : MIME_TURTLE });
       response.write(data);
       client.stdout.pipe(response);
     }
