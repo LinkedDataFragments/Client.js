@@ -59,9 +59,6 @@ function handleRequest(request, response) {
     return;
   }
 
-  // Do content negotiation
-  var negotiator = new Negotiator(request), mimeType = negotiator.mediaType(availableMimeTypes);
-
   // Parse the query, depending on the HTTP method
   switch (request.method) {
   case 'POST':
@@ -77,18 +74,20 @@ function handleRequest(request, response) {
 // Writes the result of the given SPARQL query
 function writeQueryResult(request, response, query) {
   // Get the results of the query from the client
-  var client = spawn(process.argv[0], [clientPath, '-q', query, '-c', configFile],
+  var mimeType = new Negotiator(request).mediaType(availableMimeTypes),
+      client = spawn(process.argv[0], [clientPath, '-q', query, '-c', configFile, '-t', mimeType],
                      { stdio: ['ignore', 'pipe', 'pipe'] });
 
   // Write a successful data response
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
-      response.writeHead(200, { 'content-type': mimeType || data[0] === '{' ? MIME_JSON : MIME_TURTLE });
+      response.writeHead(200, { 'content-type': mimeType });
       response.write(data);
       client.stdout.pipe(response);
     }
   });
+
   // Write an error response
   client.stderr.setEncoding('utf8');
   client.stderr.once('data', function (data) {
@@ -98,6 +97,11 @@ function writeQueryResult(request, response, query) {
       client.stderr.pipe(response);
     }
   });
+
+  // End the response if all streams have ended
+  var ended = false;
+  client.stdout.on('end', function () { ended ? response.end() : ended = true; });
+  client.stderr.on('end', function () { ended ? response.end() : ended = true; });
 
   // Stop the client if the connection is terminated
   response.on('close', function () { client.kill('SIGKILL'); });
