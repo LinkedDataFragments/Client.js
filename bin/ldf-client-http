@@ -55,7 +55,8 @@ function handleRequest(request, response) {
 // Writes the result of the given SPARQL query
 function writeQueryResult(request, response, query) {
   // Get the results of the query from the client
-  var mimeType = new Negotiator(request).mediaType(availableMimeTypes),
+  var hasTriplesResult = /\s*(?:CONSTRUCT|DESCRIBE)/i.test(query),
+      mimeType = hasTriplesResult ? MIME_TURTLE : new Negotiator(request).mediaType(availableMimeTypes),
       client = spawn(process.argv[0], [clientPath, '-q', query, '-c', configFile, '-t', mimeType],
                      { stdio: ['ignore', 'pipe', 'pipe'] });
 
