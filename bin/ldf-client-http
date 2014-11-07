@@ -22,10 +22,32 @@ if (args._.length || args.help) {
 var configFile = args.c || path.join(__dirname, '../config-default.json'),
     port = parseInt(args.p, 10) || 3000;
 
-// Start server
-var server = http.createServer(handleRequest);
-server.listen(port);
-console.error('Server running on http://localhost:' + port + '/');
+var availableMimeTypes = [];
+
+getMimeTypes(function (types) {
+  availableMimeTypes = types;
+
+  // Start server
+  var server = http.createServer(handleRequest);
+  server.listen(port);
+  console.error('Server running on http://localhost:' + port + '/');
+});
+
+// Retrieves supported result mimeTypes by the client
+function getMimeTypes(callback) {
+  var client = spawn(process.argv[0], [clientPath, '--listformats'],
+                     { stdio: ['ignore', 'pipe', 'pipe'] });
+  var data = '';
+
+  // Write a successful data response
+  client.stdout.setEncoding('utf8');
+  client.stdout.on('data', function (type) {
+    data += type;
+  });
+  client.stdout.once('end', function () {
+    callback(data.trim().split('\n'));
+  });
+}
 
 // Handles an HTTP request
 function handleRequest(request, response) {
@@ -36,6 +58,9 @@ function handleRequest(request, response) {
     response.end(JSON.stringify({ message: 'Resource not found' }));
     return;
   }
+
+  // Do content negotiation
+  var negotiator = new Negotiator(request), mimeType = negotiator.mediaType(availableMimeTypes);
 
   // Parse the query, depending on the HTTP method
   switch (request.method) {
