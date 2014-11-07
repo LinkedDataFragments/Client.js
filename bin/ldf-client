@@ -1,21 +1,24 @@
 #!/usr/bin/env node
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
+var ldf = require('../ldf-client');
+
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
+if (args.listformats)
+  return Object.keys(ldf.SparqlResultWriter.writers).forEach(function (t) { console.log(t); });
 if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
-  console.log('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
-                                '[-t application/json] [-l logLevel] [--help]');
+  console.error('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
+                                  '[-t application/json] [-l logLevel] [--help]');
+  console.error('       ldf-client --listformats (Lists supported result formats for -t)');
   return process.exit(1);
 }
 
+// Load main libraries (postponed as to here for speed)
 var fs = require('fs'),
     path = require('path'),
     N3 = require('n3'),
-    SparqlIterator = require('../ldf-client').SparqlIterator,
-    FragmentsClient = require('../ldf-client').FragmentsClient,
-    Logger = require('../ldf-client').Logger,
-    SparqlResultWriter = require('../ldf-client').SparqlResultWriter;
+    Logger = require('../ldf-client').Logger;
 
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
@@ -29,15 +32,15 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 Logger.setLevel(args.l || 'warning');
 
 // Execute the query and output its results
-config.fragmentsClient = new FragmentsClient(startFragment, config);
+config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
 try {
-  var sparqlIterator = new SparqlIterator(query, config);
+  var sparqlIterator = new ldf.SparqlIterator(query, config);
   switch (sparqlIterator.queryType) {
   // Write a boolean
   case 'ASK':
   // Write JSON representations of the rows
   case 'SELECT':
-    new SparqlResultWriter(mimeType, sparqlIterator).on('data', function (row) {
+    new ldf.SparqlResultWriter(mimeType, sparqlIterator).on('data', function (row) {
       console.log(row);
     });
     break;
@@ -49,7 +52,7 @@ try {
                   .on('end',  function () { writer.end(); });
     break;
   default:
-    throw new SparqlIterator.UnsupportedQueryError(query);
+    throw new ldf.SparqlIterator.UnsupportedQueryError(query);
   }
 
   // Report an error's stack trace

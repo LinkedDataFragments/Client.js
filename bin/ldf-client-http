@@ -5,7 +5,8 @@ var path = require('path'),
     http = require('http'),
     url = require('url'),
     querystring = require('querystring'),
-    spawn = require('child_process').spawn;
+    spawn = require('child_process').spawn,
+    Negotiator = require('negotiator');
 var clientPath = path.join(__dirname, 'ldf-client');
 
 var MIME_JSON = 'application/json';

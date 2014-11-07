@@ -29,7 +29,8 @@
     "lodash": "~2.4.1",
     "lru-cache": "~2.5.0",
     "minimist": "1.1.0",
-    "xml": ">=1.0.0"
+    "xml": ">=1.0.0",
+    "negotiator": "~0.4.9"
   },
   "devDependencies": {
     "jsdoc": "~3.3.0",
