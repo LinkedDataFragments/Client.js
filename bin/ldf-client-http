@@ -5,13 +5,16 @@ var path = require('path'),
     http = require('http'),
     url = require('url'),
     querystring = require('querystring'),
+    exec = require('child_process').exec,
     spawn = require('child_process').spawn,
     Negotiator = require('negotiator');
+
 var clientPath = path.join(__dirname, 'ldf-client');
 
-var MIME_JSON = 'application/json';
-var MIME_TURTLE = 'text/turtle';
-var MIME_PLAIN = 'text/plain';
+var availableMimeTypes = getAvailableMimeTypes();
+var MIME_PLAIN  = 'text/plain',
+    MIME_TURTLE = 'text/turtle',
+    MIME_JSON   = 'application/json';
 
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
@@ -22,32 +25,10 @@ if (args._.length || args.help) {
 var configFile = args.c || path.join(__dirname, '../config-default.json'),
     port = parseInt(args.p, 10) || 3000;
 
-var availableMimeTypes = [];
-
-getMimeTypes(function (types) {
-  availableMimeTypes = types;
-
-  // Start server
-  var server = http.createServer(handleRequest);
-  server.listen(port);
-  console.error('Server running on http://localhost:' + port + '/');
-});
-
-// Retrieves supported result mimeTypes by the client
-function getMimeTypes(callback) {
-  var client = spawn(process.argv[0], [clientPath, '--listformats'],
-                     { stdio: ['ignore', 'pipe', 'pipe'] });
-  var data = '';
-
-  // Write a successful data response
-  client.stdout.setEncoding('utf8');
-  client.stdout.on('data', function (type) {
-    data += type;
-  });
-  client.stdout.once('end', function () {
-    callback(data.trim().split('\n'));
-  });
-}
+// Start the server
+var server = http.createServer(handleRequest);
+server.listen(port);
+console.error('Server running on http://localhost:' + port + '/');
 
 // Handles an HTTP request
 function handleRequest(request, response) {
@@ -66,8 +47,8 @@ function handleRequest(request, response) {
   case 'GET':
     return writeQueryResult(request, response, requestUrl.query.query || '');
   default:
-    response.writeHead(405, { 'content-type': MIME_PLAIN });
-    response.end();
+    response.writeHead(405, { 'content-type': MIME_JSON });
+    response.end(JSON.stringify({ message: 'Incorrect HTTP method' }));
   }
 }
 
@@ -122,4 +103,13 @@ function parseBody(request, callback) {
       return callback('');
     }
   });
+}
+
+// Retrieves the MIME types supported by the client
+function getAvailableMimeTypes() {
+  var client = spawn(process.argv[0], [clientPath, '--listformats']), data = '', mimeTypes = [];
+  client.stdout.setEncoding('utf8');
+  client.stdout.on('data', function (chunk) { data += chunk; });
+  client.stdout.on('end',  function () { mimeTypes.push.apply(mimeTypes, data.trim().split('\n')); });
+  return mimeTypes;
 }

@@ -40,9 +40,7 @@ try {
   case 'ASK':
   // Write JSON representations of the rows
   case 'SELECT':
-    new ldf.SparqlResultWriter(mimeType, sparqlIterator).on('data', function (row) {
-      console.log(row);
-    });
+    ldf.SparqlResultWriter(mimeType, sparqlIterator).on('data', function (data) { process.stdout.write(data); });
     break;
   // Write an RDF representation of all results
   case 'CONSTRUCT':
