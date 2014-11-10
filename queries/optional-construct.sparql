@@ -5,7 +5,7 @@ CONSTRUCT {
 WHERE {
     ?p a <http://dbpedia.org/ontology/Artist>.
     ?p <http://dbpedia.org/ontology/birthPlace> ?c.
-    ?c <http://xmlns.com/foaf/0.1/name> "York"@en.
+    ?c <http://www.w3.org/2000/01/rdf-schema#label> "York"@en.
     OPTIONAL {
       ?p <http://dbpedia.org/ontology/deathPlace> ?d.
     }
