@@ -18,12 +18,17 @@ var MIME_PLAIN  = 'text/plain',
 
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
-if (args._.length || args.help) {
-  console.error('usage: ldf-client-http [-c config.json] [-p port]');
+if (args._.length > 1 || args.h || args.help) {
+  console.error('usage: ldf-client-http [startFragment] [-c config.json] [-p port] [--help]');
   return process.exit(1);
 }
-var configFile = args.c || path.join(__dirname, '../config-default.json'),
-    port = parseInt(args.p, 10) || 3000;
+var node = process.argv[0],
+    startFragment = args._[0],
+    port = parseInt(args.p, 10) || 3000,
+    configFile = args.c || path.join(__dirname, '../config-default.json'),
+    clientArgs = [clientPath, '-c', configFile],
+    ioSettings = { stdio: ['ignore', 'pipe', 'pipe'] };
+startFragment && clientArgs.push(startFragment);
 
 // Start the server
 var server = http.createServer(handleRequest);
@@ -57,8 +62,7 @@ function writeQueryResult(request, response, query) {
   // Get the results of the query from the client
   var hasTriplesResult = /\s*(?:CONSTRUCT|DESCRIBE)/i.test(query),
       mimeType = hasTriplesResult ? MIME_TURTLE : new Negotiator(request).mediaType(availableMimeTypes),
-      client = spawn(process.argv[0], [clientPath, '-q', query, '-c', configFile, '-t', mimeType],
-                     { stdio: ['ignore', 'pipe', 'pipe'] });
+      client = spawn(node, clientArgs.concat(['-t', mimeType, '-q', query]), ioSettings);
 
   // Write a successful data response
   client.stdout.setEncoding('utf8');
