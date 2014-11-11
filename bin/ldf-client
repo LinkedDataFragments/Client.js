@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/* Command-line utility to execute SPARQL queries over triple pattern fragments. */
 
 var ldf = require('../ldf-client');
 

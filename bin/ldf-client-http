@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/* HTTP server that executes SPARQL queries over triple pattern fragments. */
 
 var path = require('path'),
     http = require('http'),
