@@ -42,7 +42,7 @@ describe('FragmentsClient', function () {
       var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
 
       describe('and receiving a Turtle response', function () {
-        var fragment = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-birthplace-york.ttl'));
+        var fragment = fromFile(__dirname + '/../data/fragments/$-birthplace-york.ttl');
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern);
@@ -67,7 +67,7 @@ describe('FragmentsClient', function () {
       });
 
       describe('and receiving a non-supported response', function () {
-        var fragment = Iterator.fromStream(fs.createReadStream(__filename));
+        var fragment = fromFile(__filename);
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern), resultError;
@@ -88,10 +88,10 @@ describe('FragmentsClient', function () {
         // Stub HTTP client so it returns the pages
         var calls = 0, page, httpClient = { get: sinon.spy(function () {
           calls++;
-          if      (calls === 1) page = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist.ttl'));
-          else if (calls === 2) page = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl'));
-          else if (calls === 3) page = Iterator.passthrough(true), setImmediate(function () { page._push(null); });
-          else throw new Error('Should only be called 3 times');
+          if      (calls === 1) page = fromFile(__dirname + '/../data/fragments/$-type-artist.ttl');
+          else if (calls === 2) page = fromFile(__dirname + '/../data/fragments/$-type-artist-page2.ttl');
+          else if (calls === 3) page = Iterator.empty(); // no third page
+          else throw new Error('The HTTP client should only be called 3 times');
           page.setProperty('statusCode',  200);
           page.setProperty('contentType', 'text/turtle');
           return page;
@@ -195,3 +195,8 @@ describe('FragmentsClient', function () {
     });
   });
 });
+
+// Creates an iterator from the given file
+function fromFile(filename) {
+  return Iterator.fromStream(fs.createReadStream(filename));
+}
