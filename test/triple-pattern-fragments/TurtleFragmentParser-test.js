@@ -46,79 +46,30 @@ describe('TurtleFragmentParser', function () {
   });
 
   describe('A TurtleFragmentParser for a fragment', function () {
-    var fragment = fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl');
-    fragment.on('error', console.error);
-    var parser = new TurtleFragmentParser(fragment, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
-
-    it('should return all triples in the fragment', function (done) {
-      parser.should.be.an.iteratorWithLength(44, done);
+    var fragment;
+    before(function () {
+      var source = fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl');
+      fragment = new TurtleFragmentParser(source, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
     });
 
-    it('should give access to fragment metadata', function (done) {
-      parser.getProperty('metadata', function (metadata) {
-        metadata.should.deep.equal({ totalTriples: 61073 });
-        done();
-      });
+    it('should return all data triples in the fragment', function (done) {
+      fragment.should.be.an.iteratorWithLength(27, done);
     });
 
-    describe('its fragment control set', function () {
-      var controls;
-      before(function (done) {
-        parser.getProperty('controls', function (result) {
-          controls = result;
-          expect(controls).to.exist;
-          done();
-        });
-      });
-
-      it('should contain the firstPage link', function () {
-        controls.should.have.property('firstPage', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1');
-      });
-
-      it('should contain the previousPage link', function () {
-        controls.should.have.property('previousPage', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1');
-      });
-
-      it('should contain the nextPage link', function () {
-        controls.should.have.property('nextPage', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=3');
-      });
-
-      describe('the getFragmentUrl function', function () {
-        it('should be present', function () {
-          controls.should.have.property('getFragmentUrl');
-          controls.getFragmentUrl.should.be.a('function');
-        });
-
-        it('should give the URL for the given triple pattern', function () {
-          var result = controls.getFragmentUrl({ subject: 'a', object: 'b' });
-          result.should.equal('http://data.linkeddatafragments.org/dbpedia?subject=a&object=b');
-        });
-      });
+    it('should return fragment metadata in the metadata stream', function (done) {
+      fragment.metadataStream.should.be.an.iteratorWithLength(17, done);
     });
   });
 
   describe('A TurtleFragmentParser for a fragment that is not read', function () {
-    function createParser() {
-      var fragment = fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl');
-      return new TurtleFragmentParser(fragment, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
-    }
-
-    it('should give access to fragment metadata', function (done) {
-      createParser().getProperty('metadata', function (metadata) {
-        metadata.should.deep.equal({ totalTriples: 61073 });
-        done();
-      });
+    var fragment;
+    before(function () {
+      var source = fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl');
+      fragment = new TurtleFragmentParser(source, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
     });
 
-    it('should give access to fragment controls', function (done) {
-      createParser().getProperty('controls', function (controls) {
-        expect(controls).to.exist;
-        controls.should.have.property('firstPage');
-        controls.should.have.property('previousPage');
-        controls.should.have.property('nextPage');
-        controls.should.have.property('getFragmentUrl');
-        done();
-      });
+    it('should return fragment metadata in the metadata stream', function (done) {
+      fragment.metadataStream.should.be.an.iteratorWithLength(17, done);
     });
   });
 });

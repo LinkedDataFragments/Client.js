@@ -54,8 +54,8 @@ describe('FragmentsClient', function () {
           httpClient.get.should.have.been.calledWith('http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork');
         });
 
-        it('should stream the triples in the fragment', function (done) {
-          result.should.be.a.iteratorWithLength(39, done);
+        it('should stream the data triples in the fragment', function (done) {
+          result.should.be.a.iteratorWithLength(25, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -85,24 +85,17 @@ describe('FragmentsClient', function () {
       var pattern = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIA + 'Artist');
 
       describe('and receiving a multi-page response', function () {
-        // Initialize pages
-        var page1 = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist.ttl'));
-        var page2 = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl'));
-        var page3 = Iterator.empty();
-        // Set content types
-        page1.setProperty('statusCode',  200);
-        page1.setProperty('contentType', 'text/turtle');
-        page2.setProperty('statusCode',  200);
-        page2.setProperty('contentType', 'text/turtle');
-        page3.setProperty('statusCode',  200);
-        page3.setProperty('contentType', 'text/turtle');
         // Stub HTTP client so it returns the pages
-        var httpClient = { get: sinon.stub() };
-        httpClient.get.onCall(0).returns(page1);
-        httpClient.get.onCall(1).returns(page2);
-        httpClient.get.onCall(2).returns(page3);
-        httpClient.get.onCall(3).throws();
-        // Create fragments client
+        var calls = 0, page, httpClient = { get: sinon.spy(function () {
+          calls++;
+          if      (calls === 1) page = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist.ttl'));
+          else if (calls === 2) page = Iterator.fromStream(fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl'));
+          else if (calls === 3) page = Iterator.passthrough(true), setImmediate(function () { page._push(null); });
+          else throw new Error('Should only be called 3 times');
+          page.setProperty('statusCode',  200);
+          page.setProperty('contentType', 'text/turtle');
+          return page;
+        })};
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern);
 
@@ -115,8 +108,8 @@ describe('FragmentsClient', function () {
           });
         });
 
-        it('should stream the triples in all pages of the fragment', function (done) {
-          result.should.be.a.iteratorWithLength(87, done);
+        it('should stream the data triples in all pages of the fragment', function (done) {
+          result.should.be.a.iteratorWithLength(54, done);
         });
 
         it('should emit the fragment metadata', function (done) {
