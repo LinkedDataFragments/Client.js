@@ -25,14 +25,10 @@ describe('ControlsExtractor', function () {
     var controlsExtractor = new ControlsExtractor();
 
     describe('extracting from an empty stream', function () {
-      var kind, controls;
+      var controls;
       before(function (done) {
         controlsExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, Iterator.empty(),
-                                  function (error, k, c) { kind = k, controls = c, done(error); });
-      });
-
-      it('should indicate "controls" as kind', function () {
-        kind.should.equal('controls');
+                                  function (error, c) { controls = c, done(error); });
       });
 
       it('should indicate the fragment URL on the controls object', function () {
@@ -41,17 +37,13 @@ describe('ControlsExtractor', function () {
     });
 
     describe('extracting from a stream without controls information', function () {
-      var kind, controls;
+      var controls;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherProperty', '"1234"'),
         ]);
         controlsExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
-                                  function (error, k, c) { kind = k, controls = c, done(error); });
-      });
-
-      it('should indicate "controls" as kind', function () {
-        kind.should.equal('controls');
+                                  function (error, c) { controls = c, done(error); });
       });
 
       it('should indicate the fragment URL on the controls object', function () {
@@ -60,17 +52,13 @@ describe('ControlsExtractor', function () {
     });
 
     describe('extracting from a triple pattern fragment', function () {
-      var kind, controls;
+      var controls;
       before(function (done) {
         var fragment = N3.StreamParser(),
             fragmentUrl = 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2';
         fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl').pipe(fragment);
         controlsExtractor.extract({ fragmentUrl: fragmentUrl }, fragment,
-                                  function (error, k, c) { kind = k, controls = c, done(error); });
-      });
-
-      it('should indicate "controls" as kind', function () {
-        kind.should.equal('controls');
+                                  function (error, c) { controls = c, done(error); });
       });
 
       it('should indicate the fragment URL on the controls object', function () {

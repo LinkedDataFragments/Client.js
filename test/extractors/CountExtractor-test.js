@@ -23,120 +23,96 @@ describe('CountExtractor', function () {
     var countExtractor = new CountExtractor();
 
     describe('extracting from an empty stream', function () {
-      var callback;
+      var metadata;
       before(function (done) {
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               Iterator.empty(), callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, Iterator.empty(),
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit an empty metadata object', function () {
-        callback.getCall(0).args[2].should.deep.equal({});
+        metadata.should.deep.equal({});
       });
     });
 
     describe('extracting from a stream without count information', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA', '"5678"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit an empty metadata object', function () {
-        callback.getCall(0).args[2].should.deep.equal({});
+        metadata.should.deep.equal({});
       });
     });
 
     describe('extracting from a stream with a void:triples count', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA', '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES, '"1234"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit a metadata object with count', function () {
-        callback.getCall(0).args[2].should.deep.equal({ totalTriples: 1234 });
+        metadata.should.deep.equal({ totalTriples: 1234 });
       });
     });
 
     describe('extracting from a stream with a hydra:totalItems count', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',     '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.HYDRA_TOTALITEMS, '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',     '"5678"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit a metadata object with count', function () {
-        callback.getCall(0).args[2].should.deep.equal({ totalTriples: 1234 });
+        metadata.should.deep.equal({ totalTriples: 1234 });
       });
     });
 
     describe('extracting from a stream with multiple count triples', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES,     '"1234"'),
           rdf.triple('http://example.org/fragment', rdf.HYDRA_TOTALITEMS, '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES,     '"5678"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit a metadata object with the first count', function () {
-        callback.getCall(0).args[2].should.deep.equal({ totalTriples: 1234 });
+        metadata.should.deep.equal({ totalTriples: 1234 });
       });
     });
 
     describe('extracting from a stream with counts for different fragments', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragmentA', rdf.VOID_TRIPLES,     '"5678"'),
           rdf.triple('http://example.org/fragmentB', rdf.HYDRA_TOTALITEMS, '"5678"'),
           rdf.triple('http://example.org/fragment',  rdf.VOID_TRIPLES,     '"1234"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit a metadata object with count for the correct fragment', function () {
-        callback.getCall(0).args[2].should.deep.equal({ totalTriples: 1234 });
+        metadata.should.deep.equal({ totalTriples: 1234 });
       });
     });
 
@@ -160,85 +136,69 @@ describe('CountExtractor', function () {
     });
 
     describe('extracting from a stream with a void:triples count', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA', '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES, '"1234"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit an empty metadata object', function () {
-        callback.getCall(0).args[2].should.deep.equal({});
+        metadata.should.deep.equal({});
       });
     });
 
     describe('extracting from a stream with a hydra:totalItems count', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',     '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.HYDRA_TOTALITEMS, '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',     '"5678"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit an empty metadata object', function () {
-        callback.getCall(0).args[2].should.deep.equal({});
+        metadata.should.deep.equal({});
       });
     });
 
     describe('extracting from a stream with a http://ex.org/countA count', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',       '"5678"'),
           rdf.triple('http://example.org/fragment', 'http://ex.org/countA', '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',       '"5678"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit a metadata object with count', function () {
-        callback.getCall(0).args[2].should.deep.equal({ totalTriples: 1234 });
+        metadata.should.deep.equal({ totalTriples: 1234 });
       });
     });
 
     describe('extracting from a stream with a http://ex.org/countB count', function () {
-      var callback;
+      var metadata;
       before(function (done) {
         var iterator = Iterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',       '"5678"'),
           rdf.triple('http://example.org/fragment', 'http://ex.org/countB', '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',       '"5678"'),
         ]);
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' },
-                               iterator, callback = sinon.spy(done));
-      });
-
-      it('should indicate "metadata" as kind', function () {
-        callback.getCall(0).args[1].should.equal('metadata');
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
+                               function (error, m) { metadata = m; done(error); });
       });
 
       it('should emit a metadata object with count', function () {
-        callback.getCall(0).args[2].should.deep.equal({ totalTriples: 1234 });
+        metadata.should.deep.equal({ totalTriples: 1234 });
       });
     });
   });
