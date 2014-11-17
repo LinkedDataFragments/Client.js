@@ -10,4 +10,11 @@ module.exports = {
   FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
   Logger: require('./lib/util/Logger'),
   SparqlResultWriter: SparqlResultWriter,
+  Iterator: require('./lib/iterators/Iterator.js'),
+  MultiTransformIterator: require('./lib/iterators/MultiTransformIterator.js'),
+  Util: require('./lib/util/RdfUtil.js'),
+  HttpClient: require('./lib/util/HttpClient'),
+  MetadataExtractor: require('./lib/extractors/MetadataExtractor'),
+  ControlsExtractor: require('./lib/extractors/ControlsExtractor'),
+  FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient')
 };
