@@ -17,5 +17,6 @@ module.exports = {
   MetadataExtractor: require('./lib/extractors/MetadataExtractor'),
   CompositeExtractor: require('./lib/extractors/CompositeExtractor'),
   ControlsExtractor: require('./lib/extractors/ControlsExtractor'),
-  FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient')
+  FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
+  TurtleFragmentIterator: require('./lib/triple-pattern-fragments/TurtleFragmentIterator.js')
 };
