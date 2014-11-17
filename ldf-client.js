@@ -15,6 +15,7 @@ module.exports = {
   Util: require('./lib/util/RdfUtil.js'),
   HttpClient: require('./lib/util/HttpClient'),
   MetadataExtractor: require('./lib/extractors/MetadataExtractor'),
+  CompositeExtractor: require('./lib/extractors/CompositeExtractor'),
   ControlsExtractor: require('./lib/extractors/ControlsExtractor'),
   FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient')
 };
