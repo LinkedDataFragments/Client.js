@@ -1,67 +1,121 @@
 #!/usr/bin/env node
 /*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/* HTTP server that executes SPARQL queries over triple pattern fragments. */
 
 var path = require('path'),
     http = require('http'),
     url = require('url'),
-    spawn = require('child_process').spawn;
+    querystring = require('querystring'),
+    exec = require('child_process').exec,
+    spawn = require('child_process').spawn,
+    Negotiator = require('negotiator');
+
 var clientPath = path.join(__dirname, 'ldf-client');
 
-var MIME_JSON = 'application/json';
-var MIME_TURTLE = 'text/turtle';
-var MIME_PLAIN = 'text/plain';
+var availableMimeTypes = getAvailableMimeTypes();
+var MIME_PLAIN  = 'text/plain',
+    MIME_TURTLE = 'text/turtle',
+    MIME_JSON   = 'application/json';
 
-// Parse arguments
-var args = process.argv.slice(2);
-if (args.length > 2 || /^--?h(elp)?$/.test(args[0])) {
-  console.log('usage: ldf-client-http [config.json] [port]');
+// Retrieve and check arguments
+var args = require('minimist')(process.argv.slice(2));
+if (args._.length > 1 || args.h || args.help) {
+  console.error('usage: ldf-client-http [startFragment] [-c config.json] [-p port] [--help]');
   return process.exit(1);
 }
-var hasConfig = args.length >= 1 && !/^\d+$/.test(args[0]),
-    configFile = hasConfig ? args[0] : path.join(__dirname, '../config-default.json'),
-    port = parseInt(hasConfig ? args[1] : args[0], 10) || 3000;
+var node = process.argv[0],
+    startFragment = args._[0],
+    port = parseInt(args.p, 10) || 3000,
+    configFile = args.c || path.join(__dirname, '../config-default.json'),
+    clientArgs = [clientPath, '-c', configFile],
+    ioSettings = { stdio: ['ignore', 'pipe', 'pipe'] };
+startFragment && clientArgs.push(startFragment);
 
-// Start server
-var server = http.createServer(onRequest);
+// Start the server
+var server = http.createServer(handleRequest);
 server.listen(port);
-console.log('Server running on http://localhost:' + port + '/');
+console.error('Server running on http://localhost:' + port + '/');
 
-// Handle a request
-function onRequest(request, response) {
-  var requestUrl = url.parse(request.url, true),
-      path = requestUrl.pathname,
-      query = requestUrl.query.query;
-  if (path !== '/sparql' || !query) {
-    response.writeHead(404, { 'Content-type': MIME_JSON });
+// Handles an HTTP request
+function handleRequest(request, response) {
+  // Verify the path
+  var requestUrl = url.parse(request.url, true);
+  if (requestUrl.pathname !== '/sparql') {
+    response.writeHead(404, { 'content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Resource not found' }));
+    return;
   }
-  // Security check on query (shouldn't be a file)
-  if (/^\\|^\/|\.\.\\|\.\.\//.test(query))
-    query = 'SELECT ';
 
+  // Parse the query, depending on the HTTP method
+  switch (request.method) {
+  case 'POST':
+    return parseBody(request, function (query) { writeQueryResult(request, response, query); });
+  case 'GET':
+    return writeQueryResult(request, response, requestUrl.query.query || '');
+  default:
+    response.writeHead(405, { 'content-type': MIME_JSON });
+    response.end(JSON.stringify({ message: 'Incorrect HTTP method' }));
+  }
+}
+
+// Writes the result of the given SPARQL query
+function writeQueryResult(request, response, query) {
   // Get the results of the query from the client
-  var client = spawn(process.argv[0], [clientPath, configFile, query],
-                     { stdio: ['ignore', 'pipe', 'pipe'] });
+  var hasTriplesResult = /\s*(?:CONSTRUCT|DESCRIBE)/i.test(query),
+      mimeType = hasTriplesResult ? MIME_TURTLE : new Negotiator(request).mediaType(availableMimeTypes),
+      client = spawn(node, clientArgs.concat(['-t', mimeType, '-q', query]), ioSettings);
 
   // Write a successful data response
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
-      response.writeHead(200, { 'Content-type': data[0] === '{' ? MIME_JSON : MIME_TURTLE });
+      response.writeHead(200, { 'content-type': mimeType });
       response.write(data);
       client.stdout.pipe(response);
     }
   });
+
   // Write an error response
   client.stderr.setEncoding('utf8');
   client.stderr.once('data', function (data) {
     if (!response.headersSent) {
-      response.writeHead(400, { 'Content-type': MIME_PLAIN });
+      response.writeHead(400, { 'content-type': MIME_PLAIN });
       response.write(data);
       client.stderr.pipe(response);
     }
   });
 
+  // End the response if all streams have ended
+  var ended = false;
+  client.stdout.on('end', function () { ended ? response.end() : ended = true; });
+  client.stderr.on('end', function () { ended ? response.end() : ended = true; });
+
   // Stop the client if the connection is terminated
   response.on('close', function () { client.kill('SIGKILL'); });
+}
+
+// Parses the body of a SPARQL POST request
+function parseBody(request, callback) {
+  var body = '';
+  request.setEncoding('utf8');
+  request.on('data', function (chunk) { body += chunk; });
+  request.on('end', function () {
+    switch (request.headers['content-type']) {
+    case 'application/sparql-query':
+      return callback(body);
+    case 'application/x-www-form-urlencoded':
+      return callback(querystring.parse(body).query || '');
+    default:
+      return callback('');
+    }
+  });
+}
+
+// Retrieves the MIME types supported by the client
+function getAvailableMimeTypes() {
+  var client = spawn(process.argv[0], [clientPath, '--listformats']), data = '', mimeTypes = [];
+  client.stdout.setEncoding('utf8');
+  client.stdout.on('data', function (chunk) { data += chunk; });
+  client.stdout.on('end',  function () { mimeTypes.push.apply(mimeTypes, data.trim().split('\n')); });
+  return mimeTypes;
 }

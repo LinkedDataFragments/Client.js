@@ -1,0 +1,2 @@
+# Verify existence of Obama
+ASK { <http://dbpedia.org/resource/Barack_Obama> ?p ?o }

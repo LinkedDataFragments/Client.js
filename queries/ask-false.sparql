@@ -1,0 +1,2 @@
+# Verify nothing
+ASK { <http://dbpedia.org/resource/NotInThisDataset> ?p ?o }
