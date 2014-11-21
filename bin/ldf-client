@@ -65,7 +65,7 @@ try {
   // Report query completion
   sparqlIterator.on('end', function () {
     var hrend = new Date() - hrstart;
-    console.info("Query execution time: %dms", hrend / 1000);
+    console.error("Query execution time: %dms", hrend / 1000);
   });
 }
 // Report a synchronous error
