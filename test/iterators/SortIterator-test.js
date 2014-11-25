@@ -23,8 +23,8 @@ describe('SortIterator', function () {
     });
   });
 
-  describe('A SortIterator without source', function () {
-    var iterator = new SortIterator();
+  describe('A SortIterator with an empty source', function () {
+    var iterator = new SortIterator(Iterator.empty());
 
     it('should have ended', function () {
       iterator.ended.should.be.true;
