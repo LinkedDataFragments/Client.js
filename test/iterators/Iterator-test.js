@@ -439,8 +439,8 @@ describe('StreamIterator', function () {
     });
   });
 
-  describe('A StreamIterator instance without arguments', function () {
-    var iterator = new StreamIterator();
+  describe('A StreamIterator instance with an empty source', function () {
+    var iterator = new StreamIterator(Iterator.empty());
     var endEventEmitted = 0;
     iterator.on('end', function () { endEventEmitted++; });
 
@@ -587,8 +587,8 @@ describe('TransformIterator', function () {
     });
   });
 
-  describe('A TransformIterator instance without parameters', function () {
-    var iterator = new TransformIterator();
+  describe('A TransformIterator instance with an empty source', function () {
+    var iterator = new TransformIterator(Iterator.empty());
     it('should have ended', function () {
       expect(iterator.ended).to.be.true;
     });

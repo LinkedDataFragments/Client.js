@@ -23,14 +23,6 @@ describe('LimitIterator', function () {
     });
   });
 
-  describe('A LimitIterator without source', function () {
-    var iterator = new LimitIterator();
-
-    it('should have ended', function () {
-      iterator.ended.should.be.true;
-    });
-  });
-
   describe('A LimitIterator with an empty source', function () {
     var iterator = new LimitIterator(Iterator.empty());
 

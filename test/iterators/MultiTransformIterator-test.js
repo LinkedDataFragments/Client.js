@@ -23,32 +23,10 @@ describe('MultiTransformIterator', function () {
     });
   });
 
-  describe('A MultiTransformIterator without source', function () {
-    var iterator;
-    before(function () {
-      iterator = new MultiTransformIterator();
-    });
-
-    it('should have ended', function () {
-      iterator.ended.should.be.true;
-    });
-  });
-
   describe('A MultiTransformIterator with an empty source iterator', function () {
     var iterator;
     before(function () {
-      iterator = new MultiTransformIterator([Iterator.empty()]);
-    });
-
-    it('should have ended', function () {
-      iterator.ended.should.be.true;
-    });
-  });
-
-  describe('A MultiTransformIterator with a null source iterator', function () {
-    var iterator;
-    before(function () {
-      iterator = new MultiTransformIterator([null]);
+      iterator = new MultiTransformIterator(Iterator.empty());
     });
 
     it('should have ended', function () {
