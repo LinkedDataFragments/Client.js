@@ -23,8 +23,8 @@ describe('DistinctIterator', function () {
     });
   });
 
-  describe('A DistinctIterator without source', function () {
-    var iterator = new DistinctIterator();
+  describe('A DistinctIterator with an empty source', function () {
+    var iterator = new DistinctIterator(Iterator.empty());
     it('should have ended', function () {
       iterator.ended.should.be.true;
     });

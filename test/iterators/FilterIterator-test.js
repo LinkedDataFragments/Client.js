@@ -23,10 +23,10 @@ describe('FilterIterator', function () {
     });
   });
 
-  describe('A FilterIterator without source', function () {
+  describe('A FilterIterator with an empty source', function () {
     var iterator;
     before(function () {
-      iterator = new FilterIterator();
+      iterator = new FilterIterator(Iterator.empty());
     });
 
     it('should have ended', function () {
