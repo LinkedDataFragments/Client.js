@@ -34,6 +34,7 @@ describe('HttpClient', function () {
           url: 'http://example.org/foo',
           method: 'GET',
           headers: { accept: '*/*' },
+          followRedirect: true,
         });
       });
 
@@ -70,7 +71,7 @@ describe('HttpClient', function () {
     var client = new HttpClient({ request: createRequest, contentType: 'text/turtle' });
 
     describe('get http://example.org/foo', function () {
-      var response = client.get('http://example.org/foo');
+      var response = client.get('http://example.org/foo', null, { followRedirect: false });
       request.emit('response', createResponse([1, 2, 3], 'text/turtle;encoding=utf8'));
 
       it('should call request once with the URL and accept "text/turtle"', function () {
@@ -79,6 +80,7 @@ describe('HttpClient', function () {
           url: 'http://example.org/foo',
           method: 'GET',
           headers: { accept: 'text/turtle' },
+          followRedirect: false,
         });
       });
 
