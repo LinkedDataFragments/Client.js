@@ -33,7 +33,7 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 Logger.setLevel(args.l || 'warning');
 
 // measure time
-var hrstart = new Date();
+var hrstart = new Date(), resultCount = 0;
 
 // Execute the query and output its results
 config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
@@ -44,7 +44,10 @@ try {
   case 'ASK':
   case 'SELECT':
     writer = new ldf.SparqlResultWriter(mimeType, sparqlIterator);
-    writer.on('data', function (data) { process.stdout.write(data); });
+    writer.on('data', function (data) {
+      resultCount++;
+      process.stdout.write(data);
+    });
     break;
   // Write an RDF representation of all results
   case 'CONSTRUCT':
@@ -65,7 +68,7 @@ try {
   // Report query completion
   sparqlIterator.on('end', function () {
     var hrend = new Date() - hrstart;
-    console.error("Query execution time: %dms", hrend / 1000);
+    console.error("Query execution time: %d results - %dms", resultCount, hrend / 1000);
   });
 }
 // Report a synchronous error
