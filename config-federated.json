@@ -1,6 +1,5 @@
 {
   "startFragment": [
-    "http://data.linkeddatafragments.org/yago2s",
     "http://data.linkeddatafragments.org/dbpedia",
     "http://data.linkeddatafragments.org/geonames",
     "http://data.linkeddatafragments.org/wiktionary",
