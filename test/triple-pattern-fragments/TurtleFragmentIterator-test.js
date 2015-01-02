@@ -40,8 +40,12 @@ describe('TurtleFragmentIterator', function () {
       TurtleFragmentIterator.supportsContentType('application/n-triples').should.be.true;
     });
 
-    it('should not support HTML', function () {
-      TurtleFragmentIterator.supportsContentType('text/html').should.be.false;
+    it('should not support TriG', function () {
+      TurtleFragmentIterator.supportsContentType('application/trig').should.be.false;
+    });
+
+    it('should not support N-Quads', function () {
+      TurtleFragmentIterator.supportsContentType('application/n-quads').should.be.false;
     });
   });
 
