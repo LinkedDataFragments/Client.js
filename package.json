@@ -1,7 +1,7 @@
 {
   "name": "ldf-client",
   "description": "Linked Data Fragments Client",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "main": "ldf-client.js",
   "bin": {
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "request": "~2.27.0",
-    "n3": "~0.3.0",
+    "n3": "~0.4.0",
     "setimmediate": "~1.0.1",
     "sparqljs": "~1.0.1",
     "uritemplate": "~0.3.0",
