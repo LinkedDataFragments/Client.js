@@ -439,8 +439,8 @@ describe('StreamIterator', function () {
     });
   });
 
-  describe('A StreamIterator instance without arguments', function () {
-    var iterator = new StreamIterator();
+  describe('A StreamIterator instance with an empty source', function () {
+    var iterator = new StreamIterator(Iterator.empty());
     var endEventEmitted = 0;
     iterator.on('end', function () { endEventEmitted++; });
 
@@ -587,8 +587,8 @@ describe('TransformIterator', function () {
     });
   });
 
-  describe('A TransformIterator instance without parameters', function () {
-    var iterator = new TransformIterator();
+  describe('A TransformIterator instance with an empty source', function () {
+    var iterator = new TransformIterator(Iterator.empty());
     it('should have ended', function () {
       expect(iterator.ended).to.be.true;
     });
@@ -669,6 +669,49 @@ describe('TransformIterator', function () {
 
     it('should have ended after read 4', function () {
       expect(iterator.ended).to.be.true;
+    });
+  });
+
+  describe('A TransformIterator that pushes asynchonously after the source has ended', function () {
+    var sourceIterator = Iterator.single(1);
+    var iterator = new TransformIterator(sourceIterator);
+    var pendingTransform;
+    iterator._transform = sinon.spy(function (item, done) {
+      var self = this;
+      pendingTransform = function () {
+        self._push('t' + item);
+        done();
+      };
+    });
+
+    describe('before the element has been pushed', function () {
+      it('should return null on read', function () {
+        expect(iterator.read()).to.equal(null);
+      });
+
+      it('should have called _transform', function () {
+        iterator._transform.should.have.been.calledOnce;
+      });
+
+      it('should not have ended', function () {
+        expect(iterator.ended).to.be.false;
+      });
+    });
+
+    describe('after the element has been pushed and done() has been called', function () {
+      before(function () { pendingTransform(); });
+
+      it('should return the transformed element 1', function () {
+        expect(iterator.read()).to.equal('t1');
+      });
+
+      it('should not have called _transform anymore', function () {
+        iterator._transform.should.have.been.calledOnce;
+      });
+
+      it('should have ended', function () {
+        expect(iterator.ended).to.be.true;
+      });
     });
   });
 });
