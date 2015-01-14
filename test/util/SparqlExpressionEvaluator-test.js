@@ -37,9 +37,8 @@ describe('SparqlExpressionEvaluator', function () {
       it("should return the variable's value if it is bound", function () {
         evaluator({ '?a': '"x"' }).should.equal('"x"');
       });
-      it('should throw an error of the variable is not bound', function () {
-        (function () { evaluator({ '?b': 'b' }); })
-          .should.throw('Cannot evaluate variable ?a because it is not bound.');
+      it("should return undefined if the variable is not bound", function () {
+        expect(evaluator({ '?b': 'b' })).to.be.undefined;
       });
     });
 
@@ -477,16 +476,15 @@ describe('SparqlExpressionEvaluator.evaluate', function () {
     .should.equal('"3"^^http://www.w3.org/2001/XMLSchema#integer');
   });
 
-  it('should throw an error when not all bindings are present', function () {
-    (function () {
-      SparqlExpressionEvaluator.evaluate({
-        type: 'operation',
-        operator: '+',
-        args: [ '?a', '?b' ],
-      },
-      {
-        '?a': '"1"^^http://www.w3.org/2001/XMLSchema#integer',
-      });
-    }).should.throw('Cannot evaluate variable ?b because it is not bound.');
+  it('should return undefined when not all bindings are present', function () {
+    expect(SparqlExpressionEvaluator.evaluate({
+      type: 'operation',
+      operator: '+',
+      args: [ '?a', '?b' ],
+    },
+    {
+      '?a': '"1"^^http://www.w3.org/2001/XMLSchema#integer',
+    }))
+    .to.be.undefined;
   });
 });
