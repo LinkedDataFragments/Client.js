@@ -33,7 +33,7 @@ describe('HttpClient', function () {
         createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { accept: '*/*' },
+          headers: { accept: '*/*', 'accept-encoding': 'gzip,deflate' },
           followRedirect: true,
         });
       });
@@ -79,7 +79,7 @@ describe('HttpClient', function () {
         createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { accept: 'text/turtle' },
+          headers: { accept: 'text/turtle', 'accept-encoding': 'gzip,deflate' },
           followRedirect: false,
         });
       });
