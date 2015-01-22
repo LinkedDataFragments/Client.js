@@ -1,6 +1,9 @@
 PREFIX dbpedia: <http://dbpedia.org/resource/>
 SELECT ?label WHERE {
-  { dbpedia:Belgium <http://www.w3.org/2000/01/rdf-schema#label> ?label. }
+  {
+    dbpedia:Belgium <http://www.w3.org/2000/01/rdf-schema#label> ?label.
+    FILTER LANGMATCHES(LANG(?label), "EN")
+  }
   UNION
   { dbpedia:Belgium <http://dbpedia.org/property/commonName>     ?label. }
   UNION

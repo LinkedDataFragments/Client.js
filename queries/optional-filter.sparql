@@ -1,0 +1,5 @@
+SELECT * {
+  <http://dbpedia.org/resource/Mickey_Mouse> ?p ?o.
+  OPTIONAL { ?o rdfs:label ?l }
+  FILTER LANGMATCHES(LANG(?l), "EN")
+}
