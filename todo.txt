@@ -1,0 +1,24 @@
+TODO:
+    Take into account the additional knowledge we have when downloading all relevent triples for a pattern.
+    Improve voting mechanism.
+    Equivalent nodes: nodes with the same pattern (but possibly different variable names)
+        Even more interesting if they have the same type of supply path.
+    Pagesize is currently fixed at 100, need to read this from metadata.
+    Do more research on best way to determine minimal node after voting.
+    See if there is a way to introduce multithreading, or even just a way to do a HTTP call while we are processing the local DB.
+    Check how much of the 'cost' functionality is actually still used.
+    See what data from the database can still be re-used after changing the active stream for a node.
+    Allow switching to bind stream.
+        And keep store of other streams if switching back is necessary.
+    We assume new results will always be at the end of the result array when checking for new results.
+        Actually not 100% sure this is still correct after stream switching.
+    If a bind pattern receives values, these come from executing some previous patterns.
+        We might be able to reduce some operations in the DB by taking this knowledge into account.
+    Improve stability logic.
+    If streams get changed upstream, this might also change values for the streams downstream.
+        Check how much of this needs to be taken into account.
+
+Things missing in paper:
+    Cost function.
+    Triple store path estimation.
+    Triple store unique values.

@@ -10,7 +10,7 @@ if (args.listformats)
   return Object.keys(ldf.SparqlResultWriter.writers).forEach(function (t) { console.log(t); });
 if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
   console.error('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
-                                  '[-t application/json] [-l logLevel] [--help]');
+                                  '[-t application/json] [-l logLevel] [-a algorithm (1 or 2)] [--help]');
   console.error('       ldf-client --listformats (Lists supported result formats for -t)');
   return process.exit(1);
 }
@@ -28,7 +28,7 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
     startFragment = args._.pop() || config.startFragment,
     query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
     mimeType = args.t || 'application/json';
-
+config.algorithm = args.a ? args.a : '1';
 // Configure logging
 Logger.setLevel(args.l || 'warning');
 
