@@ -20,6 +20,7 @@ TODO:
     Edit the query to reduce calls.
         This is really generic, one example: { <u> <p1> ?o1; <p2> ?o2} might be solved more efficiently with { <u> ?p ?o }.
     Binding multiple variables in a pattern (currently limited to 1).
+    Statistical significance needs to be used everywhere estimations are made.
 
 Things missing in paper:
     Cost function.
