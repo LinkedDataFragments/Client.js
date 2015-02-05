@@ -17,6 +17,9 @@ TODO:
     Improve stability logic.
     If streams get changed upstream, this might also change values for the streams downstream.
         Check how much of this needs to be taken into account.
+    Edit the query to reduce calls.
+        This is really generic, one example: { <u> <p1> ?o1; <p2> ?o2} might be solved more efficiently with { <u> ?p ?o }.
+    Binding multiple variables in a pattern (currently limited to 1).
 
 Things missing in paper:
     Cost function.
