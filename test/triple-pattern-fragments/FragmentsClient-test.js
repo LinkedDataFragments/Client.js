@@ -192,6 +192,34 @@ describe('FragmentsClient', function () {
       });
     });
   });
+
+  describe('A FragmentsClient with a start fragment that errors', function () {
+    var startFragment = Iterator.passthrough();
+    var emittedError = new Error('startfragment error');
+    function createClient() {
+      var client = new FragmentsClient(startFragment);
+      startFragment.emit('error', emittedError);
+      return client;
+    }
+
+    describe('when asked for ?s ?o dbpedia:York', function () {
+      var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
+
+      describe('and receiving a Turtle response', function () {
+        var client = createClient();
+        var result = client.getFragmentByPattern(pattern), resultError;
+        result.on('error', function (error) { resultError = error; });
+
+        it('should not return any triples', function (done) {
+          result.should.be.a.iteratorWithLength(0, done);
+        });
+
+        it('should emit the error', function () {
+          expect(resultError).to.equal(emittedError);
+        });
+      });
+    });
+  });
 });
 
 // Creates an iterator from the given file
