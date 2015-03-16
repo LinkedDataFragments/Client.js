@@ -55,7 +55,8 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in the fragment', function (done) {
-          result.should.be.a.iteratorWithLength(19, done);
+          // TODO: Should actually be 19, but the <fragment-end> hack adds one triple
+          result.should.be.a.iteratorWithLength(19 + 1, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -109,7 +110,8 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in all pages of the fragment', function (done) {
-          result.should.be.a.iteratorWithLength(44, done);
+          // TODO: Should actually be 44, but the <fragment-end> hack adds one triple (twice)
+          result.should.be.a.iteratorWithLength(44 + 2, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -128,7 +130,8 @@ describe('FragmentsClient', function () {
         var fragment = Iterator.empty();
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
-        var result = client.getFragmentByPattern(pattern);
+        var result = client.getFragmentByPattern(pattern), resultError;
+        result.on('error', function (error) { resultError = error; });
         fragment.setProperty('statusCode',  404);
         fragment.setProperty('contentType', 'text/turtle');
 
@@ -141,11 +144,8 @@ describe('FragmentsClient', function () {
           result.should.be.a.iteratorWithLength(0, done);
         });
 
-        it('should emit the fragment metadata', function (done) {
-          result.getProperty('metadata', function (metadata) {
-            metadata.should.deep.equal({ totalTriples: 0 });
-            done();
-          });
+        it('should emit an error', function () {
+          expect(resultError).to.deep.equal(new Error('Could not retrieve http://data.linkeddatafragments.org/dbpedia?subject=&predicate=http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type&object=http%3A%2F%2Fdbpedia.org%2Fresource%2FUnknownArtist (404)'));
         });
       });
     });
@@ -190,6 +190,34 @@ describe('FragmentsClient', function () {
         result.getProperty('metadata', function (metadata) {
           metadata.should.deep.equal({ totalTriples: 0 });
           done();
+        });
+      });
+    });
+  });
+
+  describe('A FragmentsClient with a start fragment that errors', function () {
+    var startFragment = Iterator.passthrough();
+    var emittedError = new Error('startfragment error');
+    function createClient() {
+      var client = new FragmentsClient(startFragment);
+      startFragment.emit('error', emittedError);
+      return client;
+    }
+
+    describe('when asked for ?s ?o dbpedia:York', function () {
+      var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
+
+      describe('and receiving a Turtle response', function () {
+        var client = createClient();
+        var result = client.getFragmentByPattern(pattern), resultError;
+        result.on('error', function (error) { resultError = error; });
+
+        it('should not return any triples', function (done) {
+          result.should.be.a.iteratorWithLength(0, done);
+        });
+
+        it('should emit the error', function () {
+          expect(resultError).to.equal(emittedError);
         });
       });
     });

@@ -33,7 +33,7 @@ describe('HttpClient', function () {
         createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { accept: '*/*' },
+          headers: { accept: '*/*', 'accept-encoding': 'gzip,deflate' },
           followRedirect: true,
         });
       });
@@ -79,7 +79,7 @@ describe('HttpClient', function () {
         createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { accept: 'text/turtle' },
+          headers: { accept: 'text/turtle', 'accept-encoding': 'gzip,deflate' },
           followRedirect: false,
         });
       });
@@ -108,6 +108,35 @@ describe('HttpClient', function () {
           done();
         });
       });
+    });
+  });
+
+  describe('An HttpClient executing a request that fails synchronously', function () {
+    var request = new EventEmitter();
+    var error = new Error('request failed');
+    var createRequest = sinon.stub().throws(error);
+    var client = new HttpClient({ request: createRequest });
+
+    it('should emit an error on the response', function (done) {
+      client.get('http://example.org/foo').on('error', function (e) {
+        expect(e).to.equal(error);
+        done();
+      });
+    });
+  });
+
+  describe('An HttpClient executing a request that fails asynchronously', function () {
+    var request = new EventEmitter();
+    var error = new Error('request failed');
+    var createRequest = sinon.stub().returns(request);
+    var client = new HttpClient({ request: createRequest });
+
+    it('should emit an error on the response', function (done) {
+      client.get('http://example.org/foo').on('error', function (e) {
+        expect(e).to.equal(error);
+        done();
+      });
+      request.emit('error', error);
     });
   });
 });
