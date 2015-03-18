@@ -153,6 +153,105 @@ describe('Iterator', function () {
       });
     });
   });
+
+  describe('An iterator to which a property "abc" is added', function () {
+    var iterator = new Iterator();
+    before(function () {
+      iterator.setProperty('abc', 123);
+    });
+
+    it('should return the property value for "abc" without callback', function () {
+      iterator.getProperty('abc').should.equal(123);
+    });
+
+    it('should return the property value for "abc" through a callback', function (done) {
+      iterator.getProperty('abc', function (value) {
+        value.should.equal(123);
+        done();
+      });
+    });
+
+    describe('before a property "def" is added', function () {
+      it('should return undefined for "def" without callback', function () {
+        expect(iterator.getProperty('def')).to.be.undefined;
+      });
+    });
+
+    describe('after a property "def" is added', function () {
+      var valueCallback;
+      before(function () {
+        iterator.getProperty('def', valueCallback = sinon.spy());
+        iterator.setProperty('def', 456);
+      });
+
+      it('should have called a pending callback for "def"', function () {
+        valueCallback.should.have.been.calledOnce;
+        valueCallback.should.have.been.calledWith(456);
+      });
+
+      it('should return the property value for "def" without callback', function () {
+        iterator.getProperty('def').should.equal(456);
+      });
+
+      it('should return the property value for "def" through a callback', function (done) {
+        iterator.getProperty('def', function (value) {
+          value.should.equal(456);
+          done();
+        });
+      });
+    });
+
+    describe('after the iterator has ended', function () {
+      var beforeEndCallback;
+      before(function (done) {
+        iterator.getProperty('xyz', beforeEndCallback = sinon.spy());
+        iterator._end();
+        iterator.on('end', setImmediate.bind(null, done));
+      });
+
+      describe('before a property "xyz" is added', function () {
+        it('should return the property value for "abc" without callback', function () {
+          iterator.getProperty('abc').should.equal(123);
+        });
+
+        it('should return the property value for "abc" through a callback', function (done) {
+          iterator.getProperty('abc', function (value) {
+            value.should.equal(123);
+            done();
+          });
+        });
+      });
+
+      describe('after a property "xyz" is added', function () {
+        var afterEndCallback;
+        before(function () {
+          iterator.getProperty('xyz', afterEndCallback = sinon.spy());
+          iterator.setProperty('xyz', 789);
+        });
+
+        it('should have called a pending callback for "xyz" attached before end', function () {
+          beforeEndCallback.should.have.been.calledOnce;
+          beforeEndCallback.should.have.been.calledWith(789);
+        });
+
+        it('should have called a pending callback for "xyz" attached after end', function () {
+          afterEndCallback.should.have.been.calledOnce;
+          afterEndCallback.should.have.been.calledWith(789);
+        });
+
+        it('should return the property value for "xyz" without callback', function () {
+          iterator.getProperty('xyz').should.equal(789);
+        });
+
+        it('should return the property value for "xyz" through a callback', function (done) {
+          iterator.getProperty('xyz', function (value) {
+            value.should.equal(789);
+            done();
+          });
+        });
+      });
+    });
+  });
 });
 
 describe('EmptyIterator', function () {
