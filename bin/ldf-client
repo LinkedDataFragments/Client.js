@@ -46,7 +46,7 @@ try {
     writer = new ldf.SparqlResultWriter(mimeType, sparqlIterator);
     writer.on('data', function (data) {
       resultCount++;
-      //process.stdout.write(data);
+      process.stdout.write(data);
     });
     break;
   // Write an RDF representation of all results

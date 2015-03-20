@@ -29,6 +29,23 @@ describe('FederatedFragmentsClient', function () {
     });
   });
 
+  describe('A FederatedFragmentsClient with no start fragments', function () {
+    var client =  new FederatedFragmentsClient([], { });
+    var result = client.getFragmentByPattern({});
+
+    it('should end', function () {
+      expect(result.ended).to.be.true;
+    });
+
+    it('should emit the fragment metadata with count zero', function (done) {
+      result.getProperty('metadata', function (metadata) {
+        metadata.should.deep.equal({ totalTriples: 0 });
+        done();
+      });
+    });
+
+  });
+
   describe('A FederatedFragmentsClient with a start fragments', function () {
 
     var startFragments = ['dbpedia', 'dbpedia-live'].map(function (val) {
