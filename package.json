@@ -1,7 +1,7 @@
 {
   "name": "ldf-client",
   "description": "Linked Data Fragments Client",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "main": "ldf-client.js",
   "bin": {
