@@ -47,6 +47,7 @@
     "test"
   ],
   "browser": {
+    "crypto": "./lib/util/crypto-browser.js",
     "request": "./lib/util/request-browser.js",
     "stream": false,
     "zlib": false
