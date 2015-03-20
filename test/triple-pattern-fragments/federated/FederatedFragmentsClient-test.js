@@ -86,7 +86,7 @@ describe('FederatedFragmentsClient', function () {
 
         it('should stream the triples in the fragment', function (done) {
           // TODO: Should actually be 38, but the <fragment-end> hack adds one triple per server
-          result.should.be.a.iteratorWithLength(38 + 2, done);
+          result.should.be.a.iteratorWithLength(38, done);
         });
 
         it('should emit the fragment metadata', function (done) {
