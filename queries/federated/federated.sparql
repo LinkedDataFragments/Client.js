@@ -1,0 +1,12 @@
+PREFIX dbpedia-ont: <http://dbpedia.org/ontology/>
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX geonames: <http://www.geonames.org/ontology#>
+
+
+SELECT ?a ?cc
+WHERE {
+  dbpedia:Jan_Vertonghen dbpedia-ont:team ?club .
+  ?club dbpedia-ont:ground ?ground .
+  ?a rdfs:seeAlso ?ground .
+  ?a geonames:countryCode ?cc.
+}

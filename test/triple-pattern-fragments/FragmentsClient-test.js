@@ -55,8 +55,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in the fragment', function (done) {
-          // TODO: Should actually be 19, but the <fragment-end> hack adds one triple
-          result.should.be.a.iteratorWithLength(19 + 1, done);
+          result.should.be.a.iteratorWithLength(19, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -110,8 +109,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in all pages of the fragment', function (done) {
-          // TODO: Should actually be 44, but the <fragment-end> hack adds one triple (twice)
-          result.should.be.a.iteratorWithLength(44 + 2, done);
+          result.should.be.a.iteratorWithLength(44, done);
         });
 
         it('should emit the fragment metadata', function (done) {
