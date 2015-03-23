@@ -8,7 +8,7 @@ var ldf = require('../ldf-client');
 var args = require('minimist')(process.argv.slice(2));
 if (args.listformats)
   return Object.keys(ldf.SparqlResultWriter.writers).forEach(function (t) { console.log(t); });
-if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
+if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
   console.error('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
                                   '[-t application/json] [-l logLevel] [--help]');
   console.error('       ldf-client --listformats (Lists supported result formats for -t)');
@@ -32,9 +32,6 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 // Configure logging
 Logger.setLevel(args.l || 'warning');
 
-// measure time
-var hrstart = new Date(), resultCount = 0;
-
 // Execute the query and output its results
 config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
 try {
@@ -44,9 +41,7 @@ try {
   case 'ASK':
   case 'SELECT':
     writer = new ldf.SparqlResultWriter(mimeType, sparqlIterator);
-    writer.on('data', function (data) {
-      process.stdout.write(data);
-    });
+    writer.on('data', function (data) { process.stdout.write(data); });
     break;
   // Write an RDF representation of all results
   case 'CONSTRUCT':
@@ -63,11 +58,6 @@ try {
   sparqlIterator.on('error', function (error) {
     console.error('ERROR: An error occured during query execution.\n');
     console.error(error.stack);
-  });
-  // Report query completion
-  sparqlIterator.on('end', function () {
-    var hrend = new Date() - hrstart;
-    console.error("Query execution time: %d results - %dms", resultCount, hrend / 1000);
   });
 }
 // Report a synchronous error
