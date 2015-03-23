@@ -45,7 +45,6 @@ try {
   case 'SELECT':
     writer = new ldf.SparqlResultWriter(mimeType, sparqlIterator);
     writer.on('data', function (data) {
-      resultCount++;
       process.stdout.write(data);
     });
     break;
