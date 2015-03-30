@@ -20,12 +20,13 @@ var MIME_PLAIN  = 'text/plain',
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
 if (args._.length > 1 || args.h || args.help) {
-  console.error('usage: ldf-client-http [startFragment] [-c config.json] [-p port] [--help]');
+  console.error('usage: ldf-client-http [startFragment] [-c config.json] [-p port] [-t timeout] [--help]');
   return process.exit(1);
 }
 var node = process.argv[0],
     startFragment = args._[0],
     port = parseInt(args.p, 10) || 3000,
+    timeout = (parseInt(args.t, 10) || 60) * 1000,
     configFile = args.c || path.join(__dirname, '../config-default.json'),
     clientArgs = [clientPath, '-c', configFile],
     ioSettings = { stdio: ['ignore', 'pipe', 'pipe'] };
@@ -34,6 +35,7 @@ startFragment && clientArgs.push(startFragment);
 // Start the server
 var server = http.createServer(handleRequest);
 server.listen(port);
+server.setTimeout(2 * timeout); // unreliable mechanism, set too high on purpose
 console.error('Server running on http://localhost:' + port + '/');
 
 // Handles an HTTP request
@@ -90,8 +92,16 @@ function writeQueryResult(request, response, query) {
   client.stdout.on('end', function () { ended ? response.end() : ended = true; });
   client.stderr.on('end', function () { ended ? response.end() : ended = true; });
 
-  // Stop the client if the connection is terminated
-  response.on('close', function () { client.kill('SIGKILL'); });
+  // Stop after timeout, and kill the client if the connection is terminated
+  // Note: socket or response timeouts seemed unreliable, hence the explicit timeout
+  var killTimeout = setTimeout(killClient, timeout);
+  response.on('close', killClient);
+  function killClient() {
+    try { response.end(); }
+    catch (e) {}
+    client.kill('SIGKILL');
+    clearTimeout(killTimeout);
+  }
 }
 
 // Parses the body of a SPARQL POST request
