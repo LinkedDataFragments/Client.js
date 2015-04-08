@@ -29,8 +29,7 @@
     "lru-cache": "~2.5.0",
     "minimist": "1.1.0",
     "negotiator": "~0.4.9",
-    "bloomfilter": "0.0.14",
-    "atob": "1.1.2"
+    "bloem": "0.2.4"
   },
   "optionalDependencies": {
     "xml": ">=1.0.0"
