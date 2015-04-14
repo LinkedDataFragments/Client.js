@@ -29,7 +29,10 @@
     "lru-cache": "~2.5.0",
     "minimist": "1.1.0",
     "negotiator": "~0.4.9",
-    "bloem": "0.2.4"
+    "bloem": "0.2.4",
+    "golombcodedsets": "0.0.1",
+    "base64-arraybuffer": "0.1.2",
+    "murmurhash": "0.0.2"
   },
   "optionalDependencies": {
     "xml": ">=1.0.0"
