@@ -56,7 +56,7 @@ try {
 
   // Report an error's stack trace
   sparqlIterator.on('error', function (error) {
-    console.error('ERROR: An error occured during query execution.\n');
+    console.error('ERROR: An error occurred during query execution.\n');
     console.error(error.stack);
   });
 }
