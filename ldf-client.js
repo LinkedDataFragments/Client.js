@@ -4,6 +4,7 @@ var SparqlResultWriter = require('./lib/writers/SparqlResultWriter');
 SparqlResultWriter.register('application/json', './JSONResultWriter');
 SparqlResultWriter.register('application/sparql-results+json', './SparqlJSONResultWriter');
 SparqlResultWriter.register('application/sparql-results+xml', './SparqlXMLResultWriter');
+SparqlResultWriter.register('debug', './StatsResultWriter');
 
 module.exports = {
   SparqlIterator: require('./lib/triple-pattern-fragments/SparqlIterator.js'),
