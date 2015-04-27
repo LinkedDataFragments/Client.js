@@ -34,7 +34,7 @@
     "xml": ">=1.0.0"
   },
   "devDependencies": {
-    "jsdoc": "~3.3.0",
+    "jsdoc": "^3.3.0-beta3",
     "jshint": "~2.1.10",
     "mocha": "~1.17.1",
     "sinon": "~1.9.0",
