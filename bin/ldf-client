@@ -46,6 +46,7 @@ try {
   // Write an RDF representation of all results
   case 'CONSTRUCT':
   case 'DESCRIBE':
+    config.end = false; // stdout cannot be closed
     writer = new N3.Writer(process.stdout, config);
     sparqlIterator.on('data', function (triple) { writer.addTriple(triple); })
                   .on('end',  function () { writer.end(); });
