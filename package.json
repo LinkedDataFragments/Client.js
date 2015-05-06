@@ -23,7 +23,7 @@
     "request": "~2.27.0",
     "n3": "~0.4.0",
     "setimmediate": "~1.0.1",
-    "sparqljs": "~1.0.1",
+    "sparqljs": "~1.1.0",
     "uritemplate": "~0.3.0",
     "lodash": "~2.4.1",
     "lru-cache": "~2.5.0",
