@@ -196,27 +196,39 @@ describe('FragmentsClient', function () {
   describe('A FragmentsClient with a start fragment that errors', function () {
     var startFragment = Iterator.passthrough();
     var emittedError = new Error('startfragment error');
-    function createClient() {
-      var client = new FragmentsClient(startFragment);
-      startFragment.emit('error', emittedError);
-      return client;
-    }
+    var client = new FragmentsClient(startFragment);
+    var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
 
     describe('when asked for ?s ?o dbpedia:York', function () {
-      var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
+      var result, resultError;
+      before(function (done) {
+        result = client.getFragmentByPattern(pattern);
+        result.on('error', function (error) { resultError = error; done(); });
+        startFragment.emit('error', emittedError);
+      });
 
-      describe('and receiving a Turtle response', function () {
-        var client = createClient();
-        var result = client.getFragmentByPattern(pattern), resultError;
-        result.on('error', function (error) { resultError = error; });
+      it('should not return any triples', function (done) {
+        result.should.be.a.iteratorWithLength(0, done);
+      });
 
-        it('should not return any triples', function (done) {
-          result.should.be.a.iteratorWithLength(0, done);
-        });
+      it('should emit the error', function () {
+        expect(resultError).to.equal(emittedError);
+      });
+    });
 
-        it('should emit the error', function () {
-          expect(resultError).to.equal(emittedError);
-        });
+    describe('when asked for ?s ?o dbpedia:York a second time', function () {
+      var result, resultError;
+      before(function (done) {
+        result = client.getFragmentByPattern(pattern);
+        result.on('error', function (error) { resultError = error; done(); });
+      });
+
+      it('should not return any triples', function (done) {
+        result.should.be.a.iteratorWithLength(0, done);
+      });
+
+      it('should emit the error', function () {
+        expect(resultError).to.equal(emittedError);
       });
     });
   });

@@ -7,7 +7,7 @@ SparqlResultWriter.register('application/sparql-results+xml', './SparqlXMLResult
 
 module.exports = {
   SparqlIterator: require('./lib/triple-pattern-fragments/SparqlIterator.js'),
-  FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
+  FragmentsClient: require('./lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
   Logger: require('./lib/util/Logger'),
   HttpClient: require('./lib/util/HttpClient'),
   SparqlResultWriter: SparqlResultWriter,
