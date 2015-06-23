@@ -114,8 +114,7 @@ describe('FederatedFragmentsClient', function () {
         });
       });
 
-// This was uncommented since a single source cannot stop process
-/*      describe('and receiving a non-supported response', function () {
+      describe('and receiving a non-supported response', function () {
         var fragment = Iterator.fromStream(fs.createReadStream(__filename));
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
@@ -128,8 +127,6 @@ describe('FederatedFragmentsClient', function () {
           resultError.should.deep.equal(new Error('No parser for application/javascript'));
         });
       });
-*/
-
     });
   });
 });
