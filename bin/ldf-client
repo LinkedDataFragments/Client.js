@@ -8,9 +8,9 @@ var ldf = require('../ldf-client');
 var args = require('minimist')(process.argv.slice(2));
 if (args.listformats)
   return Object.keys(ldf.SparqlResultWriter.writers).forEach(function (t) { console.log(t); });
-if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
-  console.error('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
-                                  '[-t application/json] [-l logLevel] [--help]');
+if (!(args.q || args.f) && args._.length < 2 || args._.length < 1 || args.h || args.help) {
+  console.error('usage: ldf-client startFragment1 [startFragment2 ...] query.sparql ' +
+                                  '[-c config.json] [-t application/json] [-l logLevel] [--help]');
   console.error('       ldf-client --listformats (Lists supported result formats for -t)');
   return process.exit(1);
 }
@@ -25,7 +25,7 @@ var fs = require('fs'),
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
     queryFile = args.f || args.q || args._.pop(),
-    startFragment = args._.pop() || config.startFragment,
+    startFragments = args._,
     query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
     mimeType = args.t || 'application/json';
 
@@ -33,7 +33,7 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 Logger.setLevel(args.l || 'warning');
 
 // Execute the query and output its results
-config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
+config.fragmentsClient = new ldf.FragmentsClient(startFragments, config);
 try {
   var sparqlIterator = new ldf.SparqlIterator(query, config), writer;
   switch (sparqlIterator.queryType) {

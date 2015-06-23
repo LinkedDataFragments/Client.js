@@ -19,18 +19,17 @@ var MIME_PLAIN  = 'text/plain',
 
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
-if (args._.length > 1 || args.h || args.help) {
-  console.error('usage: ldf-client-http [startFragment] [-c config.json] [-p port] [-t timeout] [--help]');
+if (!args._.length || args.h || args.help) {
+  console.error('usage: ldf-client-http startFragment1 [startFragment2 ...] [-c config.json] [-p port] [-t timeout] [--help]');
   return process.exit(1);
 }
 var node = process.argv[0],
-    startFragment = args._[0],
+    startFragments = args._,
     port = parseInt(args.p, 10) || 3000,
     timeout = (parseInt(args.t, 10) || 60) * 1000,
     configFile = args.c || path.join(__dirname, '../config-default.json'),
-    clientArgs = [clientPath, '-c', configFile],
+    clientArgs = [clientPath, '-c', configFile].concat(startFragments),
     ioSettings = { stdio: ['ignore', 'pipe', 'pipe'] };
-startFragment && clientArgs.push(startFragment);
 
 // Start the server
 var server = http.createServer(handleRequest);

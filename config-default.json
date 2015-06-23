@@ -1,6 +1,4 @@
 {
-  "startFragment": "http://fragments.dbpedia.org/2014/en",
-
   "prefixes": {
     "rdf":         "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs":        "http://www.w3.org/2000/01/rdf-schema#",
@@ -14,6 +12,7 @@
     "geo":         "http://www.w3.org/2003/01/geo/wgs84_pos#",
     "dbpedia":     "http://dbpedia.org/resource/",
     "dbpedia-owl": "http://dbpedia.org/ontology/",
-    "dbpprop":     "http://dbpedia.org/property/"
+    "dbpprop":     "http://dbpedia.org/property/",
+    "schema":      "http://schema.org/"
   }
 }
