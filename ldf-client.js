@@ -1,14 +1,39 @@
-/*! @license ©2013 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/*! @license ©2013-2015 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 /** Main ldf-client module exports. */
-var SparqlResultWriter = require('./lib/writers/SparqlResultWriter');
-SparqlResultWriter.register('application/json', './JSONResultWriter');
-SparqlResultWriter.register('application/sparql-results+json', './SparqlJSONResultWriter');
-SparqlResultWriter.register('application/sparql-results+xml', './SparqlXMLResultWriter');
 
-module.exports = {
+// Replace local `require` by a lazy loader,
+// so we can keep `require` calls for static analyzers such as browserify
+var globalRequire = require;
+require = function (path) { return function () { return require(path); } };
+
+// Temporarily set lazy initializers as exports
+var exports = module.exports = {
   SparqlIterator: require('./lib/triple-pattern-fragments/SparqlIterator.js'),
   FragmentsClient: require('./lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
   Logger: require('./lib/util/Logger'),
   HttpClient: require('./lib/util/HttpClient'),
-  SparqlResultWriter: SparqlResultWriter,
+  SparqlResultWriter: function () {
+    var SparqlResultWriter = require('./lib/writers/SparqlResultWriter');
+    SparqlResultWriter.register('application/json', './JSONResultWriter');
+    SparqlResultWriter.register('application/sparql-results+json', './SparqlJSONResultWriter');
+    SparqlResultWriter.register('application/sparql-results+xml', './SparqlXMLResultWriter');
+    return SparqlResultWriter;
+  },
 };
+
+// Replace exports by properties that load on demand
+Object.keys(exports).forEach(function (submodule) {
+  var loadSubmodule = exports[submodule];
+  Object.defineProperty(exports, submodule, {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+      // Replace the (currently executing) lazy property handler by the actual module
+      delete exports[submodule];
+      return exports[submodule] = loadSubmodule();
+    },
+  });
+});
+
+// Restore original require
+require = globalRequire;
