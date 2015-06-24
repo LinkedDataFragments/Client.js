@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.linkeddatafragments</groupId>
+    <artifactId>client-js</artifactId>
+    <version>1.1.5-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Triple Pattern Fragments client for JavaScript</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Repository</name>
+            <url>https://repository.mulesoft.org/releases/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mule.tools.javascript</groupId>
+                <artifactId>npm-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>fetch-modules</goal>
+                        </goals>
+                        <configuration>
+                            <packages>
+                                <package>jsdom:0.8.8</package>
+                                <package>request:~2.27.0</package>
+                                <package>n3:~0.3.0</package>
+                                <package>setimmediate:~1.0.1</package>
+                                <package>sparqljs:~1.0.1</package>
+                                <package>uritemplate:~0.3.0</package>
+                                <package>lodash:~2.4.1</package>
+                                <package>lru-cache:~2.5.0</package>
+                            </packages>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/resources/META-INF</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/META-INF</directory>
+                <filtering>false</filtering>
+                <targetPath>${project.build.outputDirectory}/META-INF/resources/webjars/${project.groupId}.${project.artifactId}/${project.version}</targetPath>
+            </resource>
+            <resource>
+                <directory>lib</directory>
+                <filtering>false</filtering>
+                <targetPath>${project.build.outputDirectory}/META-INF/resources/webjars/${project.groupId}.${project.artifactId}/${project.version}</targetPath>
+            </resource>
+        </resources>
+    </build>
+
+</project>
+

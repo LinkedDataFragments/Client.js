@@ -3,3 +3,6 @@ docs
 config.json
 browser/scripts/ldf-client.js
 *.log
+*~
+src
+target
