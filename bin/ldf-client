@@ -8,10 +8,26 @@ var ldf = require('../ldf-client');
 var args = require('minimist')(process.argv.slice(2));
 if (args.listformats)
   return Object.keys(ldf.SparqlResultWriter.writers).forEach(function (t) { console.log(t); });
-if (!(args.q || args.f) && args._.length < 1 || args._.length > 2 || args.h || args.help) {
-  console.error('usage: ldf-client [startFragment] query.sparql [-c config.json] ' +
-                                  '[-t application/json] [-l logLevel] [--help]');
-  console.error('       ldf-client --listformats (Lists supported result formats for -t)');
+if (!(args.q || args.f) && args._.length < 2 || args._.length < 1 || args.h || args.help) {
+  console.error([
+    "The ldf-client tool evaluates a SPARQL query over one of more datasets",
+    "that are published as Triple Pattern Fragments.",
+    "",
+    "Usage:",
+    "  ldf-client http://fragments.example.org/dataset [-q] 'SELECT * WHERE { ?s ?p ?o }'",
+    "  ldf-client http://fragments.example.org/dataset [-f] query.sparql",
+    "  ldf-client fragment1 fragment2 fragment3 ... [-q] 'SELECT * WHERE { ?s ?p ?o }'",
+    "  ldf-client fragment1 fragment2 fragment3 ... [-f] query.sparql",
+    "",
+    "Options:",
+    "   -q               evaluates the given SPARQL query",
+    "   -f               evaluates the SPARQL query in the given file",
+    "   -c               use the given JSON configuration file (e.g., config.json)",
+    "   -t               determines the MIME type of the output (e.g., application/json)",
+    "   -l               sets the log level (e.g., debug, warn, info)",
+    "   --help           prints this message",
+    "   --listformats    prints the supported MIME types",
+  ].join('\n'));
   return process.exit(1);
 }
 
@@ -24,8 +40,8 @@ var fs = require('fs'),
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
-    queryFile = args.f || args.q || args._.pop(),
-    startFragment = args._.pop() || config.startFragment,
+    queryFile = args.f || args._.pop(),
+    startFragments = args._,
     query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
     mimeType = args.t || 'application/json';
 
@@ -33,7 +49,7 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 Logger.setLevel(args.l || 'warning');
 
 // Execute the query and output its results
-config.fragmentsClient = new ldf.FragmentsClient(startFragment, config);
+config.fragmentsClient = new ldf.FragmentsClient(startFragments, config);
 try {
   var sparqlIterator = new ldf.SparqlIterator(query, config), writer;
   switch (sparqlIterator.queryType) {
@@ -46,6 +62,7 @@ try {
   // Write an RDF representation of all results
   case 'CONSTRUCT':
   case 'DESCRIBE':
+    config.end = false; // stdout cannot be closed
     writer = new N3.Writer(process.stdout, config);
     sparqlIterator.on('data', function (triple) { writer.addTriple(triple); })
                   .on('end',  function () { writer.end(); });
@@ -56,7 +73,7 @@ try {
 
   // Report an error's stack trace
   sparqlIterator.on('error', function (error) {
-    console.error('ERROR: An error occured during query execution.\n');
+    console.error('ERROR: An error occurred during query execution.\n');
     console.error(error.stack);
   });
 }

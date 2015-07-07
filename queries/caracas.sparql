@@ -1,0 +1,6 @@
+SELECT DISTINCT *
+WHERE {
+  <http://dbpedia.org/resource/Caracas> <http://dbpedia.org/ontology/country> ?c .
+  ?e <http://dbpedia.org/ontology/location> ?c .
+  ?p <http://dbpedia.org/ontology/nationality> ?c
+}
