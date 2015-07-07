@@ -11,15 +11,14 @@ var exports = module.exports = {
   SparqlIterator: require('./lib/triple-pattern-fragments/SparqlIterator.js'),
   FragmentsClient: require('./lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
   Logger: require('./lib/util/Logger'),
+  HttpClient: require('./lib/util/HttpClient'),
   Iterator: require('./lib/iterators/Iterator.js'),
   MultiTransformIterator: require('./lib/iterators/MultiTransformIterator.js'),
   Util: require('./lib/util/RdfUtil.js'),
   MetadataExtractor: require('./lib/extractors/MetadataExtractor'),
   CompositeExtractor: require('./lib/extractors/CompositeExtractor'),
   ControlsExtractor: require('./lib/extractors/ControlsExtractor'),
-  FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
   TurtleFragmentIterator: require('./lib/triple-pattern-fragments/TurtleFragmentIterator.js'),
-  HttpClient: require('./lib/util/HttpClient'),
   SparqlResultWriter: function () {
     var SparqlResultWriter = require('./lib/writers/SparqlResultWriter');
     SparqlResultWriter.register('application/json', './JSONResultWriter');
