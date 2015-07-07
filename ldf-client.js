@@ -18,7 +18,7 @@ var exports = module.exports = {
   CompositeExtractor: require('./lib/extractors/CompositeExtractor'),
   ControlsExtractor: require('./lib/extractors/ControlsExtractor'),
   FragmentsClient: require('./lib/triple-pattern-fragments/FragmentsClient'),
-  TurtleFragmentIterator: require('./lib/triple-pattern-fragments/TurtleFragmentIterator.js')
+  TurtleFragmentIterator: require('./lib/triple-pattern-fragments/TurtleFragmentIterator.js'),
   HttpClient: require('./lib/util/HttpClient'),
   SparqlResultWriter: function () {
     var SparqlResultWriter = require('./lib/writers/SparqlResultWriter');
