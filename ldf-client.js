@@ -17,6 +17,7 @@ var exports = module.exports = {
     SparqlResultWriter.register('application/json', './JSONResultWriter');
     SparqlResultWriter.register('application/sparql-results+json', './SparqlJSONResultWriter');
     SparqlResultWriter.register('application/sparql-results+xml', './SparqlXMLResultWriter');
+    SparqlResultWriter.register('debug', './StatsResultWriter');
     return SparqlResultWriter;
   },
 };
