@@ -1,0 +1,12 @@
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbowl: <http://dbpedia.org/ontology/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX linkedMDB: <http://data.linkedmdb.org/resource/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT * WHERE {
+?director dbowl:nationality dbpedia:Italy .
+?film dbowl:director ?director.
+?x owl:sameAs ?film .
+?x foaf:based_near ?y .
+?y <http://www.geonames.org/ontology#officialName> ?n .
+}

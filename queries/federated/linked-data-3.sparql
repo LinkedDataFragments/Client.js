@@ -1,0 +1,7 @@
+SELECT * WHERE {
+?role <http://data.semanticweb.org/ns/swc/ontology#isRoleAt> <http://data.semanticweb.org/conference/eswc/2010> .
+?role <http://data.semanticweb.org/ns/swc/ontology#heldBy> ?p .
+?paper <http://swrc.ontoware.org/ontology#author> ?p .
+?paper <http://data.semanticweb.org/ns/swc/ontology#isPartOf> ?proceedings .
+?proceedings <http://data.semanticweb.org/ns/swc/ontology#relatedToEvent>  <http://data.semanticweb.org/conference/eswc/2010> .
+}

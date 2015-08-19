@@ -1,0 +1,6 @@
+SELECT ?location ?news WHERE {
+?location <http://www.geonames.org/ontology#parentFeature> ?parent .
+?parent <http://www.geonames.org/ontology#name> 'California' .
+?y <http://www.w3.org/2002/07/owl#sameAs> ?location .
+?y <http://data.nytimes.com/elements/topicPage> ?news .
+}
