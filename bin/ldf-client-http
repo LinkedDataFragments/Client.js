@@ -19,21 +19,22 @@ var MIME_PLAIN  = 'text/plain',
 
 // Retrieve and check arguments
 var args = require('minimist')(process.argv.slice(2));
-if (args._.length > 1 || args.h || args.help) {
-  console.error('usage: ldf-client-http [startFragment] [-c config.json] [-p port] [--help]');
+if (!args._.length || args.h || args.help) {
+  console.error('usage: ldf-client-http startFragment1 [startFragment2 ...] [-c config.json] [-p port] [-t timeout] [--help]');
   return process.exit(1);
 }
 var node = process.argv[0],
-    startFragment = args._[0],
+    startFragments = args._,
     port = parseInt(args.p, 10) || 3000,
+    timeout = (parseInt(args.t, 10) || 60) * 1000,
     configFile = args.c || path.join(__dirname, '../config-default.json'),
-    clientArgs = [clientPath, '-c', configFile],
+    clientArgs = [clientPath, '-c', configFile].concat(startFragments),
     ioSettings = { stdio: ['ignore', 'pipe', 'pipe'] };
-startFragment && clientArgs.push(startFragment);
 
 // Start the server
 var server = http.createServer(handleRequest);
 server.listen(port);
+server.setTimeout(2 * timeout); // unreliable mechanism, set too high on purpose
 console.error('Server running on http://localhost:' + port + '/');
 
 // Handles an HTTP request
@@ -41,6 +42,7 @@ function handleRequest(request, response) {
   // Verify the path
   var requestUrl = url.parse(request.url, true);
   if (requestUrl.pathname !== '/sparql') {
+    console.log("[404] Resource not found");
     response.writeHead(404, { 'content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Resource not found' }));
     return;
@@ -53,6 +55,7 @@ function handleRequest(request, response) {
   case 'GET':
     return writeQueryResult(request, response, requestUrl.query.query || '');
   default:
+    console.log("[405] " + request.method + " to " + requestUrl);
     response.writeHead(405, { 'content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Incorrect HTTP method' }));
   }
@@ -69,6 +72,8 @@ function writeQueryResult(request, response, query) {
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
+      console.log("[200] " + request.method + " to " + request.url);
+      console.log("      Received query: " + query);
       response.writeHead(200, { 'content-type': mimeType });
       response.write(data);
       client.stdout.pipe(response);
@@ -79,6 +84,7 @@ function writeQueryResult(request, response, query) {
   client.stderr.setEncoding('utf8');
   client.stderr.once('data', function (data) {
     if (!response.headersSent) {
+      console.log("[400] Bad request");
       response.writeHead(400, { 'content-type': MIME_PLAIN });
       response.write(data);
       client.stderr.pipe(response);
@@ -90,8 +96,16 @@ function writeQueryResult(request, response, query) {
   client.stdout.on('end', function () { ended ? response.end() : ended = true; });
   client.stderr.on('end', function () { ended ? response.end() : ended = true; });
 
-  // Stop the client if the connection is terminated
-  response.on('close', function () { client.kill('SIGKILL'); });
+  // Stop after timeout, and kill the client if the connection is terminated
+  // Note: socket or response timeouts seemed unreliable, hence the explicit timeout
+  var killTimeout = setTimeout(killClient, timeout);
+  response.on('close', killClient);
+  function killClient() {
+    try { response.end(); }
+    catch (e) {}
+    client.kill('SIGKILL');
+    clearTimeout(killTimeout);
+  }
 }
 
 // Parses the body of a SPARQL POST request

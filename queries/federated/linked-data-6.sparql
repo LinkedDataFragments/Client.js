@@ -1,0 +1,10 @@
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbowl: <http://dbpedia.org/ontology/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX linkedMDB: <http://data.linkedmdb.org/resource/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX gn: <http://www.geonames.org/ontology#>
+SELECT * WHERE {
+?x gn:parentFeature <http://sws.geonames.org/2921044/> .
+?x gn:name ?n .
+}

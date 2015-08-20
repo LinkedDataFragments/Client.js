@@ -1,3 +1,5 @@
+PREFIX dbpprop:<http://dbpedia.org/ontology/>
+
 SELECT ?title ?name
 WHERE {
   ?movie dbpprop:starring dbpedia:Brad_Pitt;

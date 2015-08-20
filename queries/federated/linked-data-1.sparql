@@ -1,0 +1,5 @@
+SELECT * WHERE {
+?proceedings <http://data.semanticweb.org/ns/swc/ontology#relatedToEvent>  <http://data.semanticweb.org/conference/eswc/2010> .
+?paper <http://data.semanticweb.org/ns/swc/ontology#isPartOf> ?proceedings .
+?paper <http://swrc.ontoware.org/ontology#author> ?p .
+}

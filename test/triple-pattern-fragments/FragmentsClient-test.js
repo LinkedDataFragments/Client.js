@@ -128,7 +128,8 @@ describe('FragmentsClient', function () {
         var fragment = Iterator.empty();
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
-        var result = client.getFragmentByPattern(pattern);
+        var result = client.getFragmentByPattern(pattern), resultError;
+        result.on('error', function (error) { resultError = error; });
         fragment.setProperty('statusCode',  404);
         fragment.setProperty('contentType', 'text/turtle');
 
@@ -141,11 +142,8 @@ describe('FragmentsClient', function () {
           result.should.be.a.iteratorWithLength(0, done);
         });
 
-        it('should emit the fragment metadata', function (done) {
-          result.getProperty('metadata', function (metadata) {
-            metadata.should.deep.equal({ totalTriples: 0 });
-            done();
-          });
+        it('should emit an error', function () {
+          expect(resultError).to.deep.equal(new Error('Could not retrieve http://data.linkeddatafragments.org/dbpedia?subject=&predicate=http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type&object=http%3A%2F%2Fdbpedia.org%2Fresource%2FUnknownArtist (404)'));
         });
       });
     });
@@ -191,6 +189,46 @@ describe('FragmentsClient', function () {
           metadata.should.deep.equal({ totalTriples: 0 });
           done();
         });
+      });
+    });
+  });
+
+  describe('A FragmentsClient with a start fragment that errors', function () {
+    var startFragment = Iterator.passthrough();
+    var emittedError = new Error('startfragment error');
+    var client = new FragmentsClient(startFragment);
+    var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
+
+    describe('when asked for ?s ?o dbpedia:York', function () {
+      var result, resultError;
+      before(function (done) {
+        result = client.getFragmentByPattern(pattern);
+        result.on('error', function (error) { resultError = error; done(); });
+        startFragment.emit('error', emittedError);
+      });
+
+      it('should not return any triples', function (done) {
+        result.should.be.a.iteratorWithLength(0, done);
+      });
+
+      it('should emit the error', function () {
+        expect(resultError).to.equal(emittedError);
+      });
+    });
+
+    describe('when asked for ?s ?o dbpedia:York a second time', function () {
+      var result, resultError;
+      before(function (done) {
+        result = client.getFragmentByPattern(pattern);
+        result.on('error', function (error) { resultError = error; done(); });
+      });
+
+      it('should not return any triples', function (done) {
+        result.should.be.a.iteratorWithLength(0, done);
+      });
+
+      it('should emit the error', function () {
+        expect(resultError).to.equal(emittedError);
       });
     });
   });

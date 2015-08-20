@@ -1,0 +1,6 @@
+SELECT ?name ?location ?news WHERE {
+?artist <http://xmlns.com/foaf/0.1/name> ?name .
+?artist <http://xmlns.com/foaf/0.1/based_near> ?location .
+?location <http://www.geonames.org/ontology#parentFeature> ?germany .
+?germany <http://www.geonames.org/ontology#name> 'Federal Republic of Germany'
+}

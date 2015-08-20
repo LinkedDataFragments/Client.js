@@ -1,0 +1,7 @@
+SELECT ?actor ?news WHERE {
+?film <http://purl.org/dc/terms/title> 'Tarzan' .
+?film <http://data.linkedmdb.org/resource/movie/actor> ?actor .
+?actor <http://www.w3.org/2002/07/owl#sameAs> ?x.
+?y <http://www.w3.org/2002/07/owl#sameAs> ?x .
+?y <http://data.nytimes.com/elements/topicPage> ?news
+}
