@@ -40,7 +40,7 @@ var fs = require('fs'),
 // Parse and initialize configuration
 var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' })),
-    queryFile = args.f || args._.pop(),
+    queryFile = args.f || args.q || args._.pop(),
     startFragments = args._,
     query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
     mimeType = args.t || 'application/json';
