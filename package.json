@@ -15,9 +15,10 @@
     "url": "https://github.com/LinkedDataFragments/Client.js/issues"
   },
   "scripts": {
-    "docs": "./node_modules/jsdoc/jsdoc.js -c jsdoc.json README.md lib",
-    "test": "./node_modules/mocha/bin/mocha",
-    "hint": "./node_modules/jshint/bin/jshint bin/* lib test"
+    "docs": "jsdoc -c jsdoc.json README.md lib",
+    "test": "mocha",
+    "hint": "jshint bin/* lib test",
+    "browserify": "browserify browser.js -u stream -o ldf-client-browser.js"
   },
   "dependencies": {
     "request": "~2.27.0",
