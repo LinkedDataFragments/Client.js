@@ -62,12 +62,18 @@ $ [sudo] npm install -g ldf-client
 
 ### Browser version
 
-The client can also run in Web browsers via [browserify](https://github.com/substack/node-browserify).
-[Live demo.](http://client.linkeddatafragments.org/)
+The client can also run in Web browsers via [browserify](https://github.com/substack/node-browserify), which provides browser equivalents for Node.js-specific parts.
+[Try the live demo.](http://client.linkeddatafragments.org/)
 
-The API is the same as that of the Node version.
-<br>
-A usage example is available in [a separate project](https://github.com/LinkedDataFragments/WebClient).
+To build a browserified version, run:
+```
+npm install [-g] browserify
+npm run browserify
+```
+The browserified version will be written to `ldf-client-browser.js`.
+
+The API is the same as that of the Node version, except that `ldf = require('ldf-client')` should be replaced by using `window.ldf`.
+An example is available in [a separate project](https://github.com/LinkedDataFragments/jQuery-Widget.js).
 
 ### From source
 To install from the latest GitHub sources, execute:
