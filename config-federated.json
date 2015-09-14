@@ -1,4 +1,14 @@
 {
+  "startFragment": [
+    "http://data.linkeddatafragments.org/dbpedia",
+    "http://data.linkeddatafragments.org/geonames",
+    "http://data.linkeddatafragments.org/wiktionary",
+    "http://data.linkeddatafragments.org/dblp",
+    "http://data.linkeddatafragments.org/linkedgeodata",
+    "http://data.linkeddatafragments.org/subjectiveeye3d",
+    "http://data.linkeddatafragments.org/dbpediapagerank"
+    ],
+
   "prefixes": {
     "rdf":         "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs":        "http://www.w3.org/2000/01/rdf-schema#",
@@ -12,7 +22,6 @@
     "geo":         "http://www.w3.org/2003/01/geo/wgs84_pos#",
     "dbpedia":     "http://dbpedia.org/resource/",
     "dbpedia-owl": "http://dbpedia.org/ontology/",
-    "dbpprop":     "http://dbpedia.org/property/",
-    "schema":      "http://schema.org/"
+    "dbpprop":     "http://dbpedia.org/property/"
   }
 }

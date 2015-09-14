@@ -1,0 +1,12 @@
+PREFIX kegg: <http://bio2rdf.org/ns/kegg#>
+PREFIX drugbank: <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT * WHERE {
+?drug drugbank:drugCategory <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugcategory/micronutrient> .
+?drug drugbank:casRegistryNumber ?id .
+?drug owl:sameAs ?s .
+?s foaf:name ?o .
+?s skos:subject ?sub .
+}
