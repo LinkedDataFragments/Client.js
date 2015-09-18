@@ -21,6 +21,7 @@ FileFragmentsClient.prototype.getFragmentByPattern = function (pattern) {
   });
   triples.on('error', console.error);
   triples.setProperty('metadata', metadata);
+  triples.setProperty('filter', {});
   return triples;
 };
 
