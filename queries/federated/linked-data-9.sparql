@@ -1,0 +1,13 @@
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbprop: <http://dbpedia.org/property/>
+PREFIX dbowl: <http://dbpedia.org/ontology/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX factbook: <http://www4.wiwiss.fu-berlin.de/factbook/ns#>
+SELECT * WHERE {
+?n skos:subject <http://dbpedia.org/resource/Category:Chancellors_of_Germany> .
+?n owl:sameAs ?p2 .
+?p2 <http://data.nytimes.com/elements/latest_use> ?u .
+}
