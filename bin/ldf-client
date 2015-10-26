@@ -25,6 +25,7 @@ if (!(args.q || args.f) && args._.length < 2 || args._.length < 1 || args.h || a
     "   -c               use the given JSON configuration file (e.g., config.json)",
     "   -t               determines the MIME type of the output (e.g., application/json)",
     "   -l               sets the log level (e.g., debug, warn, info)",
+    "   -d               sets a datetime for querying Memento-enabled archives",
     "   --help           prints this message",
     "   --listformats    prints the supported MIME types",
   ].join('\n'));
