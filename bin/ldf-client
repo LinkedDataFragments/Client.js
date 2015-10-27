@@ -49,7 +49,7 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
 
 // parse memento datetime
 if (datetime)
-  config.datetime = new Date(datetime);
+  config.datetime = datetime === true ? new Date() : new Date(datetime);
 
 // Configure logging
 Logger.setLevel(args.l || 'warning');
