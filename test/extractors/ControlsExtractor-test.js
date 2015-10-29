@@ -65,16 +65,16 @@ describe('ControlsExtractor', function () {
         controls.should.have.property('fragment', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
       });
 
-      it('should indicate the firstPage link', function () {
-        controls.should.have.property('firstPage', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1');
+      it('should indicate the first link', function () {
+        controls.should.have.property('first', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1');
       });
 
-      it('should indicate the previousPage link', function () {
-        controls.should.have.property('previousPage', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1');
+      it('should indicate the previous link', function () {
+        controls.should.have.property('previous', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1');
       });
 
-      it('should indicate the nextPage link', function () {
-        controls.should.have.property('nextPage', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=3');
+      it('should indicate the next link', function () {
+        controls.should.have.property('next', 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=3');
       });
 
       it('should give a getFragmentUrl function that gives the URL for a triple pattern', function () {
