@@ -17,6 +17,7 @@
 @prefix void: <http://rdfs.org/ns/void#>.
 @prefix : <http://data.linkeddatafragments.org/>.
 
+<#metadata> foaf:primaryTopic :dbpedia.
 <#metadata> {
 :dbpedia a void:Dataset, hydra:Collection;
     void:subset <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2>;
