@@ -2,7 +2,7 @@
 
 var UnionIterator = require('../../lib/iterators/UnionIterator');
 
-var Iterator = require('../../lib/iterators/Iterator');
+var AsyncIterator = require('asynciterator');
 
 describe('UnionIterator', function () {
   describe('The UnionIterator module', function () {
@@ -14,12 +14,12 @@ describe('UnionIterator', function () {
       new UnionIterator().should.be.an.instanceof(UnionIterator);
     });
 
-    it('should make Iterator objects', function () {
-      UnionIterator().should.be.an.instanceof(Iterator);
+    it('should make AsyncIterator objects', function () {
+      UnionIterator().should.be.an.instanceof(AsyncIterator);
     });
 
-    it('should be an Iterator constructor', function () {
-      new UnionIterator().should.be.an.instanceof(Iterator);
+    it('should be an AsyncIterator constructor', function () {
+      new UnionIterator().should.be.an.instanceof(AsyncIterator);
     });
   });
 
@@ -48,7 +48,7 @@ describe('UnionIterator', function () {
   describe('A UnionIterator with an empty source iterator', function () {
     var iterator;
     before(function () {
-      iterator = new UnionIterator([Iterator.empty()]);
+      iterator = new UnionIterator([AsyncIterator.empty()]);
     });
 
     it('should have ended', function () {
@@ -70,7 +70,7 @@ describe('UnionIterator', function () {
   describe('A UnionIterator with a single source iterator', function () {
     var iterator, source;
     before(function () {
-      source = new Iterator.PassthroughIterator(true);
+      source = new AsyncIterator.BufferedIterator();
       source._push(1);
       iterator = new UnionIterator([source]);
     });
@@ -108,7 +108,7 @@ describe('UnionIterator', function () {
     describe('after the source has ended', function () {
       before(function (done) {
         iterator.on('end', done);
-        source._end();
+        source.close();
       });
 
       it('should should have ended', function () {
@@ -124,9 +124,9 @@ describe('UnionIterator', function () {
   describe('A UnionIterator with two source iterators', function () {
     var iterator, sourceA, sourceB;
     before(function () {
-      sourceA = new Iterator.PassthroughIterator(true);
+      sourceA = new AsyncIterator.BufferedIterator(true);
       sourceA._push('A1');
-      sourceB = new Iterator.PassthroughIterator(true);
+      sourceB = new AsyncIterator.BufferedIterator(true);
       sourceB._push('B1');
       iterator = new UnionIterator([sourceA, sourceB], { bufferSize: 1 });
     });
@@ -146,8 +146,7 @@ describe('UnionIterator', function () {
     });
 
     describe('after both sources have new items', function () {
-      before(function (done) {
-        iterator.once('readable', done);
+      before(function () {
         sourceA._push('A2');
         sourceB._push('B2');
       });
