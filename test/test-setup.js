@@ -1,7 +1,8 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
 var Logger = require('../lib/util/Logger'),
-    Iterator = require('../lib/iterators/Iterator');
+    Iterator = require('../lib/iterators/Iterator'),
+    AsyncIterator = require('asynciterator');
 Logger.setLevel('warning');
 
 // Set up the sinon stubbing library
@@ -57,4 +58,37 @@ function getIteratorItems(iterator, callback) {
     }
     catch (assertionError) { callback(error); }
   });
+}
+
+// Add AsyncIterator testing methods
+chai.use(function (chai, utils) {
+  // Tests whether the object is a stream with the given items
+  utils.addMethod(chai.Assertion.prototype, 'asyncIteratorOf', function (expectedItems, done) {
+    var actualItems = [];
+    validateAsyncIterator(utils.flag(this, 'object'),
+                          function (item) { actualItems.push(item); },
+                          function () { actualItems.should.deep.equal(expectedItems); }, done);
+  });
+});
+
+// Validates an AsyncIterator and its items
+function validateAsyncIterator(iterator, handleItem, validate, done) {
+  try {
+    should.exist(iterator);
+    iterator.should.be.an.instanceof(AsyncIterator);
+
+    if (iterator.ended)
+      validate();
+    else {
+      iterator.on('data', handleItem);
+      iterator.on('error', done);
+      iterator.on('end', function () {
+        var error = null;
+        try { validate(); }
+        catch (e) { error = e; }
+        done(error);
+      });
+    }
+  }
+  catch (error) { done(error); }
 }
