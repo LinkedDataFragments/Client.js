@@ -77,8 +77,10 @@ function validateAsyncIterator(iterator, handleItem, validate, done) {
     should.exist(iterator);
     iterator.should.be.an.instanceof(AsyncIterator);
 
-    if (iterator.ended)
+    if (iterator.ended) {
       validate();
+      done();
+    }
     else {
       iterator.on('data', handleItem);
       iterator.on('error', done);
