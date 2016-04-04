@@ -150,7 +150,6 @@ describe('UnionIterator', function () {
         iterator.once('readable', done);
         sourceA._push('A2');
         sourceB._push('B2');
-        done();
       });
 
       it("should read the first iterator's second element", function () {

@@ -26,6 +26,7 @@ if (!(args.q || args.f) && args._.length < 2 || args._.length < 1 || args.h || a
     "   -t               determines the MIME type of the output (e.g., application/json)",
     "   -l               sets the log level (e.g., debug, warn, info)",
     "   -d               sets a datetime for querying Memento-enabled archives",
+    "   --csv            outputs logging in CSV format (only if logging level is set)",
     "   --help           prints this message",
     "   --listformats    prints the supported MIME types",
   ].join('\n'));
@@ -53,6 +54,7 @@ if (datetime)
 
 // Configure logging
 Logger.setLevel(args.l || 'warning');
+if (args.csv) Logger.setMode('CSV');
 
 // Execute the query and output its results
 config.fragmentsClient = new ldf.FragmentsClient(startFragments, config);

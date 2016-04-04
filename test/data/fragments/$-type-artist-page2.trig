@@ -37,9 +37,9 @@ _:object hydra:variable "object";
     dcterms:source :dbpedia;
     hydra:totalItems "61073"^^xsd:integer;
     void:triples "61073"^^xsd:integer;
-    hydra:firstPage <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1>;
-    hydra:previousPage <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1>;
-    hydra:nextPage <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=3>.
+    hydra:first <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1>;
+    hydra:previous <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=1>;
+    hydra:next <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=3>.
 rdf:type rdfs:seeAlso <http://data.linkeddatafragments.org/dbpedia?predicate=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>, <http://data.linkeddatafragments.org/dbpedia?subject=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>, <http://data.linkeddatafragments.org/dbpedia?object=%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23type%3E>.
 <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist> dcterms:subject dbpedia-owl:Artist.
 :dbpedia void:classPartition <http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist>.
