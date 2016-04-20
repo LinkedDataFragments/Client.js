@@ -62,12 +62,19 @@ function getIteratorItems(iterator, callback) {
 
 // Add AsyncIterator testing methods
 chai.use(function (chai, utils) {
-  // Tests whether the object is a stream with the given items
+  // Tests whether the object is an iterator with the given items
   utils.addMethod(chai.Assertion.prototype, 'asyncIteratorOf', function (expectedItems, done) {
     var actualItems = [];
     validateAsyncIterator(utils.flag(this, 'object'),
                           function (item) { actualItems.push(item); },
                           function () { actualItems.should.deep.equal(expectedItems); }, done);
+  });
+  // Tests whether the object is an iterator with the given number of items
+  utils.addMethod(chai.Assertion.prototype, 'asyncIteratorWithLength', function (expectedItemCount, done) {
+    var itemCount = 0;
+    validateAsyncIterator(utils.flag(this, 'object'),
+                          function (item) { itemCount++; },
+                          function () { itemCount.should.equal(expectedItemCount); }, done);
   });
 });
 

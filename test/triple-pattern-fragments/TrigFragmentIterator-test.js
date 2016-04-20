@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
 var TrigFragmentIterator = require('../../lib/triple-pattern-fragments/TrigFragmentIterator');
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     fs = require('fs');
 
 describe('TrigFragmentIterator', function () {
@@ -18,12 +18,12 @@ describe('TrigFragmentIterator', function () {
       new TrigFragmentIterator().should.be.an.instanceof(TrigFragmentIterator);
     });
 
-    it('should make Iterator objects', function () {
-      TrigFragmentIterator().should.be.an.instanceof(Iterator);
+    it('should make AsyncIterator objects', function () {
+      TrigFragmentIterator().should.be.an.instanceof(AsyncIterator);
     });
 
-    it('should be an Iterator constructor', function () {
-      new TrigFragmentIterator().should.be.an.instanceof(Iterator);
+    it('should be an AsyncIterator constructor', function () {
+      new TrigFragmentIterator().should.be.an.instanceof(AsyncIterator);
     });
   });
 
@@ -57,11 +57,11 @@ describe('TrigFragmentIterator', function () {
     });
 
     it('should return all data triples in the fragment', function (done) {
-      fragment.should.be.an.iteratorWithLength(10, done);
+      fragment.should.be.an.asyncIteratorWithLength(10, done);
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
-      fragment.metadataStream.should.be.an.iteratorWithLength(34, done);
+      fragment.metadataStream.should.be.an.asyncIteratorWithLength(34, done);
     });
   });
 
@@ -73,7 +73,7 @@ describe('TrigFragmentIterator', function () {
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
-      fragment.metadataStream.should.be.an.iteratorWithLength(34, done);
+      fragment.metadataStream.should.be.an.asyncIteratorWithLength(34, done);
     });
   });
 });
