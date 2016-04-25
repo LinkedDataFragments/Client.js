@@ -22,7 +22,7 @@
   "dependencies": {
     "jsdom": "0.8.8",
     "request": "~2.27.0",
-    "n3": "~0.3.0",
+    "n3": "git://github.com/rubensworks/N3.js.git#936b49f48edde4ae2c1b816781dee5fd52ac9c42",
     "setimmediate": "~1.0.1",
     "sparqljs": "~1.0.1",
     "uritemplate": "~0.3.0",
