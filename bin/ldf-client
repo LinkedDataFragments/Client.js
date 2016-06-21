@@ -25,6 +25,7 @@ if (!(args.q || args.f) && args._.length < 2 || args._.length < 1 || args.h || a
     "   -c               use the given JSON configuration file (e.g., config.json)",
     "   -t               determines the MIME type of the output (e.g., application/json)",
     "   -l               sets the log level (e.g., debug, warn, info)",
+    "   -d               sets a datetime for querying Memento-enabled archives",
     "   --csv            outputs logging in CSV format (only if logging level is set)",
     "   --help           prints this message",
     "   --listformats    prints the supported MIME types",
@@ -44,7 +45,12 @@ var configFile = args.c ? args.c : path.join(__dirname, '../config-default.json'
     queryFile = args.f || args.q || args._.pop(),
     startFragments = args._,
     query = args.q || (args.f || fs.existsSync(queryFile) ? fs.readFileSync(queryFile, 'utf8') : queryFile),
-    mimeType = args.t || 'application/json';
+    mimeType = args.t || 'application/json',
+    datetime = args.d || config.datetime;
+
+// parse memento datetime
+if (datetime)
+  config.datetime = datetime === true ? new Date() : new Date(datetime);
 
 // Configure logging
 Logger.setLevel(args.l || 'warning');
