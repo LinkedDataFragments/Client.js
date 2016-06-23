@@ -90,6 +90,22 @@ $ ./bin/ldf-client http://fragments.dbpedia.org/2014/en queries/artists-york.spa
 The `queries` folder contains several example queries for DBpedia.
 
 
+### _(Optional)_ Running in a Docker container
+
+If you want to rapidly deploy use the client as a microservice, you can build a [Docker](https://www.docker.com/) container as follows:
+
+```bash
+$ docker build -t ldf-client .
+```
+After that, you can run your newly created container:
+```bash
+$ docker run -it --rm ldf-client http://fragments.dbpedia.org/2014/en 'SELECT * WHERE { ?s ?p ?o } LIMIT 100'
+```
+Mounting custom config and query files can be done like this:
+```bash
+$ docker run -it --rm $(pwd)/config.json:/tmp/config.json $(pwd)/query.sparql:/tmp/query.sparql ldf-client http://fragments.dbpedia.org/2014/en -f /tmp/query.sparql -c /tmp/config.json
+```
+
 ## License
 The Linked Data Fragments client is written by [Ruben Verborgh](http://ruben.verborgh.org/) and colleagues.
 
