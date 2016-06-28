@@ -2,7 +2,7 @@
 var HttpClient = require('../../lib/util/HttpClient');
 
 var EventEmitter = require('events').EventEmitter,
-    Iterator = require('../../lib/iterators/Iterator');
+    AsyncIterator = require('asynciterator');
 
 describe('HttpClient', function () {
   describe('The HttpClient module', function () {
@@ -39,7 +39,7 @@ describe('HttpClient', function () {
       });
 
       it("should return an iterator with the response's contents", function (done) {
-        response.should.be.an.iteratorOf([1, 2, 3], done);
+        response.should.be.an.asyncIteratorOf([1, 2, 3], done);
       });
 
       it('should set the status code', function (done) {
@@ -85,7 +85,7 @@ describe('HttpClient', function () {
       });
 
       it('should return the request value', function (done) {
-        response.should.be.an.iteratorOf([1, 2, 3], done);
+        response.should.be.an.asyncIteratorOf([1, 2, 3], done);
       });
 
       it('should set the status code', function (done) {
@@ -143,7 +143,7 @@ describe('HttpClient', function () {
 
 // Creates a dummy HTTP response
 function createResponse(contents, contentType) {
-  var response = Iterator.fromArray(contents);
+  var response = AsyncIterator.fromArray(contents);
   response.statusCode = 200;
   response.headers = { 'content-type': contentType };
   return response;
