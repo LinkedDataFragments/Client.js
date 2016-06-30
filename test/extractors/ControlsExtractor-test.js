@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var ControlsExtractor = require('../../lib/extractors/ControlsExtractor');
 
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     rdf = require('../../lib/util/RdfUtil'),
     N3 = require('n3'),
     fs = require('fs');
@@ -27,7 +27,7 @@ describe('ControlsExtractor', function () {
     describe('extracting from an empty stream', function () {
       var controls;
       before(function (done) {
-        controlsExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, Iterator.empty(),
+        controlsExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, AsyncIterator.empty(),
                                   function (error, c) { controls = c, done(error); });
       });
 
@@ -39,7 +39,7 @@ describe('ControlsExtractor', function () {
     describe('extracting from a stream without controls information', function () {
       var controls;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherProperty', '"1234"'),
         ]);
         controlsExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,

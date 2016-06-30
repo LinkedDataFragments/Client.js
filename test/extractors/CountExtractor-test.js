@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var CountExtractor = require('../../lib/extractors/CountExtractor');
 
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     rdf = require('../../lib/util/RdfUtil');
 
 describe('CountExtractor', function () {
@@ -25,7 +25,7 @@ describe('CountExtractor', function () {
     describe('extracting from an empty stream', function () {
       var metadata;
       before(function (done) {
-        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, Iterator.empty(),
+        countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, AsyncIterator.empty(),
                                function (error, m) { metadata = m; done(error); });
       });
 
@@ -37,7 +37,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream without count information', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA', '"5678"'),
         ]);
         countExtractor.extract({ fragmentUrl: 'http://example.org/fragment' }, iterator,
@@ -52,7 +52,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with a void:triples count', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA', '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES, '"1234"'),
         ]);
@@ -68,7 +68,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with a hydra:totalItems count', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',     '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.HYDRA_TOTALITEMS, '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',     '"5678"'),
@@ -85,7 +85,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with multiple count triples', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES,     '"1234"'),
           rdf.triple('http://example.org/fragment', rdf.HYDRA_TOTALITEMS, '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES,     '"5678"'),
@@ -102,7 +102,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with counts for different fragments', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragmentA', rdf.VOID_TRIPLES,     '"5678"'),
           rdf.triple('http://example.org/fragmentB', rdf.HYDRA_TOTALITEMS, '"5678"'),
           rdf.triple('http://example.org/fragment',  rdf.VOID_TRIPLES,     '"1234"'),
@@ -120,12 +120,12 @@ describe('CountExtractor', function () {
       var countExtractor, iterator;
       before(function () {
         countExtractor = new CountExtractor();
-        iterator = Iterator.waiting();
+        iterator = new AsyncIterator();
         countExtractor.extract(null, iterator);
       });
 
       it('should not throw an error when the stream ends', function () {
-        iterator._end();
+        iterator.close();
       });
     });
   });
@@ -138,7 +138,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with a void:triples count', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA', '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.VOID_TRIPLES, '"1234"'),
         ]);
@@ -154,7 +154,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with a hydra:totalItems count', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',     '"5678"'),
           rdf.triple('http://example.org/fragment', rdf.HYDRA_TOTALITEMS, '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',     '"5678"'),
@@ -171,7 +171,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with a http://ex.org/countA count', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',       '"5678"'),
           rdf.triple('http://example.org/fragment', 'http://ex.org/countA', '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',       '"5678"'),
@@ -188,7 +188,7 @@ describe('CountExtractor', function () {
     describe('extracting from a stream with a http://ex.org/countB count', function () {
       var metadata;
       before(function (done) {
-        var iterator = Iterator.fromArray([
+        var iterator = AsyncIterator.fromArray([
           rdf.triple('http://example.org/fragment', 'otherPropertyA',       '"5678"'),
           rdf.triple('http://example.org/fragment', 'http://ex.org/countB', '"1234"'),
           rdf.triple('http://example.org/fragment', 'otherPropertyB',       '"5678"'),
