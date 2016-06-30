@@ -128,7 +128,7 @@ describe('UnionIterator', function () {
       sourceA._push('A1');
       sourceB = new AsyncIterator.BufferedIterator(true);
       sourceB._push('B1');
-      iterator = new UnionIterator([sourceA, sourceB], { bufferSize: 1 });
+      iterator = new UnionIterator([sourceA, sourceB]);
     });
 
     describe('after the iterator has been created', function () {
