@@ -33,7 +33,7 @@ if (!(args.q || args.f) && args._.length < 2 || args._.length < 1 || args.h || a
   return process.exit(1);
 }
 
-// Load main libraries (postponed as to here for speed)
+// Load main libraries (postponed to here for speed)
 var fs = require('fs'),
     path = require('path'),
     N3 = require('n3'),
@@ -64,7 +64,7 @@ try {
   // Write JSON representations of the rows or boolean
   case 'ASK':
   case 'SELECT':
-    writer = new ldf.SparqlResultWriter(mimeType, sparqlIterator);
+    writer = new ldf.SparqlResultWriter.instantiate(mimeType, sparqlIterator);
     writer.on('data', function (data) { process.stdout.write(data); });
     break;
   // Write an RDF representation of all results
