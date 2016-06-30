@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var SortIterator = require('../../lib/iterators/SortIterator');
+var SortIterator = require('../../lib/sparql/SortIterator');
 
 var AsyncIterator = require('asynciterator');
 

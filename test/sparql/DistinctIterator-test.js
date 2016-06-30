@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var DistinctIterator = require('../../lib/iterators/DistinctIterator');
+var DistinctIterator = require('../../lib/sparql/DistinctIterator');
 
 var AsyncIterator = require('asynciterator');
 

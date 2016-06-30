@@ -1,6 +1,6 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
-var UnionIterator = require('../../lib/iterators/UnionIterator');
+var UnionIterator = require('../../lib/sparql/UnionIterator');
 
 var AsyncIterator = require('asynciterator');
 

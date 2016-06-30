@@ -8,7 +8,7 @@ require = function (path) { return function () { return require(path); } };
 
 // Temporarily set lazy initializers as exports
 var exports = module.exports = {
-  SparqlIterator: require('./lib/triple-pattern-fragments/SparqlIterator.js'),
+  SparqlIterator: require('./lib/sparql/SparqlIterator.js'),
   FragmentsClient: require('./lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
   Logger: require('./lib/util/Logger'),
   HttpClient: require('./lib/util/HttpClient'),
