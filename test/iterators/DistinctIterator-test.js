@@ -34,14 +34,14 @@ describe('DistinctIterator', function () {
     describe('with a single item', function () {
       var iterator = new DistinctIterator(AsyncIterator.single(1));
       it('should return the item', function (done) {
-        iterator.should.be.an.asyncIteratorOf([1], done);
+        iterator.should.be.an.iteratorOf([1], done);
       });
     });
 
     describe('with 8 items', function () {
       var iterator = new DistinctIterator(AsyncIterator.fromArray([2, 1, 3, 3, 1, 2, 4, 2]));
       it('should return the unique items', function (done) {
-        iterator.should.be.an.asyncIteratorOf([2, 1, 3, 4], done);
+        iterator.should.be.an.iteratorOf([2, 1, 3, 4], done);
       });
     });
   });

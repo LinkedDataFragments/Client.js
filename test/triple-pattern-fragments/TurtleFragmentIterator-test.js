@@ -57,11 +57,11 @@ describe('TurtleFragmentIterator', function () {
     });
 
     it('should return all data triples in the fragment', function (done) {
-      fragment.should.be.an.asyncIteratorWithLength(22, done);
+      fragment.should.be.an.iteratorWithLength(22, done);
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
-      fragment.metadataStream.should.be.an.asyncIteratorWithLength(22, done);
+      fragment.metadataStream.should.be.an.iteratorWithLength(22, done);
     });
   });
 
@@ -73,7 +73,7 @@ describe('TurtleFragmentIterator', function () {
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
-      fragment.metadataStream.should.be.an.asyncIteratorWithLength(22, done);
+      fragment.metadataStream.should.be.an.iteratorWithLength(22, done);
     });
   });
 });

@@ -77,7 +77,7 @@ describe('ReorderingGraphPatternIterator', function () {
         yorkQuery, { fragmentsClient: testClient });
       it('should return no bindings', function (done) {
         var expectedBindings = [];
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });
@@ -98,7 +98,7 @@ describe('ReorderingGraphPatternIterator', function () {
               return { '?a': 'a', '?c': rdf.DBPEDIA + 'York,_Ontario', '?p': binding.subject };
             });
         var expectedBindings = yorkOntarioBindings.concat(yorkBindings);
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });
@@ -115,7 +115,7 @@ describe('ReorderingGraphPatternIterator', function () {
               return { '?a': 'a', '?c': rdf.DBPEDIA + 'York', '?p': binding.subject };
             });
         var expectedBindings = yorkBindings;
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });

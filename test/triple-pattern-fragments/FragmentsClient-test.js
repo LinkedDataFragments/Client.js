@@ -55,7 +55,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in the fragment', function (done) {
-          result.should.be.an.asyncIteratorWithLength(19, done);
+          result.should.be.an.iteratorWithLength(19, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -109,7 +109,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in all pages of the fragment', function (done) {
-          result.should.be.an.asyncIteratorWithLength(44, done);
+          result.should.be.an.iteratorWithLength(44, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -139,7 +139,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should not return any triples', function (done) {
-          result.should.be.an.asyncIteratorWithLength(0, done);
+          result.should.be.an.iteratorWithLength(0, done);
         });
 
         it('should emit an error', function () {
@@ -159,7 +159,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.an.asyncIteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the fragment metadata', function (done) {
@@ -181,7 +181,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.an.asyncIteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the fragment metadata', function (done) {
@@ -208,7 +208,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.an.asyncIteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the error', function () {
@@ -224,7 +224,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.an.asyncIteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the error', function () {

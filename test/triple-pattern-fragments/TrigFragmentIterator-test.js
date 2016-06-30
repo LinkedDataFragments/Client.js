@@ -57,11 +57,11 @@ describe('TrigFragmentIterator', function () {
     });
 
     it('should return all data triples in the fragment', function (done) {
-      fragment.should.be.an.asyncIteratorWithLength(10, done);
+      fragment.should.be.an.iteratorWithLength(10, done);
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
-      fragment.metadataStream.should.be.an.asyncIteratorWithLength(34, done);
+      fragment.metadataStream.should.be.an.iteratorWithLength(34, done);
     });
   });
 
@@ -73,7 +73,7 @@ describe('TrigFragmentIterator', function () {
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
-      fragment.metadataStream.should.be.an.asyncIteratorWithLength(34, done);
+      fragment.metadataStream.should.be.an.iteratorWithLength(34, done);
     });
   });
 });

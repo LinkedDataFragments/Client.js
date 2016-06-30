@@ -39,7 +39,7 @@ describe('HttpClient', function () {
       });
 
       it("should return an iterator with the response's contents", function (done) {
-        response.should.be.an.asyncIteratorOf([1, 2, 3], done);
+        response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
       it('should set the status code', function (done) {
@@ -85,7 +85,7 @@ describe('HttpClient', function () {
       });
 
       it('should return the request value', function (done) {
-        response.should.be.an.asyncIteratorOf([1, 2, 3], done);
+        response.should.be.an.iteratorOf([1, 2, 3], done);
       });
 
       it('should set the status code', function (done) {

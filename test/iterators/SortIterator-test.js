@@ -35,14 +35,14 @@ describe('SortIterator', function () {
     describe('with a single item', function () {
       var iterator = new SortIterator(AsyncIterator.single(1));
       it('should return the item', function (done) {
-        iterator.should.be.an.asyncIteratorOf([1], done);
+        iterator.should.be.an.iteratorOf([1], done);
       });
     });
 
     describe('with 8 items', function () {
       var iterator = new SortIterator(AsyncIterator.fromArray([8, 6, 4, 3, 1, 2, 7, 5]));
       it('should return the sorted items', function (done) {
-        iterator.should.be.an.asyncIteratorOf([1, 2, 3, 4, 5, 6, 7, 8], done);
+        iterator.should.be.an.iteratorOf([1, 2, 3, 4, 5, 6, 7, 8], done);
       });
     });
   });
@@ -51,14 +51,14 @@ describe('SortIterator', function () {
     describe('with a single item', function () {
       var iterator = new SortIterator(AsyncIterator.single(1), { window: 4 });
       it('should return the item', function (done) {
-        iterator.should.be.an.asyncIteratorOf([1], done);
+        iterator.should.be.an.iteratorOf([1], done);
       });
     });
 
     describe('with 8 items', function () {
       var iterator = new SortIterator(AsyncIterator.fromArray([8, 6, 4, 3, 1, 2, 7, 5]), { window: 4 });
       it('should return the items, sorted with a lookahead of 4', function (done) {
-        iterator.should.be.an.asyncIteratorOf([3, 1, 2, 4, 5, 6, 7, 8], done);
+        iterator.should.be.an.iteratorOf([3, 1, 2, 4, 5, 6, 7, 8], done);
       });
     });
   });
@@ -69,14 +69,14 @@ describe('SortIterator', function () {
     describe('with a single item', function () {
       var iterator = new SortIterator(AsyncIterator.single(1), reverseSort);
       it('should return the item', function (done) {
-        iterator.should.be.an.asyncIteratorOf([1], done);
+        iterator.should.be.an.iteratorOf([1], done);
       });
     });
 
     describe('with 8 items', function () {
       var iterator = new SortIterator(AsyncIterator.fromArray([8, 6, 4, 3, 1, 2, 7, 5]), reverseSort);
       it('should return the sorted items', function (done) {
-        iterator.should.be.an.asyncIteratorOf([8, 7, 6, 5, 4, 3, 2, 1], done);
+        iterator.should.be.an.iteratorOf([8, 7, 6, 5, 4, 3, 2, 1], done);
       });
     });
   });

@@ -45,7 +45,7 @@ describe('TriplePatternIterator', function () {
         patterns.york_p_o, { fragmentsClient: testClient });
       it('should return no bindings', function (done) {
         var expectedBindings = [];
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });
@@ -61,7 +61,7 @@ describe('TriplePatternIterator', function () {
             .map(function (binding) {
               return { '?p': binding.predicate, '?o': binding.object };
             });
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });
@@ -77,7 +77,7 @@ describe('TriplePatternIterator', function () {
             .map(function (binding) {
               return { '?a': 'a', '?p': binding.predicate, '?o': binding.object };
             });
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });
@@ -96,7 +96,7 @@ describe('TriplePatternIterator', function () {
             .map(function (binding) {
               return { '?a': 'a', '?p': binding.predicate, '?o': binding.object };
             });
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });
@@ -123,7 +123,7 @@ describe('TriplePatternIterator', function () {
             });
           });
         });
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
 
@@ -134,7 +134,7 @@ describe('TriplePatternIterator', function () {
         var expectedBindings = testClient.getBindingsByPattern(patterns.s_type_artist)
             .filter(function (bindings) { return (/Flaxman|Robson|Tuke/).test(bindings.subject); })
             .map(function (bindings) { return { '?s': bindings.subject }; });
-        iterator.should.be.an.asyncIteratorOf(expectedBindings, done);
+        iterator.should.be.an.iteratorOf(expectedBindings, done);
       });
     });
   });

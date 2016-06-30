@@ -102,7 +102,7 @@ describe('FederatedFragmentsClient', function () {
         });
 
         it('should stream the triples in the fragment', function (done) {
-          result.should.be.an.asyncIteratorWithLength(38, done);
+          result.should.be.an.iteratorWithLength(38, done);
         });
 
         it('should emit the fragment metadata', function (done) {
