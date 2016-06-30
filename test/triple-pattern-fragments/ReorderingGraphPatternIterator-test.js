@@ -2,7 +2,7 @@
 
 var ReorderingGraphPatternIterator = require('../../lib/triple-pattern-fragments/ReorderingGraphPatternIterator');
 
-var AsyncIterator = require('AsyncIterator'),
+var AsyncIterator = require('asynciterator'),
     TriplePatternIterator = require('../../lib/triple-pattern-fragments/TriplePatternIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/util/RdfUtil');
