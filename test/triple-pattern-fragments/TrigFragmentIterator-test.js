@@ -2,7 +2,8 @@
 
 var TrigFragmentIterator = require('../../lib/triple-pattern-fragments/TrigFragmentIterator');
 var Iterator = require('../../lib/iterators/Iterator'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 describe('TrigFragmentIterator', function () {
   describe('The TrigFragmentIterator module', function () {
@@ -52,7 +53,7 @@ describe('TrigFragmentIterator', function () {
   describe('A TrigFragmentIterator for a fragment', function () {
     var fragment;
     before(function () {
-      var source = fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.trig');
+      var source = fs.createReadStream(path.join(__dirname, '/../data/fragments/$-type-artist-page2.trig'));
       fragment = new TrigFragmentIterator(source, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
     });
 
@@ -68,7 +69,7 @@ describe('TrigFragmentIterator', function () {
   describe('A TrigFragmentIterator for a fragment that is not read', function () {
     var fragment;
     before(function () {
-      var source = fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.trig');
+      var source = fs.createReadStream(path.join(__dirname, '/../data/fragments/$-type-artist-page2.trig'));
       fragment = new TrigFragmentIterator(source, 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2');
     });
 

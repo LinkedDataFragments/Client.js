@@ -33,7 +33,7 @@ describe('HttpClient', function () {
         createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { accept: '*/*', 'accept-encoding': 'gzip,deflate' },
+          headers: { 'accept': '*/*', 'accept-encoding': 'gzip,deflate' },
           followRedirect: true,
         });
       });
@@ -79,7 +79,7 @@ describe('HttpClient', function () {
         createRequest.should.have.been.calledWithMatch({
           url: 'http://example.org/foo',
           method: 'GET',
-          headers: { accept: 'text/turtle', 'accept-encoding': 'gzip,deflate' },
+          headers: { 'accept': 'text/turtle', 'accept-encoding': 'gzip,deflate' },
           followRedirect: false,
         });
       });
@@ -112,7 +112,6 @@ describe('HttpClient', function () {
   });
 
   describe('An HttpClient executing a request that fails synchronously', function () {
-    var request = new EventEmitter();
     var error = new Error('request failed');
     var createRequest = sinon.stub().throws(error);
     var client = new HttpClient({ request: createRequest });

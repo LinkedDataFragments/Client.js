@@ -1,10 +1,11 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
-FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient');
+    FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient');
 
 var Iterator = require('../../../lib/iterators/Iterator'),
     rdf = require('../../../lib/util/RdfUtil'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 describe('FederatedFragmentsClient', function () {
   describe('The FederatedFragmentsClient module', function () {
@@ -43,20 +44,18 @@ describe('FederatedFragmentsClient', function () {
         done();
       });
     });
-
   });
 
   describe('A FederatedFragmentsClient with a start fragments', function () {
-
     var startFragments = ['dbpedia', 'dbpedia-live'].map(function (val) {
       var startFragment = Iterator.passthrough();
       startFragment.setProperty('controls', {
         getFragmentUrl: function (pattern) {
           var encode = encodeURIComponent;
           return 'http://data.linkeddatafragments.org/' + val +
-                 '?subject='   + encode(pattern.subject || '') +
-                 '&predicate=' + encode(pattern.predicate || '') +
-                 '&object='    + encode(pattern.object || '');
+                 '?subject='   + encode(pattern.subject || '') +
+                 '&predicate=' + encode(pattern.predicate || '') +
+                 '&object='    + encode(pattern.object || '');
         },
       });
       return startFragment;
@@ -78,11 +77,11 @@ describe('FederatedFragmentsClient', function () {
       var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
 
       describe('and receiving a Turtle response', function () {
-        var fragment = Iterator.fromStream(fs.createReadStream(__dirname + '/../../data/fragments/$-birthplace-york.ttl'));
-        var fragmentDbplive = Iterator.fromStream(fs.createReadStream(__dirname + '/../../data/fragments/$-birthplace-york-dbplive.ttl'));
+        var fragment = Iterator.fromStream(fs.createReadStream(path.join(__dirname, '/../../data/fragments/$-birthplace-york.ttl')));
+        var fragmentDbplive = Iterator.fromStream(fs.createReadStream(path.join(__dirname, '/../../data/fragments/$-birthplace-york-dbplive.ttl')));
         var httpClient = createComplexHttpClient({
           'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork': fragment,
-          'http://data.linkeddatafragments.org/dbpedia-live?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork': fragmentDbplive
+          'http://data.linkeddatafragments.org/dbpedia-live?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork': fragmentDbplive,
         });
 
         var client = createClient(httpClient);

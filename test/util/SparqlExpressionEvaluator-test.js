@@ -34,10 +34,10 @@ describe('SparqlExpressionEvaluator', function () {
 
     describe('of a variable', function () {
       var evaluator = SparqlExpressionEvaluator('?a');
-      it("should return the variable's value if it is bound", function () {
+      it('should return the variable\'s value if it is bound', function () {
         evaluator({ '?a': '"x"' }).should.equal('"x"');
       });
-      it("should return undefined if the variable is not bound", function () {
+      it('should return undefined if the variable is not bound', function () {
         expect(evaluator({ '?b': 'b' })).to.be.undefined;
       });
     });
@@ -48,8 +48,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '+',
         args: [
           '?a',
-          '"2"^^http://www.w3.org/2001/XMLSchema#integer'
-        ]
+          '"2"^^http://www.w3.org/2001/XMLSchema#integer',
+        ],
       });
       it('should return the sum of the expressions', function () {
         evaluator({ '?a': '"3"^^http://www.w3.org/2001/XMLSchema#integer' })
@@ -63,8 +63,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '-',
         args: [
           '"5"^^http://www.w3.org/2001/XMLSchema#integer',
-          '?a'
-        ]
+          '?a',
+        ],
       });
       it('should return the difference of the expressions', function () {
         evaluator({ '?a': '"3"^^http://www.w3.org/2001/XMLSchema#integer' })
@@ -78,8 +78,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '*',
         args: [
           '?a',
-          '"2"^^http://www.w3.org/2001/XMLSchema#integer'
-        ]
+          '"2"^^http://www.w3.org/2001/XMLSchema#integer',
+        ],
       });
       it('should return the product of the expressions', function () {
         evaluator({ '?a': '"3"^^http://www.w3.org/2001/XMLSchema#integer' })
@@ -94,7 +94,7 @@ describe('SparqlExpressionEvaluator', function () {
         args: [
           '"6"^^http://www.w3.org/2001/XMLSchema#integer',
           '?a',
-        ]
+        ],
       });
       it('should return the quotient of the expressions', function () {
         evaluator({ '?a': '"2"^^http://www.w3.org/2001/XMLSchema#integer' })
@@ -106,7 +106,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: '=',
-        args: [ '?a', '"b"' ]
+        args: ['?a', '"b"'],
       });
 
       it('should return true if the arguments match', function () {
@@ -122,7 +122,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: '=',
-        args: [ '?a', '"b"' ]
+        args: ['?a', '"b"'],
       });
 
       it('should return false if the arguments match', function () {
@@ -140,8 +140,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '<',
         args: [
           '?a',
-          '"20"^^http://www.w3.org/2001/XMLSchema#integer'
-        ]
+          '"20"^^http://www.w3.org/2001/XMLSchema#integer',
+        ],
       });
 
       it('should return true if a < b', function () {
@@ -163,8 +163,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '<=',
         args: [
           '?a',
-          '"20"^^http://www.w3.org/2001/XMLSchema#integer'
-        ]
+          '"20"^^http://www.w3.org/2001/XMLSchema#integer',
+        ],
       });
 
       it('should return true if a < b', function () {
@@ -186,8 +186,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '>',
         args: [
           '?a',
-          '"20"^^http://www.w3.org/2001/XMLSchema#integer'
-        ]
+          '"20"^^http://www.w3.org/2001/XMLSchema#integer',
+        ],
       });
 
       it('should return false if a < b', function () {
@@ -209,8 +209,8 @@ describe('SparqlExpressionEvaluator', function () {
         operator: '>=',
         args: [
           '?a',
-          '"20"^^http://www.w3.org/2001/XMLSchema#integer'
-        ]
+          '"20"^^http://www.w3.org/2001/XMLSchema#integer',
+        ],
       });
 
       it('should return false if a < b', function () {
@@ -235,8 +235,8 @@ describe('SparqlExpressionEvaluator', function () {
             type: 'operation',
             operator: '=',
             args: ['?a', '"a"'],
-          }
-        ]
+          },
+        ],
       });
 
       it('should return false if the child expression is true', function () {
@@ -251,7 +251,7 @@ describe('SparqlExpressionEvaluator', function () {
         var evaluator = SparqlExpressionEvaluator({
           type: 'operation',
           operator: '!',
-          args: [ '"3"^^http://www.w3.org/2001/XMLSchema#integer' ]
+          args: ['"3"^^http://www.w3.org/2001/XMLSchema#integer'],
         });
         evaluator({ '?a': '"a"' }).should.equal(FALSE);
       });
@@ -261,7 +261,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: '&&',
-        args: [ '?a', '?b' ]
+        args: ['?a', '?b'],
       });
 
       it('should return false with arguments false, false', function () {
@@ -296,7 +296,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: '||',
-        args: [ '?a', '?b' ]
+        args: ['?a', '?b'],
       });
 
       it('should return false with arguments false, false', function () {
@@ -331,7 +331,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: 'lang',
-        args: [ '?a' ],
+        args: ['?a'],
       });
 
       it('should return the lowercase language of a string', function () {
@@ -343,7 +343,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: 'langmatches',
-        args: [ '?l', '"EN"' ],
+        args: ['?l', '"EN"'],
       });
 
       it('should return true if the language matches', function () {
@@ -359,7 +359,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: 'regex',
-        args: [ '?a', '"a+b"' ],
+        args: ['?a', '"a+b"'],
       });
 
       it('should return true if the argument matches the regular expression', function () {
@@ -375,14 +375,14 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: 'str',
-        args: [ '?a' ],
+        args: ['?a'],
       });
 
       it('should return the literal if passed a literal', function () {
         evaluator({ '?a': '"a"' }).should.equal('"a"');
       });
 
-      it("should return a stringified version if passed a number", function () {
+      it('should return a stringified version if passed a number', function () {
         evaluator({ '?a': '"3"^^http://www.w3.org/2001/XMLSchema#double' })
           .should.equal('"3"^^http://www.w3.org/2001/XMLSchema#double');
       });
@@ -404,7 +404,7 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: 'bound',
-        args: [ '?a' ],
+        args: ['?a'],
       });
 
       it('should return true if the variable is bound', function () {
@@ -419,7 +419,7 @@ describe('SparqlExpressionEvaluator', function () {
         var evaluator = SparqlExpressionEvaluator({
           type: 'operation',
           operator: 'bound',
-          args: [ '"a"' ]
+          args: ['"a"'],
         });
         (function () { evaluator({ '?a': 'a' }); })
           .should.throw('BOUND expects a variable but got: "a"');
@@ -467,9 +467,8 @@ describe('SparqlExpressionEvaluator.evaluate', function () {
     SparqlExpressionEvaluator.evaluate({
       type: 'operation',
       operator: '+',
-      args: [ '?a', '?b' ],
-    },
-    {
+      args: ['?a', '?b'],
+    }, {
       '?a': '"1"^^http://www.w3.org/2001/XMLSchema#integer',
       '?b': '"2"^^http://www.w3.org/2001/XMLSchema#integer',
     })
@@ -480,9 +479,8 @@ describe('SparqlExpressionEvaluator.evaluate', function () {
     expect(SparqlExpressionEvaluator.evaluate({
       type: 'operation',
       operator: '+',
-      args: [ '?a', '?b' ],
-    },
-    {
+      args: ['?a', '?b'],
+    }, {
       '?a': '"1"^^http://www.w3.org/2001/XMLSchema#integer',
     }))
     .to.be.undefined;

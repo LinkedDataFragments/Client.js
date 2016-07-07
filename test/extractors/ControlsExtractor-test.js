@@ -4,7 +4,8 @@ var ControlsExtractor = require('../../lib/extractors/ControlsExtractor');
 var Iterator = require('../../lib/iterators/Iterator'),
     rdf = require('../../lib/util/RdfUtil'),
     N3 = require('n3'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 describe('ControlsExtractor', function () {
   describe('The ControlsExtractor module', function () {
@@ -56,7 +57,7 @@ describe('ControlsExtractor', function () {
       before(function (done) {
         var fragment = N3.StreamParser(),
             fragmentUrl = 'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=rdf%3Atype&object=dbpedia-owl%3AArtist&page=2';
-        fs.createReadStream(__dirname + '/../data/fragments/$-type-artist-page2.ttl').pipe(fragment);
+        fs.createReadStream(path.join(__dirname, '/../data/fragments/$-type-artist-page2.ttl')).pipe(fragment);
         controlsExtractor.extract({ fragmentUrl: fragmentUrl }, fragment,
                                   function (error, c) { controls = c, done(error); });
       });

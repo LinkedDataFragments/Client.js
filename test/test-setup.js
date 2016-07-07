@@ -5,7 +5,7 @@ var Logger = require('../lib/util/Logger'),
 Logger.setLevel('warning');
 
 // Set up the sinon stubbing library
-var sinon = global.sinon = require('sinon');
+global.sinon = require('sinon');
 
 // Set up the Chai assertion library
 var chai = global.chai = require('chai'),

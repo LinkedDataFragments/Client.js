@@ -3,9 +3,10 @@
 
 var Iterator = require('../../lib/iterators/Iterator'),
     fs = require('fs'),
+    path = require('path'),
     N3 = require('n3'),
     rdf = require('../../lib/util/RdfUtil');
-var fragmentsPath = __dirname + '/../data/fragments/';
+var fragmentsPath = path.join(__dirname, '/../data/fragments/');
 
 function FileFragmentsClient() {
   this._metadata = {};

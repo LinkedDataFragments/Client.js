@@ -58,7 +58,7 @@ describe('MultiTransformIterator', function () {
       var transformerB = new Iterator.fromArray(['b1', 'b2', 'b3']);
 
       iterator = new MultiTransformIterator(source, options);
-      iterator.on('end', function () { endEventEmitted++; });
+      iterator.on('end', function () { endEventEmitted++; });
 
       var create = sinon.stub(iterator, '_createTransformer');
       create.onCall(0).returns(transformerA);
@@ -153,7 +153,7 @@ describe('MultiTransformIterator', function () {
       transformerC = new Iterator.passthrough(true);
 
       iterator = new MultiTransformIterator(source, options);
-      iterator.on('end', function () { endEventEmitted++; });
+      iterator.on('end', function () { endEventEmitted++; });
 
       var create = sinon.stub(iterator, '_createTransformer');
       create.onCall(0).returns(transformerA);

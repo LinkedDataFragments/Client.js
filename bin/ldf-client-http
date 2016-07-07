@@ -6,7 +6,6 @@ var path = require('path'),
     http = require('http'),
     url = require('url'),
     querystring = require('querystring'),
-    exec = require('child_process').exec,
     spawn = require('child_process').spawn,
     Negotiator = require('negotiator');
 
@@ -42,7 +41,7 @@ function handleRequest(request, response) {
   // Verify the path
   var requestUrl = url.parse(request.url, true);
   if (requestUrl.pathname !== '/sparql') {
-    console.log("[404] Resource not found");
+    console.log('[404] Resource not found');
     response.writeHead(404, { 'content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Resource not found' }));
     return;
@@ -53,9 +52,9 @@ function handleRequest(request, response) {
   case 'POST':
     return parseBody(request, function (query) { writeQueryResult(request, response, query); });
   case 'GET':
-    return writeQueryResult(request, response, requestUrl.query.query || '');
+    return writeQueryResult(request, response, requestUrl.query.query || '');
   default:
-    console.log("[405] " + request.method + " to " + requestUrl);
+    console.log('[405] ' + request.method + ' to ' + requestUrl);
     response.writeHead(405, { 'content-type': MIME_JSON });
     response.end(JSON.stringify({ message: 'Incorrect HTTP method' }));
   }
@@ -72,8 +71,8 @@ function writeQueryResult(request, response, query) {
   client.stdout.setEncoding('utf8');
   client.stdout.once('data', function (data) {
     if (!response.headersSent) {
-      console.log("[200] " + request.method + " to " + request.url);
-      console.log("      Received query: " + query);
+      console.log('[200] ' + request.method + ' to ' + request.url);
+      console.log('      Received query: ' + query);
       response.writeHead(200, { 'content-type': mimeType });
       response.write(data);
       client.stdout.pipe(response);
@@ -84,7 +83,7 @@ function writeQueryResult(request, response, query) {
   client.stderr.setEncoding('utf8');
   client.stderr.once('data', function (data) {
     if (!response.headersSent) {
-      console.log("[400] Bad request");
+      console.log('[400] Bad request');
       response.writeHead(400, { 'content-type': MIME_PLAIN });
       response.write(data);
       client.stderr.pipe(response);
@@ -102,7 +101,7 @@ function writeQueryResult(request, response, query) {
   response.on('close', killClient);
   function killClient() {
     try { response.end(); }
-    catch (e) {}
+    catch (e) { /* ignore error */ }
     client.kill('SIGKILL');
     clearTimeout(killTimeout);
   }

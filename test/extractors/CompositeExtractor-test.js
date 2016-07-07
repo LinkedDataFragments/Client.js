@@ -39,13 +39,12 @@ describe('CompositeExtractor', function () {
     var extractorB = extractorWithValue({ b: 2 });
     var extractorC = extractorWithValue({ c: 3 });
     var composite = new CompositeExtractor({
-      "metadata": [extractorA, extractorB],
-      "controls": [extractorC],
+      metadata: [extractorA, extractorB],
+      controls: [extractorC],
     });
     var callback, metadata, tripleStream;
 
     describe('extracting from an empty stream', function () {
-      var metadata;
       before(function (done) {
         var pending = 2;
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
@@ -111,13 +110,12 @@ describe('CompositeExtractor', function () {
     var extractorB = extractorWithError();
     var extractorC = extractorWithValue({ c: 3 });
     var composite = new CompositeExtractor({
-      "metadata": [extractorA, extractorB],
-      "controls": [extractorC],
+      metadata: [extractorA, extractorB],
+      controls: [extractorC],
     });
     var callback, metadata, tripleStream;
 
     describe('extracting from an empty stream', function () {
-      var metadata;
       before(function (done) {
         var pending = 2;
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
@@ -177,13 +175,12 @@ describe('CompositeExtractor', function () {
     var extractorB = extractorWithError();
     var extractorC = extractorWithError();
     var composite = new CompositeExtractor({
-      "metadata": [extractorA, extractorB],
-      "controls": [extractorC],
+      metadata: [extractorA, extractorB],
+      controls: [extractorC],
     });
     var callback, metadata, tripleStream;
 
     describe('extracting from an empty stream', function () {
-      var metadata;
       before(function (done) {
         var pending = 2;
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
@@ -245,7 +242,6 @@ describe('CompositeExtractor', function () {
     var callback, metadata, tripleStream;
 
     describe('extracting from an empty stream', function () {
-      var metadata;
       before(function (done) {
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
                           tripleStream = Iterator.empty(), callback = sinon.spy(done));
@@ -288,7 +284,6 @@ describe('CompositeExtractor', function () {
     var callback, metadata, tripleStream;
 
     describe('extracting from an empty stream', function () {
-      var metadata;
       before(function (done) {
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
                           tripleStream = Iterator.empty(), callback = sinon.spy(done));
@@ -331,7 +326,6 @@ describe('CompositeExtractor', function () {
     var callback, metadata, tripleStream;
 
     describe('extracting from an empty stream', function () {
-      var metadata;
       before(function (done) {
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
                           tripleStream = Iterator.empty(), callback = sinon.spy(done));

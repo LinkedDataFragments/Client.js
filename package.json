@@ -17,7 +17,7 @@
   "scripts": {
     "docs": "jsdoc -c jsdoc.json README.md lib",
     "test": "mocha",
-    "hint": "jshint bin/* lib test",
+    "lint": "eslint bin/* lib test",
     "browserify": "browserify browser.js -u stream -o ldf-client-browser.js"
   },
   "dependencies": {
@@ -36,21 +36,21 @@
     "xml": ">=1.0.0"
   },
   "devDependencies": {
-    "jsdoc": "^3.3.0-beta3",
-    "jshint": "~2.1.10",
-    "mocha": "~2.4.5",
-    "sinon": "~1.9.0",
     "chai": "~1.9.0",
-    "sinon-chai": "~2.5.0",
-    "pre-commit": "~0.0.9"
+    "eslint": "^3.0.1",
+    "jsdoc": "^3.3.0-beta3",
+    "mocha": "~2.4.5",
+    "pre-commit": "~0.0.9",
+    "sinon": "~1.9.0",
+    "sinon-chai": "~2.5.0"
   },
   "pre-commit": [
-    "hint",
+    "lint",
     "test"
   ],
   "browser": {
-    "crypto": "./lib/util/crypto-browser.js",
-    "./lib/util/Request": "./lib/util/Request-browser.js",
+    "crypto": "./lib/browser/crypto.js",
+    "./lib/util/Request": "./lib/browser/Request.js",
     "stream": false,
     "zlib": false
   }

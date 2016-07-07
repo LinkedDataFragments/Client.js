@@ -206,14 +206,14 @@ describe('RdfUtil', function () {
 
     describe('applying bindings to a graph pattern', function () {
       var bindings = { '?x': 'x', '?s': 's' };
-      var pattern = [ RdfUtil.triple('?s', '?p', 'c'), RdfUtil.triple('a', '?p', '?s') ];
+      var pattern = [RdfUtil.triple('?s', '?p', 'c'), RdfUtil.triple('a', '?p', '?s')];
       var boundPattern = RdfUtil.applyBindings(bindings, pattern);
       it('should bind the overlapping variables in all triples', function () {
         expect(boundPattern).to.deep.equal(
-          [ RdfUtil.triple('s', '?p', 'c'), RdfUtil.triple('a', '?p', 's') ]);
+          [RdfUtil.triple('s', '?p', 'c'), RdfUtil.triple('a', '?p', 's')]);
       });
       it('should not change the original pattern', function () {
-        expect(pattern).to.deep.equal([ RdfUtil.triple('?s', '?p', 'c'), RdfUtil.triple('a', '?p', '?s') ]);
+        expect(pattern).to.deep.equal([RdfUtil.triple('?s', '?p', 'c'), RdfUtil.triple('a', '?p', '?s')]);
       });
     });
   });
