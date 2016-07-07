@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 /** Test implementation of FragmentsClient that reads fragments from disk. */
 
-var Iterator = require('../../lib/iterators/Iterator'),
+var TransformIterator = require('asynciterator').TransformIterator,
     fs = require('fs'),
     path = require('path'),
     N3 = require('n3'),
@@ -14,11 +14,11 @@ function FileFragmentsClient() {
 
 FileFragmentsClient.prototype.getFragmentByPattern = function (pattern) {
   var filename = this._getPath(pattern) + '.ttl',
-      triples = new Iterator.PassthroughIterator(true),
+      triples = new TransformIterator(),
       metadata = this._metadata[this._getIdentifier(pattern)];
   fs.exists(filename, function (exists) {
-    if (!exists) return triples._end();
-    triples.setSource(fs.createReadStream(filename).pipe(N3.StreamParser()));
+    if (!exists) return triples.close();
+    triples.source = fs.createReadStream(filename).pipe(N3.StreamParser());
   });
   triples.on('error', console.error);
   triples.setProperty('metadata', metadata);

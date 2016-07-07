@@ -2,7 +2,7 @@
 
 var ReorderingGraphPatternIterator = require('../../lib/triple-pattern-fragments/ReorderingGraphPatternIterator');
 
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     TriplePatternIterator = require('../../lib/triple-pattern-fragments/TriplePatternIterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/util/RdfUtil');
@@ -40,19 +40,20 @@ describe('ReorderingGraphPatternIterator', function () {
       new ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(ReorderingGraphPatternIterator);
     });
 
-    it('should make Iterator objects', function () {
-      ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(Iterator);
+    it('should make AsyncIterator objects', function () {
+      ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(AsyncIterator);
     });
 
-    it('should be an Iterator constructor', function () {
-      new ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(Iterator);
+    it('should be an AsyncIterator constructor', function () {
+      new ReorderingGraphPatternIterator(null, yorkQuery).should.be.an.instanceof(AsyncIterator);
     });
   });
 
   describe('A ReorderingGraphPatternIterator created with the empty graph', function () {
     var iterator = new ReorderingGraphPatternIterator(null, []);
-    it('should be a pass-through iterator', function () {
-      iterator.should.be.an.instanceof(Iterator.PassthroughIterator);
+    it('should be a simple TransformIterator', function () {
+      iterator.should.be.an.instanceof(AsyncIterator.TransformIterator);
+      iterator.should.not.be.an.instanceof(ReorderingGraphPatternIterator);
     });
   });
 
@@ -61,6 +62,7 @@ describe('ReorderingGraphPatternIterator', function () {
         iterator = new ReorderingGraphPatternIterator(null, [triple]);
     it('should be a triple pattern iterator', function () {
       iterator.should.be.an.instanceof(TriplePatternIterator);
+      iterator.should.not.be.an.instanceof(ReorderingGraphPatternIterator);
     });
     it('should iterate over that triple pattern', function () {
       iterator.should.have.property('_pattern', triple);
@@ -68,7 +70,7 @@ describe('ReorderingGraphPatternIterator', function () {
   });
 
   describe('A ReorderingGraphPatternIterator with an empty parent', function () {
-    function createSource() { return Iterator.empty(); }
+    function createSource() { return AsyncIterator.empty(); }
 
     describe('passed a ReorderingGraphPatternIterator for the York query', function () {
       var iterator = new ReorderingGraphPatternIterator(createSource(),
@@ -81,7 +83,7 @@ describe('ReorderingGraphPatternIterator', function () {
   });
 
   describe('A ReorderingGraphPatternIterator passed a single non-overlapping bindings object', function () {
-    function createSource() { return Iterator.single({ '?a': 'a' }); }
+    function createSource() { return AsyncIterator.single({ '?a': 'a' }); }
 
     describe('passed a ReorderingGraphPatternIterator for the York query', function () {
       var iterator = new ReorderingGraphPatternIterator(createSource(),
@@ -102,7 +104,7 @@ describe('ReorderingGraphPatternIterator', function () {
   });
 
   describe('when passed a single overlapping bindings object', function () {
-    function createSource() { return Iterator.single({ '?a': 'a', '?c': rdf.DBPEDIA + 'York' }); }
+    function createSource() { return AsyncIterator.single({ '?a': 'a', '?c': rdf.DBPEDIA + 'York' }); }
 
     describe('a ReorderingGraphPatternIterator for the York query', function () {
       var iterator = new ReorderingGraphPatternIterator(createSource(),

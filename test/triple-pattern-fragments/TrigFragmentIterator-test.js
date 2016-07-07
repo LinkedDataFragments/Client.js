@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 
 var TrigFragmentIterator = require('../../lib/triple-pattern-fragments/TrigFragmentIterator');
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     fs = require('fs'),
     path = require('path');
 
@@ -19,12 +19,12 @@ describe('TrigFragmentIterator', function () {
       new TrigFragmentIterator().should.be.an.instanceof(TrigFragmentIterator);
     });
 
-    it('should make Iterator objects', function () {
-      TrigFragmentIterator().should.be.an.instanceof(Iterator);
+    it('should make AsyncIterator objects', function () {
+      TrigFragmentIterator().should.be.an.instanceof(AsyncIterator);
     });
 
-    it('should be an Iterator constructor', function () {
-      new TrigFragmentIterator().should.be.an.instanceof(Iterator);
+    it('should be an AsyncIterator constructor', function () {
+      new TrigFragmentIterator().should.be.an.instanceof(AsyncIterator);
     });
   });
 

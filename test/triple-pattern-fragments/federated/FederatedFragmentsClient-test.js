@@ -2,7 +2,7 @@
 var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
     FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient');
 
-var Iterator = require('../../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     rdf = require('../../../lib/util/RdfUtil'),
     fs = require('fs'),
     path = require('path');
@@ -48,7 +48,7 @@ describe('FederatedFragmentsClient', function () {
 
   describe('A FederatedFragmentsClient with a start fragments', function () {
     var startFragments = ['dbpedia', 'dbpedia-live'].map(function (val) {
-      var startFragment = Iterator.passthrough();
+      var startFragment = new AsyncIterator.TransformIterator();
       startFragment.setProperty('controls', {
         getFragmentUrl: function (pattern) {
           var encode = encodeURIComponent;
@@ -77,8 +77,8 @@ describe('FederatedFragmentsClient', function () {
       var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
 
       describe('and receiving a Turtle response', function () {
-        var fragment = Iterator.fromStream(fs.createReadStream(path.join(__dirname, '/../../data/fragments/$-birthplace-york.ttl')));
-        var fragmentDbplive = Iterator.fromStream(fs.createReadStream(path.join(__dirname, '/../../data/fragments/$-birthplace-york-dbplive.ttl')));
+        var fragment = AsyncIterator.wrap(fs.createReadStream(path.join(__dirname, '/../../data/fragments/$-birthplace-york.ttl')));
+        var fragmentDbplive = AsyncIterator.wrap(fs.createReadStream(path.join(__dirname, '/../../data/fragments/$-birthplace-york-dbplive.ttl')));
         var httpClient = createComplexHttpClient({
           'http://data.linkeddatafragments.org/dbpedia?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork': fragment,
           'http://data.linkeddatafragments.org/dbpedia-live?subject=&predicate=dbpedia-owl%3AbirthPlace&object=dbpedia%3AYork': fragmentDbplive,
@@ -101,8 +101,7 @@ describe('FederatedFragmentsClient', function () {
         });
 
         it('should stream the triples in the fragment', function (done) {
-          // TODO: Should actually be 38, but the <fragment-end> hack adds one triple per server
-          result.should.be.a.iteratorWithLength(38, done);
+          result.should.be.an.iteratorWithLength(38, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -114,7 +113,7 @@ describe('FederatedFragmentsClient', function () {
       });
 
       describe('and receiving a non-supported response', function () {
-        var fragment = Iterator.fromStream(fs.createReadStream(__filename));
+        var fragment = AsyncIterator.wrap(fs.createReadStream(__filename));
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern), resultError;

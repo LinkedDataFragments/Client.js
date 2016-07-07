@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var FragmentsClient = require('../../lib/triple-pattern-fragments/FragmentsClient');
 
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     rdf = require('../../lib/util/RdfUtil'),
     fs = require('fs'),
     path = require('path');
@@ -22,7 +22,7 @@ describe('FragmentsClient', function () {
   });
 
   describe('A FragmentsClient with a start fragment', function () {
-    var startFragment = Iterator.passthrough();
+    var startFragment = new AsyncIterator();
     startFragment.setProperty('controls', {
       getFragmentUrl: function (pattern) {
         var encode = encodeURIComponent;
@@ -56,7 +56,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in the fragment', function (done) {
-          result.should.be.a.iteratorWithLength(19, done);
+          result.should.be.an.iteratorWithLength(19, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -93,7 +93,7 @@ describe('FragmentsClient', function () {
                 calls++;
                 if      (calls === 1) page = fromFile(path.join(__dirname, '/../data/fragments/$-type-artist.ttl'));
                 else if (calls === 2) page = fromFile(path.join(__dirname, '/../data/fragments/$-type-artist-page2.ttl'));
-                else if (calls === 3) page = Iterator.empty(); // no third page
+                else if (calls === 3) page = AsyncIterator.empty(); // no third page
                 else throw new Error('The HTTP client should only be called 3 times');
                 page.setProperty('statusCode',  200);
                 page.setProperty('contentType', 'text/turtle');
@@ -113,7 +113,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should stream the data triples in all pages of the fragment', function (done) {
-          result.should.be.a.iteratorWithLength(44, done);
+          result.should.be.an.iteratorWithLength(44, done);
         });
 
         it('should emit the fragment metadata', function (done) {
@@ -129,7 +129,7 @@ describe('FragmentsClient', function () {
       var pattern = rdf.triple('?p', rdf.RDF_TYPE, rdf.DBPEDIA + 'UnknownArtist');
 
       describe('and receiving a 404 response', function () {
-        var fragment = Iterator.empty();
+        var fragment = AsyncIterator.empty();
         var httpClient = createHttpClient(fragment);
         var client = createClient(httpClient);
         var result = client.getFragmentByPattern(pattern), resultError;
@@ -143,7 +143,7 @@ describe('FragmentsClient', function () {
         });
 
         it('should not return any triples', function (done) {
-          result.should.be.a.iteratorWithLength(0, done);
+          result.should.be.an.iteratorWithLength(0, done);
         });
 
         it('should emit an error', function () {
@@ -163,7 +163,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.a.iteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the fragment metadata', function (done) {
@@ -185,7 +185,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.a.iteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the fragment metadata', function (done) {
@@ -198,7 +198,7 @@ describe('FragmentsClient', function () {
   });
 
   describe('A FragmentsClient with a start fragment that errors', function () {
-    var startFragment = Iterator.passthrough();
+    var startFragment = new AsyncIterator();
     var emittedError = new Error('startfragment error');
     var client = new FragmentsClient(startFragment);
     var pattern = rdf.triple('?s', 'dbpedia-owl:birthPlace', 'dbpedia:York');
@@ -212,7 +212,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.a.iteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the error', function () {
@@ -228,7 +228,7 @@ describe('FragmentsClient', function () {
       });
 
       it('should not return any triples', function (done) {
-        result.should.be.a.iteratorWithLength(0, done);
+        result.should.be.an.iteratorWithLength(0, done);
       });
 
       it('should emit the error', function () {
@@ -240,5 +240,5 @@ describe('FragmentsClient', function () {
 
 // Creates an iterator from the given file
 function fromFile(filename) {
-  return Iterator.fromStream(fs.createReadStream(filename));
+  return AsyncIterator.wrap(fs.createReadStream(filename));
 }

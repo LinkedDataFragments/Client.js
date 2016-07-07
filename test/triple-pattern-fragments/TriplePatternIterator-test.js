@@ -2,7 +2,7 @@
 
 var TriplePatternIterator = require('../../lib/triple-pattern-fragments/TriplePatternIterator');
 
-var Iterator = require('../../lib/iterators/Iterator'),
+var AsyncIterator = require('asynciterator'),
     FileFragmentsClient = require('../lib/FileFragmentsClient'),
     rdf = require('../../lib/util/RdfUtil');
 
@@ -28,17 +28,17 @@ describe('TriplePatternIterator', function () {
       new TriplePatternIterator().should.be.an.instanceof(TriplePatternIterator);
     });
 
-    it('should make Iterator objects', function () {
-      TriplePatternIterator().should.be.an.instanceof(Iterator);
+    it('should make AsyncIterator objects', function () {
+      TriplePatternIterator().should.be.an.instanceof(AsyncIterator);
     });
 
-    it('should be an Iterator constructor', function () {
-      new TriplePatternIterator().should.be.an.instanceof(Iterator);
+    it('should be an AsyncIterator constructor', function () {
+      new TriplePatternIterator().should.be.an.instanceof(AsyncIterator);
     });
   });
 
   describe('a TriplePatternIterator with an empty parent', function () {
-    function createSource() { return Iterator.empty(); }
+    function createSource() { return AsyncIterator.empty(); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(createSource(),
@@ -51,7 +51,7 @@ describe('TriplePatternIterator', function () {
   });
 
   describe('a TriplePatternIterator passed an empty binding', function () {
-    function createSource() { return Iterator.single({}); }
+    function createSource() { return AsyncIterator.single({}); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(createSource(),
@@ -67,7 +67,7 @@ describe('TriplePatternIterator', function () {
   });
 
   describe('a TriplePatternIterator passed a single non-overlapping bindings object', function () {
-    function createSource() { return Iterator.single({ '?a': 'a' }); }
+    function createSource() { return AsyncIterator.single({ '?a': 'a' }); }
 
     describe('a TriplePatternIterator for dbpedia:York ?p ?o', function () {
       var iterator = new TriplePatternIterator(createSource(),
@@ -84,7 +84,7 @@ describe('TriplePatternIterator', function () {
 
   describe('a TriplePatternIterator passed a single overlapping bindings object', function () {
     function createSource() {
-      return Iterator.single({ '?a': 'a', '?p': rdf.RDF_TYPE });
+      return AsyncIterator.single({ '?a': 'a', '?p': rdf.RDF_TYPE });
     }
 
     describe('a TriplePatternIterator for York ?p ?o', function () {
@@ -103,7 +103,7 @@ describe('TriplePatternIterator', function () {
 
   describe('when passed an iterator for ?s a Artist', function () {
     function createSource() {
-      return new TriplePatternIterator(Iterator.single({}),
+      return new TriplePatternIterator(AsyncIterator.single({}),
         patterns.s_type_artist, { fragmentsClient: testClient });
     }
 

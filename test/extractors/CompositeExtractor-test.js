@@ -1,7 +1,7 @@
 /*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
 var CompositeExtractor = require('../../lib/extractors/CompositeExtractor');
 
-var Iterator = require('../../lib/iterators/Iterator');
+var AsyncIterator = require('asynciterator');
 
 describe('CompositeExtractor', function () {
   describe('The CompositeExtractor module', function () {
@@ -24,7 +24,7 @@ describe('CompositeExtractor', function () {
     describe('extracting from an empty stream', function () {
       var metadata;
       before(function (done) {
-        extractor.extract({ fragmentUrl: 'http://example.org/fragment' }, Iterator.empty(),
+        extractor.extract({ fragmentUrl: 'http://example.org/fragment' }, AsyncIterator.empty(),
                           function (error, m) { metadata = m; done(error); });
       });
 
@@ -48,7 +48,7 @@ describe('CompositeExtractor', function () {
       before(function (done) {
         var pending = 2;
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
-                          tripleStream = Iterator.empty(),
+                          tripleStream = AsyncIterator.empty(),
                           callback = sinon.spy(function () { if (!--pending) done(); }));
       });
 
@@ -100,7 +100,7 @@ describe('CompositeExtractor', function () {
 
     describe('extracting without callback', function () {
       it('should not error', function () {
-        composite.extract({ fragmentUrl: 'http://example.org/fragment' }, Iterator.empty());
+        composite.extract({ fragmentUrl: 'http://example.org/fragment' }, AsyncIterator.empty());
       });
     });
   });
@@ -119,7 +119,7 @@ describe('CompositeExtractor', function () {
       before(function (done) {
         var pending = 2;
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
-                          tripleStream = Iterator.empty(),
+                          tripleStream = AsyncIterator.empty(),
                           callback = sinon.spy(function () { if (!--pending) done(); }));
       });
 
@@ -184,7 +184,7 @@ describe('CompositeExtractor', function () {
       before(function (done) {
         var pending = 2;
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
-                          tripleStream = Iterator.empty(),
+                          tripleStream = AsyncIterator.empty(),
                           callback = sinon.spy(function () { if (!--pending) done(); }));
       });
 
@@ -244,7 +244,7 @@ describe('CompositeExtractor', function () {
     describe('extracting from an empty stream', function () {
       before(function (done) {
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
-                          tripleStream = Iterator.empty(), callback = sinon.spy(done));
+                          tripleStream = AsyncIterator.empty(), callback = sinon.spy(done));
       });
 
       it('should call the first extractor', function () {
@@ -286,7 +286,7 @@ describe('CompositeExtractor', function () {
     describe('extracting from an empty stream', function () {
       before(function (done) {
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
-                          tripleStream = Iterator.empty(), callback = sinon.spy(done));
+                          tripleStream = AsyncIterator.empty(), callback = sinon.spy(done));
       });
 
       it('should call the first extractor', function () {
@@ -328,7 +328,7 @@ describe('CompositeExtractor', function () {
     describe('extracting from an empty stream', function () {
       before(function (done) {
         composite.extract(metadata = { fragmentUrl: 'http://example.org/fragment' },
-                          tripleStream = Iterator.empty(), callback = sinon.spy(done));
+                          tripleStream = AsyncIterator.empty(), callback = sinon.spy(done));
       });
 
       it('should call the first extractor', function () {
