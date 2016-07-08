@@ -22,28 +22,28 @@
   },
   "dependencies": {
     "asynciterator": "^1.0.0",
-    "follow-redirects": "0.0.7",
-    "n3": "~0.4.3",
-    "setimmediate": "~1.0.1",
-    "sparqljs": "~1.1.0",
-    "uritemplate": "~0.3.0",
+    "follow-redirects": "^0.2.0",
     "lodash": "~2.4.1",
-    "lru-cache": "~2.5.0",
-    "minimist": "1.1.0",
-    "negotiator": "~0.4.9",
-    "parse-link-header": "~0.4.1"
+    "lru-cache": "^4.0.1",
+    "minimist": "^1.2.0",
+    "n3": "^0.5.0",
+    "negotiator": "^0.6.1",
+    "parse-link-header": "~0.4.1",
+    "setimmediate": "^1.0.4",
+    "sparqljs": "~1.1.0",
+    "uritemplate": "~0.3.0"
   },
   "optionalDependencies": {
     "xml": ">=1.0.0"
   },
   "devDependencies": {
-    "chai": "~1.9.0",
+    "chai": "^3.5.0",
     "eslint": "^3.0.1",
-    "jsdoc": "^3.3.0-beta3",
-    "mocha": "~2.4.5",
-    "pre-commit": "~0.0.9",
-    "sinon": "~1.9.0",
-    "sinon-chai": "~2.5.0"
+    "jsdoc": "^3.4.0",
+    "mocha": "^2.5.3",
+    "pre-commit": "^1.1.3",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
   },
   "pre-commit": [
     "lint",
