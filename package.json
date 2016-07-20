@@ -52,7 +52,6 @@
   "browser": {
     "crypto": "./lib/browser/crypto.js",
     "./lib/util/Request": "./lib/browser/Request.js",
-    "stream": false,
-    "zlib": false
+    "stream": false
   }
 }
