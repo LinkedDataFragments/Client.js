@@ -47,7 +47,7 @@ var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014
 
 var query = 'SELECT * { ?s ?p <http://dbpedia.org/resource/Belgium>. ?s ?p ?o } LIMIT 100',
     results = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
-results.on('data', console.log);
+results.on('data', function (result) { console.log(result); });
 ```
 
 
