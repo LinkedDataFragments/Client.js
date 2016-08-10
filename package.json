@@ -4,6 +4,9 @@
   "version": "1.4.0",
   "license": "MIT",
   "main": "ldf-client.js",
+  "engines" : {
+    "node": ">=4.0"
+  },
   "bin": {
     "ldf-client": "./bin/ldf-client"
   },

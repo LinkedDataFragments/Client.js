@@ -53,7 +53,7 @@ results.on('data', function (result) { console.log(result); });
 
 ## Install the client
 
-This client requires [Node.js](http://nodejs.org/) 0.10 or higher
+The command-line client requires [Node.js](http://nodejs.org/) 4.0 or higher
 and is tested on OSX and Linux.
 To install, execute:
 ```bash
