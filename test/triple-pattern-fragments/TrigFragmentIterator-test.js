@@ -1,5 +1,4 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
 var TrigFragmentIterator = require('../../lib/triple-pattern-fragments/TrigFragmentIterator');
 var AsyncIterator = require('asynciterator'),
     fs = require('fs'),

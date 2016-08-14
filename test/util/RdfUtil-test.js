@@ -1,7 +1,7 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
+var RdfUtil = require('../../lib/util/RdfUtil');
 
-var RdfUtil = require('../../lib/util/RdfUtil'),
-    N3 = require('n3');
+var N3 = require('n3');
 
 describe('RdfUtil', function () {
   it('should include all N3.Util properties', function () {

@@ -1,4 +1,4 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
 var SparqlExpressionEvaluator = require('../../lib/util/SparqlExpressionEvaluator');
 
 var TRUE =  '"true"^^http://www.w3.org/2001/XMLSchema#boolean';

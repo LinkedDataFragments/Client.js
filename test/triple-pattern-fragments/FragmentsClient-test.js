@@ -1,4 +1,4 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
 var FragmentsClient = require('../../lib/triple-pattern-fragments/FragmentsClient');
 
 var AsyncIterator = require('asynciterator'),

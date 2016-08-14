@@ -1,6 +1,6 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
 var TurtleFragmentIterator = require('../../lib/triple-pattern-fragments/TurtleFragmentIterator');
+
 var AsyncIterator = require('asynciterator'),
     fs = require('fs'),
     path = require('path');

@@ -1,5 +1,5 @@
-/*! @license ©2013-2015 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-/** Main ldf-client module exports. */
+/*! @license MIT ©2013-2016 Ruben Verborgh - Ghent University / iMinds */
+/* Main ldf-client module exports. */
 
 // Replace local `require` by a lazy loader,
 // so we can keep `require` calls for static analyzers such as browserify

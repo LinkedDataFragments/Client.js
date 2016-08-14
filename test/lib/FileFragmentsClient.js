@@ -1,5 +1,5 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-/** Test implementation of FragmentsClient that reads fragments from disk. */
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
+/* Dummy implementation of FragmentsClient that reads fragments from disk. */
 
 var TransformIterator = require('asynciterator').TransformIterator,
     fs = require('fs'),

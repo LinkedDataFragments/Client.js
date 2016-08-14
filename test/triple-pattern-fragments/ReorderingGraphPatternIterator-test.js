@@ -1,5 +1,4 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
 var ReorderingGraphPatternIterator = require('../../lib/triple-pattern-fragments/ReorderingGraphPatternIterator');
 
 var AsyncIterator = require('asynciterator'),

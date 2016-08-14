@@ -1,8 +1,8 @@
-/*! @license ©2014 Ruben Verborgh - Multimedia Lab / iMinds / Ghent University */
-var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient'),
-    FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient');
+/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
+var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient');
 
-var AsyncIterator = require('asynciterator'),
+var FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient'),
+    AsyncIterator = require('asynciterator'),
     rdf = require('../../../lib/util/RdfUtil'),
     fs = require('fs'),
     path = require('path');
