@@ -26,7 +26,7 @@ Each Triple Pattern Fragment offers:
 
 You can execute SPARQL queries against Triple Pattern Fragments like this:
 ```bash
-$ ldf-client http://fragments.dbpedia.org/2014/en query.sparql
+$ ldf-client http://fragments.dbpedia.org/2015/en query.sparql
 ```
 The arguments to the `ldf-client` command are:
 
@@ -43,7 +43,7 @@ Then create a `SparqlIterator` to evaluate SPARQL queries on that dataset.
 
 ```JavaScript
 var ldf = require('ldf-client');
-var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014/en');
+var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2015/en');
 
 var query = 'SELECT * { ?s ?p <http://dbpedia.org/resource/Belgium>. ?s ?p ?o } LIMIT 100',
     results = new ldf.SparqlIterator(query, { fragmentsClient: fragmentsClient });
@@ -85,7 +85,7 @@ $ npm install .
 
 Then run the application with:
 ```bash
-$ ./bin/ldf-client http://fragments.dbpedia.org/2014/en queries/artists-york.sparql
+$ bin/ldf-client http://fragments.dbpedia.org/2015/en queries/artists-york.sparql
 ```
 The `queries` folder contains several example queries for DBpedia.
 
@@ -99,11 +99,11 @@ $ docker build -t ldf-client .
 ```
 After that, you can run your newly created container:
 ```bash
-$ docker run -it --rm ldf-client http://fragments.dbpedia.org/2014/en 'SELECT * WHERE { ?s ?p ?o } LIMIT 100'
+$ docker run -it --rm ldf-client http://fragments.dbpedia.org/2015/en 'SELECT * WHERE { ?s ?p ?o } LIMIT 100'
 ```
 Mounting custom config and query files can be done like this:
 ```bash
-$ docker run -it --rm $(pwd)/config.json:/tmp/config.json $(pwd)/query.sparql:/tmp/query.sparql ldf-client http://fragments.dbpedia.org/2014/en -f /tmp/query.sparql -c /tmp/config.json
+$ docker run -it --rm $(pwd)/config.json:/tmp/config.json $(pwd)/query.sparql:/tmp/query.sparql ldf-client http://fragments.dbpedia.org/2015/en -f /tmp/query.sparql -c /tmp/config.json
 ```
 
 ## License
