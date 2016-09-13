@@ -411,9 +411,9 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
-    describe('of the xsd:integer operator', function () {
+    describe('of the xsd:integer function', function () {
       var evaluator = SparqlExpressionEvaluator({
-        type: 'operation',
+        type: 'functionCall',
         operator: 'http://www.w3.org/2001/XMLSchema#integer',
         args: ['"123.67"'],
       });
@@ -423,9 +423,9 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
-    describe('of the xsd:double operator', function () {
+    describe('of the xsd:double function', function () {
       var evaluator = SparqlExpressionEvaluator({
-        type: 'operation',
+        type: 'functionCall',
         operator: 'http://www.w3.org/2001/XMLSchema#double',
         args: ['"123"'],
       });
@@ -471,14 +471,14 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of an unsupported operator', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'invalid' }); })
-          .should.throw('Unsupported operator: INVALID.');
+          .should.throw('Unsupported operator: invalid.');
       });
     });
 
     describe('of an operator with an incorrect number of arguments', function () {
       it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'regex', args: [1] }); })
-          .should.throw('Invalid number of arguments for REGEX: 1 (expected: 2).');
+          .should.throw('Invalid number of arguments for regex: 1 (expected: 2).');
       });
     });
 
