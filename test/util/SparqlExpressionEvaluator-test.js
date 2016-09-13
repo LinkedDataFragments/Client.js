@@ -355,6 +355,29 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the CONTAINS operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operation',
+        operator: 'contains',
+        args: [
+          '"defgh"',
+          '?a',
+        ],
+      });
+
+      it('should return true if the substring is part of the string', function () {
+        evaluator({ '?a': '"efg"' }).should.equal(TRUE);
+      });
+
+      it('should return true if the substring is equal to the string', function () {
+        evaluator({ '?a': '"defgh"^^<urn:type>' }).should.equal(TRUE);
+      });
+
+      it('should return false if the substring is not part of the string', function () {
+        evaluator({ '?a': '"abc"' }).should.equal(FALSE);
+      });
+    });
+
     describe('of the regex operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
