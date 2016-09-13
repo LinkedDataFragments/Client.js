@@ -411,6 +411,18 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the xsd:integer operator', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operation',
+        operator: 'http://www.w3.org/2001/XMLSchema#integer',
+        args: ['"123.67"'],
+      });
+
+      it('should return the literal as an integer', function () {
+        evaluator({}).should.equal('"123"^^http://www.w3.org/2001/XMLSchema#integer');
+      });
+    });
+
     describe('of the xsd:double operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
