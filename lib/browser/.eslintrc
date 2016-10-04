@@ -1,6 +1,6 @@
 {
   globals: {
-    jQuery: true,
+    XMLHttpRequest: true,
   },
 }
 
