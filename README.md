@@ -108,5 +108,5 @@ $ docker run -it --rm $(pwd)/config.json:/tmp/config.json $(pwd)/query.sparql:/t
 ## License
 The Linked Data Fragments client is written by [Ruben Verborgh](http://ruben.verborgh.org/) and colleagues.
 
-This code is copyrighted by [Ghent University – iMinds](http://datasciencelab.ugent.be/)
+This code is copyrighted by [Ghent University – imec](http://idlab.ugent.be/)
 and released under the [MIT license](http://opensource.org/licenses/MIT).

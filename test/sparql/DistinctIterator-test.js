@@ -1,4 +1,4 @@
-/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
+/*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 var DistinctIterator = require('../../lib/sparql/DistinctIterator');
 
 var AsyncIterator = require('asynciterator');

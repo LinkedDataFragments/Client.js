@@ -1,4 +1,4 @@
-/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
+/*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 /* Dummy implementation of FragmentsClient that reads fragments from disk. */
 
 var TransformIterator = require('asynciterator').TransformIterator,

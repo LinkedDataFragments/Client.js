@@ -1,4 +1,4 @@
-/*! @license MIT ©2014-2016 Ruben Verborgh - Ghent University / iMinds */
+/*! @license MIT ©2014-2016 Ruben Verborgh, Ghent University - imec */
 var FederatedFragmentsClient = require('../../../lib/triple-pattern-fragments/federated/FederatedFragmentsClient');
 
 var FragmentsClient = require('../../../lib/triple-pattern-fragments/FragmentsClient'),

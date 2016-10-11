@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/*! @license MIT ©2013-2016 Ruben Verborgh - Ghent University / iMinds */
+/*! @license MIT ©2013-2016 Ruben Verborgh, Ghent University - imec */
 /* HTTP server that executes SPARQL queries over triple pattern fragments. */
 
 var path = require('path'),
