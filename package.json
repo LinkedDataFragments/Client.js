@@ -21,7 +21,7 @@
     "docs": "jsdoc -c jsdoc.json README.md lib",
     "test": "mocha",
     "lint": "eslint bin/* lib test",
-    "browserify": "browserify browser.js -u stream -o ldf-client-browser.js"
+    "browserify": "browserify . -s ldf -u stream -o ldf-client-browser.js"
   },
   "dependencies": {
     "asynciterator": "^1.1.0",

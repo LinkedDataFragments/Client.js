@@ -72,8 +72,7 @@ npm run browserify
 ```
 The browserified version will be written to `ldf-client-browser.js`.
 
-The API is the same as that of the Node version, except that `ldf = require('ldf-client')` should be replaced by using `window.ldf`.
-An example is available in [a separate project](https://github.com/LinkedDataFragments/jQuery-Widget.js).
+The API is the same as that of the Node version, except that `ldf = require('ldf-client')` is no longer necessary, since `ldf` is exposed as `window.ldf`.
 
 ### From source
 To install from the latest GitHub sources, execute:
