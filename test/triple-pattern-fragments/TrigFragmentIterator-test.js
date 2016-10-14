@@ -57,7 +57,7 @@ describe('TrigFragmentIterator', function () {
     });
 
     it('should return all data triples in the fragment', function (done) {
-      fragment.should.be.an.iteratorWithLength(10, done);
+      fragment.should.be.an.iteratorWithLength(11, done);
     });
 
     it('should return fragment metadata in the metadata stream', function (done) {
