@@ -225,7 +225,7 @@ describe('UnionIterator', function () {
 
     describe('after the first source has ended', function () {
       before(function () {
-        sourceA._end();
+        sourceA.close();
       });
 
       it('should not have ended', function () {
@@ -255,7 +255,7 @@ describe('UnionIterator', function () {
     describe('after the second source has ended', function () {
       before(function (done) {
         iterator.on('end', done);
-        sourceB._end();
+        sourceB.close();
       });
 
       it('should have ended', function () {
