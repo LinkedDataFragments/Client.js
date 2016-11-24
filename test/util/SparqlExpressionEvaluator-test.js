@@ -513,6 +513,10 @@ describe('SparqlExpressionEvaluator', function () {
         })
         .should.equal('"3"');
       });
+
+      /* it('should throw error when non parseable value is passed', function () {
+            evaluator({'?a': '"aaa"'}).should.throw('aaa is not a valid xsd:double');
+      });*/
     });
 
     describe('of the xsd:double operator', function () {
@@ -673,6 +677,11 @@ describe('SparqlExpressionEvaluator', function () {
         }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
       });
 
+        // TODO: fine grained datatype validation
+        /* it('should return false for "1200"^^xsd:byte', function () {
+            evaluator({ '?a': '"1200"^^http://www.w3.org/2001/XMLSchema#byte' }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        });*/
+
       it('should return false if is iri', function () {
         evaluator({
           '?a' : 'http://example.org/a',
@@ -743,6 +752,15 @@ describe('SparqlExpressionEvaluator', function () {
         }).should.throw('IRI expects an simple literal, xsd:string or an IRI');
       });
     });
+
+      /* it('should throw an error if literal value is not valid', function () {
+          (function () {
+          evaluator({
+          '?a': '"aaaa"'
+          });
+          })
+          .should.throw('IRI expects an simple literal, xsd:string or an IRI');
+      });*/
 
     describe('of the sameTerm operator', function () {
       var evaluator = SparqlExpressionEvaluator({
