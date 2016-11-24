@@ -27,6 +27,8 @@
     "asynciterator": "^1.1.0",
     "follow-redirects": "^1.0.0",
     "lodash": "~2.4.1",
+    "uuid": ">=2.0.0",
+    "cryptojs": ">=2.5.0",
     "lru-cache": "^4.0.1",
     "minimist": "^1.2.0",
     "n3": "^0.8.1",
