@@ -343,11 +343,20 @@ describe('SparqlExpressionEvaluator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
         operator: 'langmatches',
-        args: ['?l', '"EN"'],
+        args: ['"de-DE-1996"', '?l'],
       });
 
-      it('should return true if the language matches', function () {
-        evaluator({ '?l': '"en"' }).should.equal(TRUE);
+      it('should return true if the language is equal', function () {
+        evaluator({ '?l': '"de-de-1996"' }).should.equal(TRUE);
+      });
+
+      it('should return true if the language has the same prefix', function () {
+        evaluator({ '?l': '"de"' }).should.equal(TRUE);
+        evaluator({ '?l': '"de-DE"' }).should.equal(TRUE);
+      });
+
+      it('should return true on *', function () {
+        evaluator({ '?l': '"de-de-1996"' }).should.equal(TRUE);
       });
 
       it("should return false if the language doesn't match", function () {
