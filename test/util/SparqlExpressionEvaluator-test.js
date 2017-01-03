@@ -664,7 +664,7 @@ describe('SparqlExpressionEvaluator', function () {
         (function () {
           SparqlExpressionEvaluator({ type: 'operation', operator: 'invalid' });
         })
-        .should.throw('UnsupportedExpressionError: Unsupported operator: INVALID.');
+        .should.throw('UnsupportedOperatorError: Unsupported operator: INVALID.');
       });
     });
 
