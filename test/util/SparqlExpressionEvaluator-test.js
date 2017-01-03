@@ -653,9 +653,9 @@ describe('SparqlExpressionEvaluator', function () {
     describe('of an unsupported expression type', function () {
       it('should throw an error', function () {
         (function () {
-          SparqlExpressionEvaluator({ type: 'invalid' });
+          SparqlExpressionEvaluator({ type: 'foo' });
         })
-        .should.throw('ExpressionError: Unsupported expression type: invalid');
+        .should.throw('ExpressionTypeNotImplementedError: foo expressions are not implemented (yet).');
       });
     });
 
@@ -664,7 +664,7 @@ describe('SparqlExpressionEvaluator', function () {
         (function () {
           SparqlExpressionEvaluator({ type: 'operation', operator: 'invalid' });
         })
-        .should.throw('UnsupportedOperatorError: Unsupported operator: INVALID.');
+        .should.throw('OperatorNotImplementedError: The INVALID operator is not implemented (yet).');
       });
     });
 
