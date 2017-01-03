@@ -154,13 +154,13 @@ describe('SparqlExpressionEvaluator', function () {
       it('should return false if a == b', function () {
         evaluator({
           '?a': '"20"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
 
       it('should return false if a > b', function () {
         evaluator({
           '?a': '"120"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
     });
 
@@ -189,7 +189,7 @@ describe('SparqlExpressionEvaluator', function () {
       it('should return false if a > b', function () {
         evaluator({
           '?a': '"120"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
     });
 
@@ -212,13 +212,13 @@ describe('SparqlExpressionEvaluator', function () {
       it('should return false if a == b', function () {
         evaluator({
           '?a': '"20"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
 
       it('should return true if a > b', function () {
         evaluator({
           '?a': '"120"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(TRUE);
       });
     });
 
@@ -247,7 +247,7 @@ describe('SparqlExpressionEvaluator', function () {
       it('should return true if a > b', function () {
         evaluator({
           '?a': '"120"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(TRUE);
       });
     });
 
@@ -392,15 +392,11 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return true if the argument matches the regular expression', function () {
-        evaluator({
-          '?a': '"aaaaaab"',
-        }).should.equal(TRUE);
+        evaluator({ '?a': '"aaaaaab"' }).should.equal(TRUE);
       });
 
       it("should return false if the argument doesn't match the regular expression", function () {
-        evaluator({
-          '?a': '"bbbb"',
-        }).should.equal(FALSE);
+        evaluator({ '?a': '"bbbb"' }).should.equal(FALSE);
       });
     });
 
@@ -455,15 +451,11 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return true if the variable is bound', function () {
-        evaluator({
-          '?a': 'a',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': 'a' }).should.equal(TRUE);
       });
 
       it('should return false if the variable is not bound', function () {
-        evaluator({
-          '?b': 'b',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?b': 'b' }).should.equal(FALSE);
       });
 
       it('should throw an error if the argument is not a variable', function () {
@@ -508,15 +500,11 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return true if is uri', function () {
-        evaluator({
-          '?a': 'mailto:alice@work.example',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': 'mailto:alice@work.example' }).should.equal(TRUE);
       });
 
       it('should return false if is literal', function () {
-        evaluator({
-          '?a': '"alice@work.example"',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': '"alice@work.example"' }).should.equal(FALSE);
       });
     });
 
@@ -528,21 +516,15 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return true if is blank', function () {
-        evaluator({
-          '?a': '_:b1',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': '_:b1' }).should.equal(TRUE);
       });
 
       it('should return false if is literal', function () {
-        evaluator({
-          '?a': '"alice@work.example"',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': '"alice@work.example"' }).should.equal(FALSE);
       });
 
       it('should return false if is iri', function () {
-        evaluator({
-          '?a': 'http://example.org/a',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': 'http://example.org/a' }).should.equal(FALSE);
       });
     });
 
@@ -554,21 +536,15 @@ describe('SparqlExpressionEvaluator', function () {
       });
 
       it('should return true if is a literal', function () {
-        evaluator({
-          '?a': '"alice"',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': '"alice"' }).should.equal(TRUE);
       });
 
       it('should return false if is blank', function () {
-        evaluator({
-          '?a': '_:b1',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': '_:b1' }).should.equal(FALSE);
       });
 
       it('should return false if is iri', function () {
-        evaluator({
-          '?a': 'http://example.org/a',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': 'http://example.org/a' }).should.equal(FALSE);
       });
     });
 
@@ -582,25 +558,21 @@ describe('SparqlExpressionEvaluator', function () {
       it('should return true for 12', function () {
         evaluator({
           '?a': '"12"^^http://www.w3.org/2001/XMLSchema#integer',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(TRUE);
       });
 
       it('should return false for "12"', function () {
-        evaluator({
-          '?a': '"12"',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': '"12"' }).should.equal(FALSE);
       });
 
       it('should return true for "12"^^xsd:nonNegativeInteger', function () {
         evaluator({
           '?a': '"12"^^http://www.w3.org/2001/XMLSchema#nonNegativeInteger',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(TRUE);
       });
 
       it('should return false for <http://example/>', function () {
-        evaluator({
-          '?a': 'http://example/',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        evaluator({ '?a': 'http://example/' }).should.equal(FALSE);
       });
     });
 
@@ -646,35 +618,35 @@ describe('SparqlExpressionEvaluator', function () {
         evaluator({
           '?a': '"literal"',
           '?b': '"literal"',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(TRUE);
       });
 
       it('should return true if uri variables are the same term', function () {
         evaluator({
           '?a': 'http://example.org/a',
           '?b': 'http://example.org/a',
-        }).should.equal('"true"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(TRUE);
       });
 
       it('should return false if literal variables are not the same term', function () {
         evaluator({
           '?a': '"a"',
           '?b': '"b"',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
 
       it('should return false if uri variables are not the same term', function () {
         evaluator({
           '?a': 'http://example.org/a',
           '?b': 'http://example.org/b',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
 
       it('should return false if blank nodes are variables', function () {
         evaluator({
           '?a': '_:b1',
           '?b': '_:b1',
-        }).should.equal('"false"^^http://www.w3.org/2001/XMLSchema#boolean');
+        }).should.equal(FALSE);
       });
     });
 
