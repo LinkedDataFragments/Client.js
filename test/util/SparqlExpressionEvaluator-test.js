@@ -39,7 +39,7 @@ describe('SparqlExpressionEvaluator', function () {
       });
       it('should throw an error of the variable is not bound', function () {
         (function () { evaluator({ '?b': 'b' }); })
-        .should.throw('Cannot evaluate variable ?a because it is not bound.');
+        .should.throw('ExpressionError: Cannot evaluate variable ?a because it is not bound.');
       });
     });
 
@@ -465,7 +465,7 @@ describe('SparqlExpressionEvaluator', function () {
           args: ['"a"'],
         });
         (function () { evaluator({ '?a': 'a' }); })
-        .should.throw('BOUND expects a variable but got: "a"');
+        .should.throw('ExpressionError: BOUND expects a variable but got: "a"');
       });
     });
 
@@ -600,7 +600,7 @@ describe('SparqlExpressionEvaluator', function () {
           evaluator({
             '?a': '"http://example/"@en',
           });
-        }).should.throw('IRI expects an simple literal, xsd:string or an IRI');
+        }).should.throw('ExpressionError: IRI expects an simple literal, xsd:string or an IRI');
       });
     });
 
@@ -655,7 +655,7 @@ describe('SparqlExpressionEvaluator', function () {
         (function () {
           SparqlExpressionEvaluator({ type: 'invalid' });
         })
-        .should.throw('Unsupported expression type: invalid');
+        .should.throw('ExpressionError: Unsupported expression type: invalid');
       });
     });
 
@@ -677,7 +677,7 @@ describe('SparqlExpressionEvaluator', function () {
             args: [1],
           });
         })
-        .should.throw('InvalidArgumentsNumberError: Invalid number of arguments for regex: 1 (expected between bounds: 2 - 3).');
+        .should.throw('InvalidArgumentLengthError: Invalid number of arguments for REGEX: 1 (expected between 2 and 3).');
       });
     });
 
@@ -690,7 +690,7 @@ describe('SparqlExpressionEvaluator', function () {
             args: ['"a"', '"b"', '"c"'],
           });
         })
-        .should.throw('InvalidArgumentsNumberError: Invalid number of arguments for +: 3 (expected 2).');
+        .should.throw('InvalidArgumentLengthError: Invalid number of arguments for +: 3 (expected 2).');
       });
     });
   });
@@ -718,6 +718,6 @@ describe('SparqlExpressionEvaluator.evaluate', function () {
       }, {
         '?a': '"1"^^http://www.w3.org/2001/XMLSchema#integer',
       });
-    }).should.throw('Cannot evaluate variable ?b because it is not bound.');
+    }).should.throw('ExpressionError: Cannot evaluate variable ?b because it is not bound.');
   });
 });
