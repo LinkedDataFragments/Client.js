@@ -1,0 +1,9 @@
+SELECT $drug $transform $mass WHERE {
+ 	{ $drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/affectedOrganism>  'Humans and other mammals'.
+ 	  $drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/casRegistryNumber> $cas .
+ 	  $keggDrug <http://bio2rdf.org/ns/bio2rdf#xRef> $cas .
+ 	  $keggDrug <http://bio2rdf.org/ns/bio2rdf#mass> $mass .
+ 	      FILTER ( $mass > '5' )
+ 	} .
+ 	  OPTIONAL { $drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/biotransformation> $transform . }
+}

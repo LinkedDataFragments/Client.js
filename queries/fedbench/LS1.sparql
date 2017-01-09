@@ -1,0 +1,5 @@
+SELECT $drug $melt WHERE {
+    { $drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/meltingPoint> $melt. }
+    UNION
+    { $drug <http://dbpedia.org/ontology/Drug/meltingPoint> $melt . }
+}
