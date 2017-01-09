@@ -1,0 +1,15 @@
+SELECT ?title ?actor ?news ?director ?film ?n ?genre WHERE {
+    ?film  <http://purl.org/dc/terms/title> 'Tarzan' .
+    ?film <http://data.linkedmdb.org/resource/movie/actor> ?actor .
+    ?film <http://data.linkedmdb.org/resource/movie/production_company> <http://data.linkedmdb.org/resource/production_company/15> .
+    ?actor <http://www.w3.org/2002/07/owl#sameAs>  ?x .
+    OPTIONAL{
+        ?x <http://dbpedia.org/ontology/director>  ?director .
+        ?director <http://dbpedia.org/ontology/nationality> ?n .
+        ?film <http://data.linkedmdb.org/resource/movie/genre> ?genre .
+        OPTIONAL {
+            ?y <http://www.w3.org/2002/07/owl#sameAs> ?x.
+        } .
+        ?y <http://data.nytimes.com/elements/topicPage> ?news
+    } .
+}

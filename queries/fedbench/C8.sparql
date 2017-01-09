@@ -1,0 +1,23 @@
+SELECT DISTINCT ?drug1
+WHERE {
+    ?drug1 <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/possibleDiseaseTarget> <http://www4.wiwiss.fu-berlin.de/diseasome/resource/diseases/673> .
+    ?drug1 <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/target> ?o.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/genbankIdGene> ?g.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/locus> ?l.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/molecularWeight> ?mw.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/hprdId> ?hp.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/swissprotName> ?sn.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/proteinSequence> ?ps.
+    ?o <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/generalReference> ?gr.
+    ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/target>?o.
+    ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/synonym>?o1 .
+    OPTIONAL {
+        ?drug <http://www.w3.org/2002/07/owl#sameAs> ?drug5 .
+        ?drug5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Drug> .
+        ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/keggCompoundId> ?cpd .
+        ?enzyme <http://bio2rdf.org/ns/kegg#xSubstrate> ?cpd .
+        ?enzyme <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://bio2rdf.org/ns/kegg#Enzyme> .
+        ?reaction <http://bio2rdf.org/ns/kegg#xEnzyme> ?enzyme .
+        ?reaction <http://bio2rdf.org/ns/kegg#equation> ?equation .
+    }
+}

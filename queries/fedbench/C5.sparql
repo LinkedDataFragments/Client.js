@@ -1,0 +1,9 @@
+SELECT DISTINCT ?drug5 ?drug6
+WHERE {
+   ?drug1 <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/possibleDiseaseTarget>  <http://www4.wiwiss.fu-berlin.de/diseasome/resource/diseases/319> .
+   ?drug1 <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/possibleDiseaseTarget>  <http://www4.wiwiss.fu-berlin.de/diseasome/resource/diseases/270> .
+   ?I1 <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/interactionDrug1> ?drug1 .
+   ?I1 <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/interactionDrug2> ?drug .
+   ?drug1 <http://www.w3.org/2002/07/owl#sameAs> ?drug5 .
+   ?drug <http://www.w3.org/2002/07/owl#sameAs> ?drug6 .
+}

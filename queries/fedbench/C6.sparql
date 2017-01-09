@@ -1,0 +1,25 @@
+SELECT DISTINCT ?drug
+WHERE
+{
+    ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/drugCategory> <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugcategory/micronutrient> .
+    ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/drugCategory> <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugcategory/dietarySupplement> .
+    ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/drugCategory> <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugcategory/non-essentialAminoAcids> .
+    OPTIONAL {
+        ?drug<http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/indication>?i .
+        ?drug<http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/biotransformation>?b .
+        ?drug<http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/inchiKey>?k .
+        ?drug<http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/synonym>?s .
+        ?drug<http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/toxicity>?t .
+    } .
+    OPTIONAL {
+        ?drug <http://www4.wiwiss.fu-berlin.de/drugbank/resource/drugbank/keggCompoundId>?cpd.
+        ?enzyme <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://bio2rdf.org/ns/kegg#Enzyme>.
+        ?enzyme <http://bio2rdf.org/ns/kegg#xSubstrate> ?cpd.
+        ?reaction <http://bio2rdf.org/ns/kegg#xEnzyme>?enzyme.
+        ?reaction <http://bio2rdf.org/ns/kegg#equation>?equation .
+    } .
+    OPTIONAL {
+        ?drug5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Drug> .
+        ?drug <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Drug>
+    }
+}
