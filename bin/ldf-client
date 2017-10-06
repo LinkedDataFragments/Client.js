@@ -64,7 +64,7 @@ try {
   // Write JSON representations of the rows or boolean
   case 'ASK':
   case 'SELECT':
-    writer = ldf.SparqlResultWriter.instantiate(mimeType, sparqlIterator);
+    writer = ldf.SparqlResultWriter.instantiate(mimeType, sparqlIterator, config);
     writer.on('data', function (data) { process.stdout.write(data); });
     writer.on('error', reportError);
     break;
