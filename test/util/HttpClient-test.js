@@ -138,6 +138,17 @@ describe('HttpClient', function () {
       request.emit('error', error);
     });
   });
+
+  describe('An HttpClient aborting all connections', function () {
+    var request = new EventEmitter();
+    var createRequest = sinon.stub().returns(request);
+    var client = new HttpClient({ request: createRequest });
+
+    it('should emit an error on new requests', function () {
+      client.abortAll();
+      expect(function () { client.get('http://example.org/foo'); }).to.throw();
+    });
+  });
 });
 
 // Creates a dummy HTTP response
