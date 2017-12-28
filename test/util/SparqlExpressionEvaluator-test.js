@@ -403,6 +403,22 @@ describe('SparqlExpressionEvaluator', function () {
       });
     });
 
+    describe('of the regex operator with case insensitive flag', function () {
+      var evaluator = SparqlExpressionEvaluator({
+        type: 'operation',
+        operator: 'regex',
+        args: ['?a', '"a+b"', 'i'],
+      });
+
+      it('should return true if the argument matches the regular expression', function () {
+        evaluator({ '?a': '"AAAAAAAB"' }).should.equal(TRUE);
+      });
+
+      it("should return false if the argument doesn't match the regular expression", function () {
+        evaluator({ '?a': '"BBBBBB"' }).should.equal(FALSE);
+      });
+    });
+
     describe('of the str operator', function () {
       var evaluator = SparqlExpressionEvaluator({
         type: 'operation',
@@ -486,8 +502,22 @@ describe('SparqlExpressionEvaluator', function () {
 
     describe('of an operator with an incorrect number of arguments', function () {
       it('should throw an error', function () {
+        (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'contains', args: [1] }); })
+          .should.throw('Invalid number of arguments for contains: 1 (expected: 2).');
+      });
+    });
+
+    describe('of an operator having optional arguments with too little number number of arguments ', function () {
+      it('should throw an error', function () {
         (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'regex', args: [1] }); })
-          .should.throw('Invalid number of arguments for regex: 1 (expected: 2).');
+          .should.throw('Invalid number of arguments for regex: 1 (expected between 2 and 3).');
+      });
+    });
+
+    describe('of an operator having optional arguments with too much number of arguments ', function () {
+      it('should throw an error', function () {
+        (function () { SparqlExpressionEvaluator({ type: 'operation', operator: 'regex', args: [1, 2, 3, 4] }); })
+            .should.throw('Invalid number of arguments for regex: 4 (expected between 2 and 3).');
       });
     });
 
