@@ -1,3 +1,7 @@
+# This project has been deprecated in favor of [Comunica SPARQL](https://github.com/comunica/comunica/tree/master/packages/actor-init-sparql), which is part of the [Comunica](https://github.com/comunica/comunica) platform. It can do everything Client.js can do, and more.
+
+-----
+
 # Linked Data Fragments Client
 <img src="http://linkeddatafragments.org/images/logo.svg" width="200" align="right" alt="" />
 
